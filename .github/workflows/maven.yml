@@ -30,6 +30,6 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Tomcat Deploy
-      run: curl -v -u mspriya92:Jesus*Madha1992 -T /home/runner/work/TicketReservation/TicketReservation/target/TrainBook-1.0.0-SNAPSHOT.war 'http://localhost:8080/manager/text/deploy?path=/trainbook-GithubAction'
+      run: curl -v -u mspriya92:Jesus*Madha1992 -T /home/runner/work/TicketReservation/TicketReservation/target/TrainBook-1.0.0-SNAPSHOT.war 'http://192.168.0.35:8080/manager/text/deploy?path=/trainbook-GithubAction'
 
    
