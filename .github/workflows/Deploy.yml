@@ -28,8 +28,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: my-artifact
-          path: C:\Users\10443\actions-runner\downloaded artifacts  # Specify the path to download the artifact
+          path: C:\Users\10443\actions-runner\downloadedartifacts  # Specify the path to download the artifact
       - name: Tomcat deploy
-        run: curl -v -u ${{ secrets.TOMCAT_USERNAME }}:${{ secrets.TOMCAT_PASSWORD }} -T C:\Users\10443\actions-runner\downloaded artifacts\TrainBook-1.0.0-SNAPSHOT.war 'http://localhost:8080/manager/text/deploy?path=/trainbook-GithubAction'
-
-	  
+        run: curl -v -u ${{ secrets.TOMCAT_USERNAME }}:${{ secrets.TOMCAT_PASSWORD }} -T "C:\Users\10443\actions-runner\downloadedartifacts\TrainBook-1.0.0-SNAPSHOT.war" 'http://localhost:8080/manager/text/deploy?path=/trainbook-GithubAction'
