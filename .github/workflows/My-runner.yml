@@ -14,11 +14,13 @@ jobs:
       - name: example
         run: echo "Ticket Reservation"
       - name: print-ENV
-        run: "[System.Environment]::GetEnEnvironmentVariables()"
+        run: "[System.Environment]::GetEnvironmentVariables()"
       - name: Use command prompt to print ENV
+        shell: cmd
         run: |
           echo $PATH
           echo $JAVA_HOME
           echo $MAVEN_HOME
       - name: Check if mvn runs without any issues
+        shell: cmd
         run: mvn --version
