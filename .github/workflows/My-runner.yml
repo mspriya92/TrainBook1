@@ -1,0 +1,26 @@
+name: Checking versions
+on:
+  push:
+    branches: 
+      - "main"
+  pull_request:
+    branches: 
+      - "main"
+
+jobs:
+  local-job:
+    runs-on: self-hosted
+    steps:
+      - name: example
+        run: echo "Ticket Reservation"
+      - name: print-ENV
+        run: "[System.Environment]::GetEnvironmentVariables()"
+      - name: Use command prompt to print ENV
+        shell: cmd
+        run: |
+          echo $PATH
+          echo $JAVA_HOME
+          echo $MAVEN_HOME
+      - name: Check if mvn runs without any issues
+        shell: cmd
+        run: mvn --version
