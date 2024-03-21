@@ -1,0 +1,40 @@
+name: Checking versions
+on:
+  push:
+    branches: 
+      - "main"
+  pull_request:
+    branches: 
+      - "main"
+
+jobs:
+  local-job:
+    runs-on: self-hosted
+    steps:
+      - name: example
+        run: echo "Ticket Reservation"
+      - name: print-ENV
+        run: "[System.Environment]::GetEnvironmentVariables()"
+      - name: Use command prompt to print ENV
+        shell: cmd
+        run: |
+          echo $PATH
+          echo $JAVA_HOME
+          echo $MAVEN_HOME
+      - name: Check if mvn runs without any issues
+        shell: cmd
+        run: mvn --version
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+      - name: maven package
+        shell: cmd
+        run: mvn package
+      - name: Deploy into Tomcat
+        shell: cmd
+        env:
+          TOMCAT_USERNAME: ${{ secrets.TOMCAT_USERNAME }}
+          TOMCAT_PASSWORD: ${{ secrets.TOMCAT_PASSWORD }}
+        run: curl --upload file target/TrainBook-1.0.0-SNAPSHOT.war "http://%TOMCAT_USERNAME%:%TOMCAT_PASSWORD%@localhost:8080/manager/text/deploy?path=/trainbook-GithubAction=true"
+        
+        
+      
