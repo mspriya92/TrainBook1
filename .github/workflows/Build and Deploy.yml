@@ -29,10 +29,11 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
+      - name: Filter and Move .war File
+        run: find D:\github\web-app -type f -name "*.war" -exec mv {} D:\github\ \;
+        
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
           name: web-app
           path: D:\github\
-      - name: Filter and Move .war File
-        run: find D:\github\web-app -type f -name "*.war" -exec mv {} D:\github\ \;
