@@ -40,6 +40,6 @@ jobs:
       - name: List Contents of /tmp  # Added for debugging
         run: ls -l /tmp
       - name: Set Permissions
-        run: icacls "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/TrainBook-1.0.0-SNAPSHOT" /grant:r Everyone:(RX)
+        run: icacls "C:\Program Files\Apache Software Foundation\Tomcat 10.1\webapps" /grant Everyone:(OI)(CI)F
       - name: Deploy to Tomcat
         run: cp /tmp/*.war "/C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
