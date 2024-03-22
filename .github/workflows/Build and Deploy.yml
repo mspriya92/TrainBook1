@@ -44,4 +44,4 @@ jobs:
         name: web-app 
         path: D:/github/
     - name: Deploy to Tomcat
-      run: cp D:/github/*.war "/C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
+      run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
