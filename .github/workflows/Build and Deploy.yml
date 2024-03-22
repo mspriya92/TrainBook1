@@ -25,19 +25,4 @@ jobs:
         with:
           name: web-app
           path: target
-  deploy:
-      needs: build
-      runs-on: self hosted
-      steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: web-app
-          path: D:\github\
-          
-      - name: List Contents of /tmp  # Added for debugging
-        run: ls -l /tmp
-      - name: Set Permissions
-        run: icacls "C:\Program Files\Apache Software Foundation\Tomcat 10.1\webapps" /grant Everyone:(OI)(CI)F
-      - name: Deploy to Tomcat
-        run: cp /tmp/*.war "/C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
+ 
