@@ -34,8 +34,5 @@ jobs:
         with:
           name: web-app
           path: D:\github\
-          if-no-files-found: error
-          include: 
-            - '*.war'
-          exclude:
-            - '*/*'
+      - name: Filter and Move .war File
+        run: find D:\github\web-app -type f -name "*.war" -exec mv {} D:\github\ \;
