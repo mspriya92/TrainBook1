@@ -31,10 +31,16 @@ jobs:
         with:
           name: web-app
           path: staging
-
+      - name: Listing the Staging directory
+        run : ls -R 
+        working-directory: /home/runner/work/TicketReservation/TicketReservation/staging
   deploy:
     needs: build
     runs-on: self-hosted
     steps:
-      - name: Download Artifact
-        run: cp staging/*.war D:/github/
+    - name: Download Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: web-app 
+        path: D:/github/
+        working-directory: /home/runner/work/TicketReservation/TicketReservation/staging
