@@ -39,5 +39,5 @@ jobs:
       - name: List Contents of /tmp  # Added for debugging
         run: ls -l /tmp
       - name: Deploy to Tomcat
-        run: cp /tmp/*.war "/C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
+        run: cp /web-app/*.war "/C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
           
