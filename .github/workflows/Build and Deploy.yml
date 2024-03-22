@@ -20,20 +20,19 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
      
+      - name: Create staging directory and copy .war
+        run: |
+          mkdir staging
+          cp target/*.war staging/
       - name: Publish Artifact
         uses: actions/upload-artifact@v3
         with:
           name: web-app
-          path: target
+          path: staging
+
   deploy:
     needs: build
     runs-on: self-hosted
     steps:
-      - name: Filter and Move .war File
-        run: find D:\github\web-app -type f -name "*.war" -exec mv {} D:\github\ \;
-        
       - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: web-app
-          path: D:\github\
+        run: cp staging/*.war D:/github/
