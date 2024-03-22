@@ -39,4 +39,4 @@ jobs:
           name: web-app
           path: /tmp
       - name: Deploy to Tomcat
-        run: cp /tmp/staging/*.war "C:\Program Files\Apache Software Foundation\Tomcat 10.1\webapps\TrainBook.war"
+        run: cp /tmp/web-app/*.war "C:\Program Files\Apache Software Foundation\Tomcat 10.1\webapps\TrainBook.war"
