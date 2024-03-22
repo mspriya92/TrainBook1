@@ -27,15 +27,3 @@ jobs:
         with:
           name: web-app
           path: staging
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: web-app
-          path: /tmp
-      - name: Deploy to Tomcat
-        run: cp /tmp/web-app/*.war "/C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
