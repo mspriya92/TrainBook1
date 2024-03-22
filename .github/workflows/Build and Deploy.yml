@@ -29,14 +29,17 @@ jobs:
           path: staging
   deploy:
       needs: build
-      runs-on: ubuntu-latest
+      runs-on: windows-latest
       steps:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
           name: web-app
           path: /tmp
+          
       - name: List Contents of /tmp  # Added for debugging
         run: ls -l /tmp
+      - name: Set Permissions
+        run: icacls "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/TrainBook-1.0.0-SNAPSHOT" /grant:r Everyone:(RX)
       - name: Deploy to Tomcat
-        run: curl -v -u ${{ secrets.TOMCAT_USERNAME }}:${{ secrets.TOMCAT_PASSWORD }} -T /tmp/TrainBook-1.0.0-SNAPSHOT.war 'http://192.168.0.35:8080/manager/text/deploy?path=/trainbook-GithubAction'
+        run: cp /tmp/*.war "/C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
