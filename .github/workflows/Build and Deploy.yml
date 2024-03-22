@@ -25,4 +25,12 @@ jobs:
         with:
           name: web-app
           path: target
- 
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: web-app
+          path: D:\github\
