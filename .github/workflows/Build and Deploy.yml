@@ -20,7 +20,8 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
       - name: Listing the target directory
-        run : ls - R /home/runner/work/TicketReservation/TicketReservation/target/
+        run : ls - R 
+        working-directory: /home/runner/work/TicketReservation/TicketReservation/target
       - name: Create staging directory and copy .war
         run: |
           mkdir staging
