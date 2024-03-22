@@ -39,5 +39,4 @@ jobs:
       - name: List Contents of /tmp  # Added for debugging
         run: ls -l /tmp
       - name: Deploy to Tomcat
-        run: cp /tmp/*.war "/C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/TrainBook-1.0.0-SNAPSHOT.war"
-          
+        run: curl -v -u ${{ secrets.TOMCAT_USERNAME }}:${{ secrets.TOMCAT_PASSWORD }} -T /tmp/TrainBook-1.0.0-SNAPSHOT.war 'http://192.168.0.35:8080/manager/text/deploy?path=/trainbook-GithubAction'
