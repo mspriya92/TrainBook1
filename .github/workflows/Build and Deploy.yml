@@ -43,4 +43,3 @@ jobs:
       with:
         name: web-app 
         path: D:/github/
-        working-directory: /home/runner/work/TicketReservation/TicketReservation/staging
