@@ -48,8 +48,9 @@ jobs:
           issue-title: "Deploying the java web app to Tomcat"
           issue-body: "Please approve or deny the deployment"
           exclude-workflow-initiator-as-approver: false
+          
   deploy:
-    needs: build
+    needs: approval
     runs-on: self-hosted
     steps:
     - name: Download Artifact
