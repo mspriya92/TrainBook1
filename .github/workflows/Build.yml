@@ -33,7 +33,7 @@ jobs:
       - name: Create an issue
         uses: JasonEtco/create-an-issue@v2.9.2
         env :  
-          GITHUB_TOKEN: ${{ secret.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ENVIRONMENT: Dev
           RUNNUMBER: ${{ github.run_number }}
         with:  
