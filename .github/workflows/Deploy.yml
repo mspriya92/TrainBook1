@@ -1,11 +1,12 @@
 name: Deploy
- 
+
 on:
   issue_comment:
-  types: [created]
+    types: [created]
+
 jobs:
   parse:
-    if: ${{ !github.event.issue.pull_request && github.event.comment.body == 'Approved'}}
+    if: ${{ !github.event.issue.pull_request && github.event.comment.body == 'Approved' }}
     runs-on: ubuntu-latest
     outputs:
       deploy-environment: ${{ fromJSON(steps.issue_body_parser.outputs.payload).environment }}
@@ -15,31 +16,30 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.issue.number }}
-	  body: 'Deployment Initiated'
-   
+          body: 'Deployment Initiated'
+
       - name: Get Issue Data
         uses: peter-murray/issue-body-parser-action@v1
         id: issue_body_parser
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN}}	
-	  issue_id: ${{ github.event.issue.number }}
-	  payload_marker: target_payload
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          issue_id: ${{ github.event.issue.number }}
+          payload_marker: target_payload
 
-deploy-dev:
-  needs: [parse]
-  if: ${{ needs.parse.outputs.deploy-environment == 'Dev' }}
-  runs-on: [self-hosted, My.runner]
-		   
-  steps:
-    - name: Download workflow artifact
-      uses: dawidd6/actions-download-artifact@v2.15.0
-      with:
-	workflow: Build.yml
-	repo: DigitalSoftwareInc/TicketReservation
-	run_number: ${{ needs.parse.outputs.ci-run-number }}
-	name: web-app
-	path: ${{ github.workspace}}
-	 
-    - name: Deploy to DEV
-      uses: echo simulating deployment
- 
+  deploy-dev:
+    needs: parse
+    if: ${{ needs.parse.outputs.deploy-environment == 'Dev' }}
+    runs-on: self-hosted, [My.runner]
+
+    steps:
+      - name: Download workflow artifact
+        uses: dawidd6/actions-download-artifact@v2.15.0
+        with:
+          workflow: Build.yml
+          repo: DigitalSoftwareInc/TicketReservation
+          run_number: ${{ needs.parse.outputs.ci-run-number }}
+          name: web-app
+          path: ${{ github.workspace }}
+
+      - name: Deploy to DEV
+        run: echo "Simulating deployment"
