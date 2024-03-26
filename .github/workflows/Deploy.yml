@@ -28,7 +28,7 @@ jobs:
   deploy-dev:
     needs: parse
     if: ${{ needs.parse.outputs.deploy-environment == 'Dev' }}
-    runs-on: self-hosted
+    runs-on: DINCD-089
     steps:
       - name: Download workflow artifact
         uses: dawidd6/action-download-artifact@v3
@@ -39,7 +39,5 @@ jobs:
           run_number: ${{ needs.parse.outputs.ci-run-number }}
           name: web-app
           path: D:/github/
-      - name: Deploy to Tomcat
-        run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
       - name: Deploy to DEV
         run: echo successfully Deployed
