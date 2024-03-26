@@ -12,7 +12,7 @@ jobs:
       ci-run-number: ${{ fromJSON(steps.issue_body_parser.outputs.payload).runNumber }}
     steps:
       - name: Comment on Issue
-        uses: peter-evans/create-or-update-commnet@v1
+        uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.issue.number }}
 	  body: 'Deployment Initiated'
