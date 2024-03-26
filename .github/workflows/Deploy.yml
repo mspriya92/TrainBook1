@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       deploy-environment: ${{ fromJSON(steps.issue_body_parser.outputs.payload).environment }}
-      ci-run-number: ${{ fromJSON(steps.issue_body_parser.outputs.payload).runNumber }}
+      ci-run-number: ${{ fromJSON(steps.issue_body_parser.outputs.payload).runnumber }}
     steps:
       - name: Comment on Issue
         uses: peter-evans/create-or-update-comment@v1
@@ -19,7 +19,7 @@ jobs:
    
       - name: Get Issue Data
         uses: peter-murray/issue-body-parser-action@v1
-        id: issue_boady_parser
+        id: issue_body_parser
         with:
           github_token: ${{ secrets.GITHUB_TOKEN}}	
 	  issue_id: ${{ github.event.issue.number }}
@@ -30,16 +30,16 @@ deploy-dev:
   if: ${{ needs.parse.outputs.deploy-environment == 'Dev' }}
   runs-on: [self-hosted, My.runner]
 		   
-   steps:
-     - name: Download workflow artifact
-       uses: dawidd6/actions-download-artifact@v2.15.0
-       with:
-	 workflow: Build.yml
-	 repo: DigitalSoftwareInc/TicketReservation
-	   run_number: ${{ needs.parse.outputs.ci-run-number }}
-	   name: web-app
-	   path: ${{ github.workspace}}
+  steps:
+    - name: Download workflow artifact
+      uses: dawidd6/actions-download-artifact@v2.15.0
+      with:
+	workflow: Build.yml
+	repo: DigitalSoftwareInc/TicketReservation
+	run_number: ${{ needs.parse.outputs.ci-run-number }}
+	name: web-app
+	path: ${{ github.workspace}}
 	 
-      - name: Deploy to DEV
-        uses: echo simulating deployment
+    - name: Deploy to DEV
+      uses: echo simulating deployment
  
