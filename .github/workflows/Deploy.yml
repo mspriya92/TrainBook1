@@ -28,7 +28,7 @@ jobs:
   deploy-dev:
     needs: parse
     if: ${{ needs.parse.outputs.deploy-environment == 'Dev' }}
-    runs-on: DINCD-089
+    runs-on: self-hosted
     steps:
       - name: Download workflow artifact
         uses: dawidd6/action-download-artifact@v3
