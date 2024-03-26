@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - name: Download workflow artifact
-        uses: dawidd6/actions-download-artifact@v2.15.0
+        uses: actions/download-artifact@v3
         with:
           workflow: Build.yml
           repo: DigitalSoftwareInc/TicketReservation
