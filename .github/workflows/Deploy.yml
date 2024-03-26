@@ -28,16 +28,26 @@ jobs:
   deploy-dev:
     needs: parse
     if: ${{ needs.parse.outputs.deploy-environment == 'Dev' }}
-    runs-on: [self-hosted, DINCD-089]
+    runs-on: self-hosted
     steps:
-      - name: Download workflow artifact
-        uses: dawidd6/action-download-artifact@v3
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: Build.yml
-          repo: DigitalSoftwareInc/TicketReservation
-          run_number: ${{ needs.parse.outputs.ci-run-number }}
-          name: web-app
-          path: D:/github/
-      - name: Deploy to DEV
-        run: echo successfully Deployed
+     - name: Download workflow artifact
+       uses: dawidd6/action-download-artifact@v3
+       with:
+         github_token: ${{secrets.GITHUB_TOKEN}}
+         workflow: Build.yml
+         repo: DigitalSoftwareInc/TicketReservation
+         run_number: ${{ needs.parse.outputs.ci-run-number }}
+         name: web-app
+         path: D:/github/
+
+     - name: Deploy to VM1
+       uses: srueda99/scp-action@v12
+       with:
+         host: ${{ secrets.VM1_HOST }}
+         username: ${{ secrets.VM1_USER }}
+         source: D:/github/
+         target: E:/github/
+
+     - name: Deploy to DEV
+       run: echo successfully Deployed in VM1
+
