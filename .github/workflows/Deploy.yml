@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - name: Download workflow artifact
-        uses: actions/download-artifact@v3
+        uses: dawidd6/actions-download-artifact@v2.15.0
         with:
           workflow: Build.yml
           repo: DigitalSoftwareInc/TicketReservation
@@ -43,7 +43,4 @@ jobs:
           run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
 
       - name: Deploy to DEV
-        run: echo "Simulating deployment"
-     
-        
-        
+        run: echo "Simulating deployment"       
