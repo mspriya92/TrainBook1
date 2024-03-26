@@ -25,22 +25,18 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           issue_id: ${{ github.event.issue.number }}
           payload_marker: target_payload
-
   deploy-dev:
     needs: parse
     if: ${{ needs.parse.outputs.deploy-environment == 'Dev' }}
     runs-on: self-hosted
-
     steps:
       - name: Download workflow artifact
-        uses: dawidd6/actions-download-artifact@v2.15.0
+        uses: dawidd6/action-download-artifact@v3
         with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: Build.yml
           repo: DigitalSoftwareInc/TicketReservation
           run_number: ${{ needs.parse.outputs.ci-run-number }}
           name: web-app
           path: D:/github/
           run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
-
-      - name: Deploy to DEV
-        run: echo "Simulating deployment"       
