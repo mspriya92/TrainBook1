@@ -40,3 +40,5 @@ jobs:
           name: web-app
           path: D:/github/
           run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
+      - name: Deploy to DEV
+        run: echo successfully Deployed
