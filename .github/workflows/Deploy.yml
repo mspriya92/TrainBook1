@@ -45,7 +45,8 @@ jobs:
 
               
   deploy-prod:
-    needs: parse
+    needs: deploy-dev
+    if: ${{ needs.parse.outputs.deploy-environment == 'Dev' }}
     runs-on: self-hosted
     steps:
     - name: Copy artifacts to production VM
