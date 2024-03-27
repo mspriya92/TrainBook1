@@ -50,4 +50,4 @@ jobs:
     steps:
     - name: Copy artifacts to production VM
       run: |
-        rsync -avz -e "ssh -o StrictHostKeyChecking=no" D:/github/ 10459@192.168.0.175:/D/github/
+        scp -r D:/github/*.war 10459@192.168.0.175:/D/github/
