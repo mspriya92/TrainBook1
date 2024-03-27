@@ -43,23 +43,16 @@ jobs:
           name: web-app
           path: D:/github/
       
-   
-
   deploy-prod:
-    needs: deploy-dev
+    needs: parse
+    if: ${{ needs.parse.outputs.deploy-environment == 'Prod' }}
     runs-on: self-hosted
-    env:
-      RUNNER_LABEL: DINCD-089
     steps:
-      - name: Download workflow artifact
-        uses: dawidd6/action-download-artifact@v3
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: Build.yml
-          repo: DigitalSoftwareInc/TicketReservation
-          run_number: ${{ needs.parse.outputs.ci-run-number }}
-          name: web-app
-          path: E:/github/
+    - name: Copy artifacts to production VM
+      run: |
+        scp -r D:/github/*.war 10459@192.168.0.175:/D/github/
+
+
       
    
  
