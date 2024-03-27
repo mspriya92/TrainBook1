@@ -43,18 +43,9 @@ jobs:
           name: web-app
           path: D:/github/
 
-           
-      - uses: JasonEtco/create-an-issue@v2
-        name: Create approval Issue for Prod
-        env :  
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ENVIRONMENT: Prod
-          RUNNUMBER: ${{ needs.parse.outputs.ci-run-number }}
-        with:  
-          filename: .github/deployment-approval.md   
+        
   deploy-prod:
     needs: deploy-dev
-    if: ${{ needs.parse.outputs.deploy-environment == 'Prod' }}
     runs-on: self-hosted
     steps:
     - name: Copy artifacts to production VM
