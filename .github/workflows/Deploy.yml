@@ -50,4 +50,4 @@ jobs:
     steps:
     - name: Copy artifacts to production VM
       run: |
-        scp -r D:/github/*.war 10459@192.168.0.175:/D/github/
+        bash -c "scp -r D:/github/*.war 10459@192.168.0.175:/D/github/"
