@@ -38,3 +38,7 @@ jobs:
           RUNNUMBER: ${{ github.run_number }}
         with:  
           filename: .github/deployment-approval.md
+          approvers: santhosh-158
+          issue-body: "Please approve or deny the deployment"
+          exclude-workflow-initiator-as-approver: false
+          timeout-minutes: 10
