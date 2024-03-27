@@ -46,6 +46,7 @@ jobs:
    
 
   deploy-prod:
+    needs: deploy-dev
     runs-on: self-hosted
     env:
       RUNNER_LABEL: DINCD-089
