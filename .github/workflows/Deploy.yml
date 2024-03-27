@@ -42,7 +42,16 @@ jobs:
           run_number: ${{ needs.parse.outputs.ci-run-number }}
           name: web-app
           path: D:/github/
-      
+
+      - name: Create an issue
+        uses: JasonEtco/create-an-issue@v2.9.2
+        env :  
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ENVIRONMENT: Prod
+          RUNNUMBER: ${{ github.run_number }}
+        with:  
+          filename: .github/deployment-approval.md
+          
   deploy-prod:
     needs: parse
     if: ${{ needs.parse.outputs.deploy-environment == 'Prod' }}
@@ -51,10 +60,3 @@ jobs:
     - name: Copy artifacts to production VM
       run: |
         scp -r D:/github/*.war 10459@192.168.0.175:/D/github/
-
-
-      
-   
- 
-    
-   
