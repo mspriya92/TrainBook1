@@ -1,6 +1,9 @@
-name: Publish
-
+name: Deploy Workflow
 on:
+  workflow_run:
+    workflows: ["Build Workflow"]
+    types:
+      - completed
   release:
     types: [published]
   workflow_dispatch:
@@ -10,3 +13,16 @@ on:
         required: true
         default: 'Dev'
 
+jobs:
+  Deploy-Dev:
+    runs-on: self-hosted
+    needs: build
+    environment: dev
+    steps:
+      - name: Download workflow artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: web-app
+          path: D:/github/
+      - name: Deploy to Tomcat
+        run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
