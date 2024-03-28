@@ -16,7 +16,6 @@ on:
 jobs:
   Deploy-Dev:
     runs-on: self-hosted
-    needs: build
     environment: dev
     steps:
       - name: Download workflow artifact
