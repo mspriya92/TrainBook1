@@ -8,7 +8,6 @@ on:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         
-
 jobs:
   Deploy-Dev:
     runs-on: self-hosted
