@@ -16,6 +16,9 @@ jobs:
       - name: Download workflow artifact
         uses: actions/download-artifact@v2
         with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: Build Workflow.yml
+          repo: mspriya92/TrainBook
           name: web-app
           path: D:/github/
       - name: Deploy to Tomcat
