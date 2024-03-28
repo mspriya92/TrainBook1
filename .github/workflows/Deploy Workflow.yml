@@ -1,84 +1,12 @@
-name: Checking
+name: Publish
 
 on:
-  workflow_dispatch
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      releaseType:
+        description: 'Choose the env to deploy (Dev or Prod)?'
+        required: true
+        default: 'Dev'
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
-      - name: Listing the target directory
-        run : ls -R 
-        working-directory: /home/runner/work/TicketReservation/TicketReservation/target
-      - name: Create staging directory and copy .war
-        run: |
-          mkdir staging
-          cp target/*.war staging/
-      - name: Publish Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: web-app
-          path: staging
-      - name: Listing the Staging directory
-        run : ls -R 
-        working-directory: /home/runner/work/TicketReservation/TicketReservation/staging
-
-  approval:
-    runs-on: ubuntu-latest
-    needs: build
-    outputs:
-      environment: ${{ steps.approval.outputs.environment }}
-    steps:
-      - name: Manual Approval
-        id: approval
-        uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ github.TOKEN }}
-          approvers: mspriya92
-          minimum-approvals: 1
-          issue-title: "Deploying the java web app"
-          issue-body: "Please approve or deny the deployment"
-          exclude-workflow-initiator-as-approver: false
-          timeout-minutes: 5  # Set a 2-minute time limit for the approval process
-      - name: Choose Environment
-        id: choose_environment
-        run: |
-          echo "Approver, please select the deployment environment (dev/prod):"
-          read environment_choice
-          echo "::set-output name=environment::${environment_choice}"
-      - name: Deploy to Chosen Environment
-        if: steps.choose_environment.outputs.environment == 'dev'
-     
-  deploy-dev:
-    needs: approval
-    runs-on: self-hosted
-    if: needs.approval.outputs.environment == 'dev'
-    steps:
-      - name: Download workflow artifact (Dev)
-        uses: dawidd6/action-download-artifact@v3
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: NewBuild.yml
-          repo: DigitalSoftwareInc/TicketReservation
-          name: web-app
-          path: D:/github/
-      - name: Deploy to Tomcat
-        if: steps.approval.outputs.approved == 'true'
-        run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
-
-  deploy-prod:
-    needs: approval
-    runs-on: self-hosted
-    if: needs.approval.outputs.environment == 'prod'
-    steps:
-      - name: Copy artifacts to production VM
-        run: scp -r D:/github/*.war 10459@192.168.0.175:/D/github/
