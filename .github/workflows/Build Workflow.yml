@@ -17,7 +17,7 @@ jobs:
         run: mvn -B package --file pom.xml
       - name: Listing the target directory
         run : ls -R 
-        working-directory: /home/runner/work/TicketReservation/TicketReservation/target
+        working-directory: /home/runner/work/TrainBook/TrainBook/target
       - name: Create staging directory and copy .war
         run: |
           mkdir staging
@@ -29,4 +29,4 @@ jobs:
           path: staging
       - name: Listing the Staging directory
         run : ls -R 
-        working-directory: /home/runner/work/TicketReservation/TicketReservation/staging
+        working-directory: /home/runner/work/TrainBook/TrainBook/target/staging
