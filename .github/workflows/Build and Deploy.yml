@@ -44,7 +44,7 @@ jobs:
           issue-title: "Deploying the java web app to Tomcat"
           issue-body: "Please approve or deny the deployment"
           exclude-workflow-initiator-as-approver: false
-          timeout-minutes: 30  # Set a 30-minute time limit for the approval process
+          timeout-minutes: 2  # Set a 30-minute time limit for the approval process
   deploy:
     needs: approval
     runs-on: self-hosted
