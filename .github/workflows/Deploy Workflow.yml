@@ -11,7 +11,7 @@ on:
       releaseType:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
-        default: 'Dev'
+        
 
 jobs:
   Deploy-Dev:
