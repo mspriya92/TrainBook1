@@ -49,20 +49,14 @@ jobs:
           issue-body: "Please approve or deny the deployment"
           exclude-workflow-initiator-as-approver: false
           timeout-minutes: 5  # Set a 2-minute time limit for the approval process
-      - name: Select Environment for Deployment
-        if: steps.approval.outputs.approved == 'true'
+      - name: Choose Environment
+        id: choose_environment
         run: |
-          echo "Please select the environment for deployment:"
-          echo "1. Dev"
-          echo "2. Prod"
-          read -p "Enter the number for the desired environment: " choice
-          if [ $choice -eq 1 ]; then
-            echo "environment=dev"  # Set the environment to Dev based on the selection
-          elif [ $choice -eq 2 ]; then
-            echo "environment=prod"  # Set the environment to Prod based on the selection
-          else
-            echo "Invalid choice. Please select 1 for Dev or 2 for Prod."
-          fi
+          echo "Approver, please select the deployment environment (dev/prod):"
+          read environment_choice
+          echo "::set-output name=environment::${environment_choice}"
+      - name: Deploy to Chosen Environment
+        if: steps.choose_environment.outputs.environment == 'dev'
      
   deploy-dev:
     needs: approval
