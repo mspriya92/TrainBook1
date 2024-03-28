@@ -21,14 +21,22 @@ jobs:
           issue-title: "Deploying the java web app to Tomcat"
           issue-body: "Please approve or deny the deployment"
           exclude-workflow-initiator-as-approver: false
-          timeout-minutes: 2  # Set a 2-minute time limit for the approval process
-      - name: Set environment to Dev
-        run: echo "environment=dev"  # Set the environment to Dev based on the approval choice
+          timeout-minutes: 5  # Set a 2-minute time limit for the approval process
+      - name: Select Environment for Deployment
         if: steps.approval.outputs.approved == 'true'
-      - name: Set environment to Prod
-        run: echo "environment=prod"  # Set the environment to Prod based on the approval choice
-        if: steps.approval.outputs.approved == 'false'
-
+        run: |
+          echo "Please select the environment for deployment:"
+          echo "1. Dev"
+          echo "2. Prod"
+          read -p "Enter the number for the desired environment: " choice
+          if [ $choice -eq 1 ]; then
+            echo "environment=dev"  # Set the environment to Dev based on the selection
+          elif [ $choice -eq 2 ]; then
+            echo "environment=prod"  # Set the environment to Prod based on the selection
+          else
+            echo "Invalid choice. Please select 1 for Dev or 2 for Prod."
+          fi
+     
   deploy-dev:
     needs: approval
     runs-on: self-hosted
