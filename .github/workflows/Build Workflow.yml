@@ -29,4 +29,4 @@ jobs:
           path: staging
       - name: Listing the Staging directory
         run : ls -R 
-        working-directory: /home/runner/work/TrainBook/TrainBook/target/staging
+        working-directory: /home/runner/work/TrainBook/TrainBook/staging
