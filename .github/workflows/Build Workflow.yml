@@ -4,4 +4,4 @@ on:
 
 jobs:
   Call-workflow-in-local-repo:
-    uses: ./.github/workflows/reusable-workflow.yml
+    uses: mspriya92/TrainBook/.github/workflows/reusable-workflow.yml@main
