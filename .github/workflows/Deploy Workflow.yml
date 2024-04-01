@@ -23,3 +23,9 @@ jobs:
           path: D:/github/
       - name: Deploy to Tomcat
         run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
+  Deploy-Prod:  
+    runs-on: self-hosted
+    environment: Prod
+    steps:
+      - name: Print Message
+        run: echo "Deployed in Prod"
