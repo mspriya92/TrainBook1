@@ -61,7 +61,7 @@ jobs:
           $json = Get-Content nsinew.json -Raw | ConvertFrom-Json
           $json.DockerUsername = "$env:DOCKER_USERNAME"
           $json.DockerPassword = "$env:DOCKER_PASSWORD"
-          $json.APIkey = $API_KEY
+          $json.APIkey = "$env:prod_API_KEY"
           $json | ConvertTo-Json | Set-Content -Path nsinew.json
         shell: powershell
  
