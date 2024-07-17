@@ -12,6 +12,9 @@ jobs:
 
       - name: Update nsi.json with secrets
         run: |
+          echo "Before Update"
+          cat nsi.json
+          
           echo "Updating nsi.json with secrets"
           sed -i "s|\$DOCKER_USERNAME|${{ secrets.DOCKER_USERNAME }}|g" nsi.json
           sed -i "s|\$DOCKER_PASSWORD|${{ secrets.DOCKER_PASSWORD }}|g" nsi.json
