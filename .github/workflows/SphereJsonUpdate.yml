@@ -12,18 +12,22 @@ jobs:
 
       - name: Update nsi.json with secrets
         run: |
+          echo "Updating nsi.json with secrets"
           sed -i "s|\$DOCKER_USERNAME|${{ secrets.DOCKER_USERNAME }}|g" nsi.json
           sed -i "s|\$DOCKER_PASSWORD|${{ secrets.DOCKER_PASSWORD }}|g" nsi.json
-      
-      - name: Print Updated nsi.json (For Debugging)
-        run: cat nsi.json
-      - name: Display git status
-        run: git status
-      - name: Commit and push changes
+      - name: Verify changes
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add nsi.json
-          git commit -m "Update nsi.json with secrets"
-          git push
-        continue-on-error: true
+          echo "Contents of nsi.json after update"
+          cat nsi.json
+      #- name: Print Updated nsi.json (For Debugging)
+        #run: cat nsi.json
+      #- name: Display git status
+        #run: git status
+      #- name: Commit and push changes
+        #run: |
+          #git config --global user.name "github-actions[bot]"
+          #git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          #git add nsi.json
+          #git commit -m "Update nsi.json with secrets"
+          #git push
+        #continue-on-error: true
