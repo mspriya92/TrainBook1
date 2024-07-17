@@ -1,0 +1,29 @@
+name: SphereJsonUpdateNew
+ 
+on:
+  workflow_dispatch:
+ 
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+ 
+      - name: Install jq
+        run: sudo apt-get install -y jq
+ 
+      - name: Update nsi.json with secrets
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo "Updating nsi.json with secrets"
+          jq --arg DOCKER_USERNAME "$DOCKER_USERNAME" --arg DOCKER_PASSWORD "$DOCKER_PASSWORD" \
+            '.DockerUsername = $DOCKER_USERNAME | .DockerPassword = $DOCKER_PASSWORD' nsi.json > nsi.tmp && mv nsi.tmp nsi.json
+ 
+      - name: Verify changes
+        run: |
+          echo "Contents of nsi.json after update:"
+          cat nsi.json
