@@ -1,37 +1,34 @@
-name: SphereJsonUpdateNew
+name: Download nsi.json
  
 on:
   workflow_dispatch:
  
 jobs:
-  update-json:
-    runs-on: ubuntu-latest
+  download-json:
+    runs-on: self-hosted  
  
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
  
-      - name: Install jq
-        run: sudo apt-get install -y jq
- 
-      - name: Print environment variables
-        run: env
- 
       - name: Print initial nsi.json content
         run: |
           echo "Initial nsi.json content:"
-          cat nsi.json
+          cat nsi.json 
  
-      - name: Update nsi.json with secrets
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Download nsi.json from external source
         run: |
-          echo "Updating nsi.json with secrets"
-          jq --arg DOCKER_USERNAME "$DOCKER_USERNAME" --arg DOCKER_PASSWORD "$DOCKER_PASSWORD" \
-            '.DockerUsername = $DOCKER_USERNAME | .DockerPassword = $DOCKER_PASSWORD' nsi.json > nsi.tmp && mv nsi.tmp nsi.json
+          # Replace with your actual download command
+          curl -o nsi.json https://myserver.com/nsi.json
  
-      - name: Print updated nsi.json content
+      - name: Print downloaded nsi.json content
         run: |
-          echo "Updated nsi.json content:"
-          cat nsi.json
+          echo "Downloaded nsi.json content:"
+          cat /path/to/nsi.json  # Replace /path/to/nsi.json with actual path
+ 
+      - name: Retrieve secrets
+        run: |
+          DOCKER_USERNAME=$(jq -r '.DockerUsername' /path/to/nsi.json)
+          DOCKER_PASSWORD=$(jq -r '.DockerPassword' /path/to/nsi.json)
+          echo "DOCKER_USERNAME: $DOCKER_USERNAME"
+          echo "DOCKER_PASSWORD: $DOCKER_PASSWORD"
