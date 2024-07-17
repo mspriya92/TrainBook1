@@ -19,16 +19,16 @@ jobs:
       - name: Download nsi.json from external source
         run: |
           # Replace with your actual download command
-          curl -o nsi.json https://myserver.com/nsi.json
+          curl -o nsi.json https://raw.githubusercontent.com/mspriya92/TrainBook1/main/nsi.json
  
       - name: Print downloaded nsi.json content
         run: |
           echo "Downloaded nsi.json content:"
-          cat /path/to/nsi.json  # Replace /path/to/nsi.json with actual path
+          cat nsi.json  # Replace /path/to/nsi.json with actual path
  
       - name: Retrieve secrets
         run: |
-          DOCKER_USERNAME=$(jq -r '.DockerUsername' /path/to/nsi.json)
-          DOCKER_PASSWORD=$(jq -r '.DockerPassword' /path/to/nsi.json)
+          DOCKER_USERNAME=$(jq -r '.DockerUsername' nsi.json)
+          DOCKER_PASSWORD=$(jq -r '.DockerPassword' nsi.json)
           echo "DOCKER_USERNAME: $DOCKER_USERNAME"
           echo "DOCKER_PASSWORD: $DOCKER_PASSWORD"
