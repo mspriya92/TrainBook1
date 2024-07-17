@@ -14,24 +14,24 @@ jobs:
       - name: Print initial nsi.json content
         run: |
           echo "Initial nsi.json content:"
-          try {
+          if (Test-Path nsi.json) {
             Get-Content nsi.json
-          } catch {
+          } else {
             Write-Host "nsi.json does not exist in the repository."
           }
-        shell: pwsh
+        shell: powershell
  
       - name: Download nsi.json from external source
         run: |
           echo "Downloading nsi.json from external source"
           Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mspriya92/TrainBook1/main/nsi.json" -OutFile "nsi.json"
-        shell: pwsh
+        shell: powershell
  
       - name: Print downloaded nsi.json content
         run: |
           echo "Downloaded nsi.json content:"
           Get-Content nsi.json
-        shell: pwsh
+        shell: powershell
  
       - name: Update nsi.json with secrets
         env:
@@ -43,11 +43,10 @@ jobs:
           $json.DockerUsername = "$env:DOCKER_USERNAME"
           $json.DockerPassword = "$env:DOCKER_PASSWORD"
           $json | ConvertTo-Json | Set-Content -Path nsi.json
-        shell: pwsh
+        shell: powershell
  
       - name: Print updated nsi.json content
         run: |
           echo "Updated nsi.json content:"
           Get-Content nsi.json
-        shell: pwsh
- 
+        shell: powershell
