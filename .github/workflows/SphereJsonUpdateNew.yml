@@ -24,13 +24,13 @@ jobs:
       - name: Download nsi.json from external source
         run: |
           echo "Downloading nsi.json from external source"
-          Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mspriya92/TrainBook1/main/nsi.json" -OutFile "nsi.json"
+          Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mspriya92/TrainBook1/main/nsi.json" -OutFile "nsinew.json"
         shell: powershell
  
       - name: Print downloaded nsi.json content
         run: |
           echo "Downloaded nsi.json content:"
-          Get-Content nsi.json
+          Get-Content nsinew.json
         shell: powershell
  
       - name: Update nsi.json with secrets
@@ -39,14 +39,14 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           echo "Updating nsi.json with secrets"
-          $json = Get-Content nsi.json -Raw | ConvertFrom-Json
+          $json = Get-Content nsinew.json -Raw | ConvertFrom-Json
           $json.DockerUsername = "$env:DOCKER_USERNAME"
           $json.DockerPassword = "$env:DOCKER_PASSWORD"
-          $json | ConvertTo-Json | Set-Content -Path nsi.json
+          $json | ConvertTo-Json | Set-Content -Path nsinew.json
         shell: powershell
  
       - name: Print updated nsi.json content
         run: |
           echo "Updated nsi.json content:"
-          Get-Content nsi.json
+          Get-Content nsinew.json
         shell: powershell
