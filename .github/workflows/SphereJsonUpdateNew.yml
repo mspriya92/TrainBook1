@@ -21,13 +21,6 @@ jobs:
           echo "Downloading nsi.json from external source"
           Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mspriya92/TrainBook1/main/nsi.json" -OutFile "nsinew.json"
         shell: powershell
- 
-     
-      - name: Set environmental variable
-        run: |
-          if ($env:environment -eq 'Prod'){
-            $API_KEY = $env:prod_API_KEY
-          }
 
       - name: Update nsi.json with secrets
         env:
@@ -39,7 +32,7 @@ jobs:
           $json = Get-Content nsinew.json -Raw | ConvertFrom-Json
           $json.DockerUsername = "$env:DOCKER_USERNAME"
           $json.DockerPassword = "$env:DOCKER_PASSWORD"
-          $json.APIkey = $API_KEY
+          $json.APIkey = "$env:prod_API_KEY"
           $json | ConvertTo-Json | Set-Content -Path nsinew.json
         shell: powershell
  
