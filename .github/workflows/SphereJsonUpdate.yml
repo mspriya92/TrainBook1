@@ -1,31 +1,23 @@
 name: SphereJsonUpdate
- 
+
 on:
   workflow_dispatch:
- 
+
 jobs:
   update-json:
     runs-on: ubuntu-latest
- 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
- 
+
       - name: Update nsi.json with secrets
         run: |
-          TEMP_DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME }}"
-          TEMP_DOCKER_PASSWORD="${{ secrets.DOCKER_PASSWORD }}"
-          sed -i "s|\$DOCKER_USERNAME|$TEMP_DOCKER_USERNAME|g" nsi.json
-          sed -i "s|\$DOCKER_PASSWORD|$TEMP_DOCKER_PASSWORD|g" nsi.json
- 
-      - name: Verify replacement
-        run: |
-          if grep -q "$TEMP_DOCKER_USERNAME" nsi.json; then echo "DOCKER_USERNAME replaced successfully"; else echo "DOCKER_USERNAME replacement failed"; fi
-          if grep -q "$TEMP_DOCKER_PASSWORD" nsi.json; then echo "DOCKER_PASSWORD replaced successfully"; else echo "DOCKER_PASSWORD replacement failed"; fi
- 
+          sed -i "s|\$DOCKER_USERNAME|${{ secrets.DOCKER_USERNAME }}|g" nsi.json
+          sed -i "s|\$DOCKER_PASSWORD|${{ secrets.DOCKER_PASSWORD }}|g" nsi.json
+
       - name: Display updated nsi.json
         run: cat nsi.json
- 
+      
       - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
