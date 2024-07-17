@@ -1,4 +1,4 @@
 {
- "dockerUsername": "",
- "dockerPassword": ""
+ "dockerUsername": "$DOCKER_USERNAME",
+ "dockerPassword": "$DOCKER_PASSWORD"
 }
