@@ -27,11 +27,11 @@ jobs:
           Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mspriya92/TrainBook1/main/nsi.json" -OutFile "nsinew.json"
         shell: powershell
  
-      - name: Print downloaded nsi.json content
-        run: |
-          echo "Downloaded nsi.json content:"
-          Get-Content nsinew.json
-        shell: powershell
+      #- name: Print downloaded nsi.json content
+        #run: |
+          #echo "Downloaded nsi.json content:"
+          #Get-Content nsinew.json
+        #shell: powershell
  
       - name: Update nsi.json with secrets
         env:
