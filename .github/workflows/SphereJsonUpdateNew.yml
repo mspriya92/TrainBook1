@@ -5,7 +5,7 @@ on:
  
 jobs:
   update-json:
-    runs-on: self-hosted  # Assuming you have a self-hosted runner configured
+    runs-on: self-hosted  
  
     steps:
       - name: Checkout repository
@@ -14,6 +14,16 @@ jobs:
       - name: Print initial nsi.json content
         run: |
           echo "Initial nsi.json content:"
+          cat nsi.json || echo "nsi.json does not exist in the repository."
+ 
+      - name: Download nsi.json from external source
+        run: |
+          echo "Downloading nsi.json from external source"
+          curl -o nsi.json https://raw.githubusercontent.com/mspriya92/TrainBook1/main/nsi.json
+ 
+      - name: Print downloaded nsi.json content
+        run: |
+          echo "Downloaded nsi.json content:"
           cat nsi.json
  
       - name: Update nsi.json with secrets
@@ -23,9 +33,11 @@ jobs:
         run: |
           echo "Updating nsi.json with secrets"
           jq --arg DOCKER_USERNAME "$DOCKER_USERNAME" --arg DOCKER_PASSWORD "$DOCKER_PASSWORD" \
-            '.DockerUsername = $DOCKER_USERNAME | .DockerPassword = $DOCKER_PASSWORD' nsi.json > nsi.tmp && mv nsi.tmp nsi.json
+            '.DockerUsername = $DOCKER_USERNAME | .DockerPassword = $DOCKER_PASSWORD' nsi.json > nsi.tmp; `
+           Move-Item -Path nsi.tmp -Destination nsi.json
  
       - name: Print updated nsi.json content
         run: |
           echo "Updated nsi.json content:"
           cat nsi.json
+ 
