@@ -14,8 +14,12 @@ jobs:
       - name: Print initial nsi.json content
         run: |
           echo "Initial nsi.json content:"
-          cat nsi.json || echo "nsi.json does not exist in the repository."
- 
+          try {
+            Get-Content nsi.json
+          } catch {
+            echo "nsi.json doesnot exist in repo"
+          }  
+         
       - name: Download nsi.json from external source
         run: |
           echo "Downloading nsi.json from external source"
