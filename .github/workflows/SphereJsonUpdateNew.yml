@@ -39,7 +39,7 @@ jobs:
         #shell: powershell
       - name: Set environmental variable
         run: |
-          if ($env:environment -eq 'prod'){
+          if ($env:environment -eq 'Prod'){
             $API_KEY = $env:prod_API_KEY
           }
 
