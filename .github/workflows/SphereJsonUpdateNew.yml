@@ -2,6 +2,11 @@ name: SphereJsonUpdateNew
  
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to use'
+        required: true
+        
  
 jobs:
   update-json:
@@ -32,21 +37,36 @@ jobs:
           #echo "Downloaded nsi.json content:"
           #Get-Content nsinew.json
         #shell: powershell
- 
-      - name: Update nsi.json with secrets
+      - name: Set environmental variable
+        run: |
+          if ($env:environment -eq 'prod'){
+            $API_KEY = $env:prod_API_KEY
+          }
+
+          # Set repo secrets
+          DOCKER_USERNAME = $env:DOCKER_USERNAME 
+          DOCKER_PASSWORD = $env:DOCKER_PASSWORD 
+          
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          prod_API_KEY: ${{ secrets.API_KEY }}
+      - name: Update nsi.json with secrets
+        #env:
+          #DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          #DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          #prod_API_KEY: ${{ secrets.API_KEY }}
         run: |
           echo "Updating nsi.json with secrets"
           $json = Get-Content nsinew.json -Raw | ConvertFrom-Json
           $json.DockerUsername = "$env:DOCKER_USERNAME"
           $json.DockerPassword = "$env:DOCKER_PASSWORD"
+          $json.API_KEY = $API_KEY
           $json | ConvertTo-Json | Set-Content -Path nsinew.json
         shell: powershell
  
-      #- name: Print updated nsi.json content
-        #run: |
-          #echo "Updated nsi.json content:"
-          #Get-Content nsinew.json
-        #shell: powershell
+      - name: Print updated nsi.json content
+        run: |
+          echo "Updated nsi.json content:"
+          Get-Content nsinew.json
+        shell: powershell
