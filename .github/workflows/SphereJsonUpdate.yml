@@ -12,6 +12,8 @@ jobs:
 
       - name: Update nsi.json with secrets
         run: |
+          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}"
+          echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}"
           sed -i "s|\$DOCKER_USERNAME|${{ secrets.DOCKER_USERNAME }}|g" nsi.json
           sed -i "s|\$DOCKER_PASSWORD|${{ secrets.DOCKER_PASSWORD }}|g" nsi.json
 
