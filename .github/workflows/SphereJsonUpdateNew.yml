@@ -24,7 +24,7 @@ jobs:
       - name: Download nsi.json from external source
         run: |
           echo "Downloading nsi.json from external source"
-          Invoke-WebRequest -Uri "https://raw.githubusercontent.com/DivyaPrabhavathi/Maven/main/job_dependencies/jsonvalue.json" -OutFile "nsi.json"
+          Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mspriya92/TrainBook1/main/nsi.json" -OutFile "nsi.json"
         shell: powershell
  
       - name: Print downloaded nsi.json content
