@@ -1,11 +1,11 @@
-name:SphereJsonUpdateNew
+name: SphereJsonUpdateNew
  
 on:
   workflow_dispatch:
  
 jobs:
-  download-json:
-    runs-on: self-hosted  
+  update-json:
+    runs-on: self-hosted  # Assuming you have a self-hosted runner configured
  
     steps:
       - name: Checkout repository
@@ -14,21 +14,18 @@ jobs:
       - name: Print initial nsi.json content
         run: |
           echo "Initial nsi.json content:"
-          cat nsi.json 
+          cat nsi.json
  
-      - name: Download nsi.json from external source
+      - name: Update nsi.json with secrets
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          # Replace with your actual download command
-          curl -o nsi.json https://raw.githubusercontent.com/mspriya92/TrainBook1/main/nsi.json
+          echo "Updating nsi.json with secrets"
+          jq --arg DOCKER_USERNAME "$DOCKER_USERNAME" --arg DOCKER_PASSWORD "$DOCKER_PASSWORD" \
+            '.DockerUsername = $DOCKER_USERNAME | .DockerPassword = $DOCKER_PASSWORD' nsi.json > nsi.tmp && mv nsi.tmp nsi.json
  
-      - name: Print downloaded nsi.json content
+      - name: Print updated nsi.json content
         run: |
-          echo "Downloaded nsi.json content:"
-          cat nsi.json  # Replace /path/to/nsi.json with actual path
- 
-      - name: Retrieve secrets
-        run: |
-          DOCKER_USERNAME=$(jq -r '.DockerUsername' nsi.json)
-          DOCKER_PASSWORD=$(jq -r '.DockerPassword' nsi.json)
-          echo "DOCKER_USERNAME: $DOCKER_USERNAME"
-          echo "DOCKER_PASSWORD: $DOCKER_PASSWORD"
+          echo "Updated nsi.json content:"
+          cat nsi.json
