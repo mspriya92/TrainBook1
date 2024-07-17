@@ -14,8 +14,8 @@ jobs:
         run: |
           sed -i "s|\$DOCKER_USERNAME|${{ secrets.DOCKER_USERNAME }}|g" nsi.json
           sed -i "s|\$DOCKER_PASSWORD|${{ secrets.DOCKER_PASSWORD }}|g" nsi.json
-
-      - name: Display updated nsi.json
+      
+      - name: Print Updated nsi.json (For Debugging)
         run: cat nsi.json
       
       - name: Commit and push changes
