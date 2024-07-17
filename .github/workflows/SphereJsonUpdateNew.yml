@@ -1,4 +1,4 @@
-name: Download nsi.json
+name:SphereJsonUpdateNew
  
 on:
   workflow_dispatch:
