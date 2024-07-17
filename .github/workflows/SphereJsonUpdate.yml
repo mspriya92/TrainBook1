@@ -17,7 +17,8 @@ jobs:
       
       - name: Print Updated nsi.json (For Debugging)
         run: cat nsi.json
-      
+      - name: Display git status
+        run: git status
       - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
@@ -25,3 +26,4 @@ jobs:
           git add nsi.json
           git commit -m "Update nsi.json with secrets"
           git push
+        continue-on-error: true
