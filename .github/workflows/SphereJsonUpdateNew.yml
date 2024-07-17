@@ -11,15 +11,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
  
-      - name: Print initial nsi.json content
-        run: |
-          echo "Initial nsi.json content:"
-          if (Test-Path nsi.json) {
-            Get-Content nsi.json
-          } else {
-            Write-Host "nsi.json does not exist in the repository."
-          }
-        shell: powershell
+      #- name: Print initial nsi.json content
+        #run: |
+          #echo "Initial nsi.json content:"
+          #if (Test-Path nsi.json) {
+            #Get-Content nsi.json
+          #} else {
+            #Write-Host "nsi.json does not exist in the repository."
+          #}
+        #shell: powershell
  
       - name: Download nsi.json from external source
         run: |
@@ -45,8 +45,8 @@ jobs:
           $json | ConvertTo-Json | Set-Content -Path nsinew.json
         shell: powershell
  
-      - name: Print updated nsi.json content
-        run: |
-          echo "Updated nsi.json content:"
-          Get-Content nsinew.json
-        shell: powershell
+      #- name: Print updated nsi.json content
+        #run: |
+          #echo "Updated nsi.json content:"
+          #Get-Content nsinew.json
+        #shell: powershell
