@@ -48,8 +48,9 @@ jobs:
         
         $JsonContent = Get-Content -Path "nsinew.json" -Raw
         $Encryptor = $Aes.CreateEncryptor()
+        $CryptoStreamMode = [System.Security.Cryptography.CryptoStreamMode]::Write
         $Stream = New-Object System.IO.MemoryStream
-        $CryptoStream = New-Object System.Security.Cryptography.CryptoStream -ArgumentList $Stream, $Encryptor, [System.Security.Cryptography.CryptoStreamMode]::Write
+        $CryptoStream = New-Object System.Security.Cryptography.CryptoStream -ArgumentList $Stream, $Encryptor, $CryptoStreamMode
         $Writer = New-Object System.IO.StreamWriter -ArgumentList $CryptoStream
         $Writer.Write($JsonContent)
         $Writer.Close()
