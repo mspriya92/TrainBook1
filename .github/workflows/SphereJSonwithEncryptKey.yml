@@ -42,15 +42,16 @@ jobs:
         [Security.Cryptography.RNGCryptoServiceProvider]::Create().GetBytes($Key)
         $KeyString = [Convert]::ToBase64String($Key)
         $Aes = [System.Security.Cryptography.Aes]::Create()
-        $Aes.Key = [Convert]::FromBase64String($KeyString)
+        $Aes.Key = $Key
         $Aes.GenerateIV()
         $IVString = [Convert]::ToBase64String($Aes.IV)
         $JsonContent = Get-Content -Path "nsinew.json" -Raw
         $Stream = New-Object System.IO.MemoryStream
         $CryptoStream = New-Object System.Security.Cryptography.CryptoStream($Stream, $Aes.CreateEncryptor(), [System.Security.Cryptography.CryptoStreamMode]::Write)
-        [System.IO.StreamWriter]::new($CryptoStream).Write($JsonContent)
+        $Writer = New-Object System.IO.StreamWriter -ArgumentList $CryptoStream
+        $Writer.Write($JsonContent)
+        $Writer.Close()
         $CryptoStream.Close()
-        $Stream.Position = 0
         $EncryptedContent = [Convert]::ToBase64String($Stream.ToArray())
         Set-Content -Path "nsinew_encrypted.json" -Value $EncryptedContent
         Set-Content -Path "encryption_key.txt" -Value $KeyString
@@ -85,12 +86,12 @@ jobs:
         $Aes = [System.Security.Cryptography.Aes]::Create()
         $Aes.Key = $Key
         $Aes.IV = $IV
-        
+ 
         $EncryptedContent = [Convert]::FromBase64String((Get-Content -Path "nsinew_encrypted.json"))
         $Stream = New-Object System.IO.MemoryStream
         $Stream.Write($EncryptedContent, 0, $EncryptedContent.Length)
         $Stream.Position = 0
-        
+ 
         $Decryptor = $Aes.CreateDecryptor()
         $CryptoStream = New-Object System.Security.Cryptography.CryptoStream($Stream, $Decryptor, [System.Security.Cryptography.CryptoStreamMode]::Read)
         $Reader = New-Object System.IO.StreamReader -ArgumentList $CryptoStream
@@ -98,7 +99,7 @@ jobs:
         $Reader.Close()
         $CryptoStream.Close()
         $Stream.Close()
-        
+ 
         Set-Content -Path "nsinew_decrypted.json" -Value $DecryptedContent
         echo "Decrypted nsinew.json content:"
         Get-Content -Path "nsinew_decrypted.json"
