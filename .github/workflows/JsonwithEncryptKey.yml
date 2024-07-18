@@ -1,4 +1,4 @@
-name: JSonwithEncryptKey
+name: SphereJSonwithEncryptKey
  
 on:
   workflow_dispatch:
@@ -15,18 +15,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
  
-    - name: Download nsi.json from external source
-      run: |
-        echo "Downloading nsi.json from external source"
-        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mspriya92/TrainBook1/main/nsi.json" -OutFile "nsinew.json"
-      shell: powershell
- 
-    - name: Update nsi.json with secrets
+    - name: Download and update nsi.json with secrets
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         prod_API_KEY: ${{ secrets.API_KEY }}
       run: |
+        echo "Downloading nsi.json from external source"
+        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mspriya92/TrainBook1/main/nsi.json" -OutFile "nsinew.json"
+        
         echo "Updating nsi.json with secrets"
         $json = Get-Content nsinew.json -Raw | ConvertFrom-Json
         $json.Sphere.DockerUsername = "$env:DOCKER_USERNAME"
@@ -35,7 +32,7 @@ jobs:
         $json | ConvertTo-Json | Set-Content -Path nsinew.json
       shell: powershell
  
-    - name: Generate encryption key and encrypt nsinew.json file
+    - name: Generate encryption key, encrypt, and save nsinew.json
       run: |
         echo "Generating encryption key and encrypting nsinew.json file"
         $Key = New-Object Byte[] 32
@@ -45,6 +42,7 @@ jobs:
         $Aes.Key = $Key
         $Aes.GenerateIV()
         $IVString = [Convert]::ToBase64String($Aes.IV)
+        
         $JsonContent = Get-Content -Path "nsinew.json" -Raw
         $Stream = New-Object System.IO.MemoryStream
         $CryptoStream = New-Object System.Security.Cryptography.CryptoStream($Stream, $Aes.CreateEncryptor(), [System.Security.Cryptography.CryptoStreamMode]::Write)
@@ -53,25 +51,17 @@ jobs:
         $Writer.Close()
         $CryptoStream.Close()
         $EncryptedContent = [Convert]::ToBase64String($Stream.ToArray())
+ 
         Set-Content -Path "nsinew_encrypted.json" -Value $EncryptedContent
         Set-Content -Path "encryption_key.txt" -Value $KeyString
         Set-Content -Path "encryption_iv.txt" -Value $IVString
-      shell: powershell
- 
-    - name: Print encrypted nsinew.json content
-      run: |
+        
         echo "Encrypted nsinew.json content:"
         Get-Content -Path "nsinew_encrypted.json"
-      shell: powershell
- 
-    - name: Print encryption key
-      run: |
+        
         echo "Encryption key:"
         Get-Content -Path "encryption_key.txt"
-      shell: powershell
- 
-    - name: Print encryption IV
-      run: |
+        
         echo "Encryption IV:"
         Get-Content -Path "encryption_iv.txt"
       shell: powershell
