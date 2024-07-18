@@ -30,9 +30,9 @@ jobs:
         run: |
           echo "Updating nsi.json with secrets"
           $json = Get-Content nsinew.json -Raw | ConvertFrom-Json
-          $json.DockerUsername = "$env:DOCKER_USERNAME"
-          $json.DockerPassword = "$env:DOCKER_PASSWORD"
-          $json.APIkey = "$env:prod_API_KEY"
+          $json.Sphere.DockerUsername = "$env:DOCKER_USERNAME"
+          $json.Sphere.DockerPassword = "$env:DOCKER_PASSWORD"
+          $json.Sphere.APIkey = "$env:prod_API_KEY"
           $json | ConvertTo-Json | Set-Content -Path nsinew.json
         shell: powershell
  
