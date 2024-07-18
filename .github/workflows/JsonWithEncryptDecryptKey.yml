@@ -1,4 +1,4 @@
-name: SphereJSonwithEncryptKey
+name: SphereJSonwithEncryptDecryptKey
  
 on:
   workflow_dispatch:
