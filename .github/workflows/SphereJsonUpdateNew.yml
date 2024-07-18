@@ -35,9 +35,21 @@ jobs:
           $json.Sphere.APIkey = "$env:prod_API_KEY"
           $json | ConvertTo-Json | Set-Content -Path nsinew.json
         shell: powershell
- 
-      - name: Print updated nsi.json content
+      - name: Encrypt nsinew.json file
         run: |
-          echo "Updated nsi.json content:"
-          Get-Content nsinew.json
+         echo "Encrypting nsinew.json file"
+         $SecureString = Get-Content -Path "nsinew.json" -Raw | ConvertTo-SecureString -AsPlainText -Force
+         $Encrypted = $SecureString | ConvertFrom-SecureString
+         Set-Content -Path "nsinew_encrypted.json" -Value $Encrypted
         shell: powershell
+ 
+      - name: Print encrypted nsinew.json content
+        run: |
+          echo "Encrypted nsinew.json content:"
+          Get-Content -Path "nsinew_encrypted.json"
+        shell: powershell
+      #- name: Print updated nsi.json content
+        #run: |
+          #echo "Updated nsi.json content:"
+          #Get-Content nsinew.json
+        #shell: powershell
