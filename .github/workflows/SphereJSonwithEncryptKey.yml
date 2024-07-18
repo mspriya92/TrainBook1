@@ -50,6 +50,7 @@ jobs:
         $CryptoStream = New-Object System.Security.Cryptography.CryptoStream($Stream, $Aes.CreateEncryptor(), [System.Security.Cryptography.CryptoStreamMode]::Write)
         [System.IO.StreamWriter]::new($CryptoStream).Write($JsonContent)
         $CryptoStream.Close()
+        $Stream.Position = 0
         $EncryptedContent = [Convert]::ToBase64String($Stream.ToArray())
         Set-Content -Path "nsinew_encrypted.json" -Value $EncryptedContent
         Set-Content -Path "encryption_key.txt" -Value $KeyString
@@ -74,7 +75,7 @@ jobs:
         Get-Content -Path "encryption_iv.txt"
       shell: powershell
  
-    - name: Decrypt nsinew_encrypted.json file and print
+    - name: Decrypt nsinew_encrypted.json file
       run: |
         echo "Decrypting nsinew_encrypted.json file"
         $KeyString = Get-Content -Path "encryption_key.txt"
@@ -98,6 +99,7 @@ jobs:
         $CryptoStream.Close()
         $Stream.Close()
         
+        Set-Content -Path "nsinew_decrypted.json" -Value $DecryptedContent
         echo "Decrypted nsinew.json content:"
-        echo $DecryptedContent
+        Get-Content -Path "nsinew_decrypted.json"
       shell: powershell
