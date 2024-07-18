@@ -41,22 +41,14 @@ jobs:
         $Key = New-Object Byte[] 32
         [Security.Cryptography.RNGCryptoServiceProvider]::Create().GetBytes($Key)
         $KeyString = [Convert]::ToBase64String($Key)
-        
         $Aes = [System.Security.Cryptography.Aes]::Create()
         $Aes.Key = [Convert]::FromBase64String($KeyString)
         $Aes.GenerateIV()
-        
         $JsonContent = Get-Content -Path "nsinew.json" -Raw
-        $Encryptor = $Aes.CreateEncryptor()
-        $CryptoStreamMode = [System.Security.Cryptography.CryptoStreamMode]::Write
         $Stream = New-Object System.IO.MemoryStream
-        $CryptoStream = New-Object System.Security.Cryptography.CryptoStream -ArgumentList $Stream, $Encryptor, $CryptoStreamMode
-        $Writer = New-Object System.IO.StreamWriter -ArgumentList $CryptoStream
-        $Writer.Write($JsonContent)
-        $Writer.Close()
+        $CryptoStream = New-Object System.Security.Cryptography.CryptoStream($Stream, $Aes.CreateEncryptor(), [System.Security.Cryptography.CryptoStreamMode]::Write)
+        [System.IO.StreamWriter]::new($CryptoStream).Write($JsonContent)
         $CryptoStream.Close()
-        $Stream.Close()
-        
         $EncryptedContent = [Convert]::ToBase64String($Stream.ToArray())
         Set-Content -Path "nsinew_encrypted.json" -Value $EncryptedContent
         Set-Content -Path "encryption_key.txt" -Value $KeyString
