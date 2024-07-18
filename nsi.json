@@ -1,5 +1,7 @@
 {
+ "Sphere": {
  "dockerUsername": "$DOCKER_USERNAME",
  "dockerPassword": "DOCKER_PASSWORD",
  "APIkey": "API_KEY"
+}
 }
