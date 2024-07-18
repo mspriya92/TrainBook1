@@ -48,9 +48,9 @@ jobs:
         
         $JsonContent = Get-Content -Path "nsinew.json" -Raw
         $Encryptor = $Aes.CreateEncryptor()
-        $Stream = New-Object IO.MemoryStream
-        $CryptoStream = New-Object IO.CryptoStream -ArgumentList $Stream, $Encryptor, [IO.CryptoStreamMode]::Write
-        $Writer = New-Object IO.StreamWriter -ArgumentList $CryptoStream
+        $Stream = New-Object System.IO.MemoryStream
+        $CryptoStream = New-Object System.Security.Cryptography.CryptoStream -ArgumentList $Stream, $Encryptor, [System.Security.Cryptography.CryptoStreamMode]::Write
+        $Writer = New-Object System.IO.StreamWriter -ArgumentList $CryptoStream
         $Writer.Write($JsonContent)
         $Writer.Close()
         $CryptoStream.Close()
@@ -72,4 +72,3 @@ jobs:
         echo "Encryption key:"
         Get-Content -Path "encryption_key.txt"
       shell: powershell
-
