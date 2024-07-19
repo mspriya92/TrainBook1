@@ -18,7 +18,7 @@ jobs:
         files: nsi.json
 
     - name: Set Powershell exe policy
-      run: pwsh -Command ""Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force"
+      run: pwsh -Command "Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force"
  
     - name: Download and update nsi.json with secrets
       env:
