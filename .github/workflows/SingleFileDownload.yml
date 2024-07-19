@@ -1,4 +1,4 @@
-name: SphereJSonwithEncryptKey
+name: SingleFileDownload
  
 on:
   workflow_dispatch:
