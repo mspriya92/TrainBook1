@@ -1,12 +1,66 @@
-name: SingleFileDownload
+name: SphereJSonwithEncryptKey
+ 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to use'
+        required: true
+ 
 jobs:
-  download:
+  update-json:
     runs-on: self-hosted
+    environment: ${{ github.event.inputs.environment }}
     steps:
-    - name: Checkout specific file
-      uses: actions/checkout@v2
+    - name: Checkout files
+      uses: Bhacaz/checkout-files@v2
       with:
-        ref: main  # Specific branch or tag to checkout
-        path: nsi.json
+        files: nsi.json
+ 
+    - name: Download and update nsi.json with secrets
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        prod_API_KEY: ${{ secrets.API_KEY }}
+      run: |
+        echo "Updating nsi.json with secrets"
+        $json = Get-Content nsi.json -Raw | ConvertFrom-Json
+        $json.Sphere.DockerUsername = "$env:DOCKER_USERNAME"
+        $json.Sphere.DockerPassword = "$env:DOCKER_PASSWORD"
+        $json.Sphere.APIkey = "$env:prod_API_KEY"
+        $json | ConvertTo-Json | Set-Content -Path nsi.json
+      shell: powershell
+ 
+    - name: Generate encryption key, encrypt, and save nsinew.json
+      run: |
+        echo "Generating encryption key and encrypting nsinew.json file"
+        $Key = New-Object Byte[] 32
+        [Security.Cryptography.RNGCryptoServiceProvider]::Create().GetBytes($Key)
+        $KeyString = [Convert]::ToBase64String($Key)
+        $Aes = [System.Security.Cryptography.Aes]::Create()
+        $Aes.Key = $Key
+        $Aes.GenerateIV()
+        $IVString = [Convert]::ToBase64String($Aes.IV)
+        
+        $JsonContent = Get-Content -Path "nsinew.json" -Raw
+        $Stream = New-Object System.IO.MemoryStream
+        $CryptoStream = New-Object System.Security.Cryptography.CryptoStream($Stream, $Aes.CreateEncryptor(), [System.Security.Cryptography.CryptoStreamMode]::Write)
+        $Writer = New-Object System.IO.StreamWriter -ArgumentList $CryptoStream
+        $Writer.Write($JsonContent)
+        $Writer.Close()
+        $CryptoStream.Close()
+        $EncryptedContent = [Convert]::ToBase64String($Stream.ToArray())
+ 
+        Set-Content -Path "nsinew_encrypted.json" -Value $EncryptedContent
+        Set-Content -Path "encryption_key.txt" -Value $KeyString
+        Set-Content -Path "encryption_iv.txt" -Value $IVString
+        
+        echo "Encrypted nsinew.json content:"
+        Get-Content -Path "nsinew_encrypted.json"
+        
+        echo "Encryption key:"
+        Get-Content -Path "encryption_key.txt"
+        
+        echo "Encryption IV:"
+        Get-Content -Path "encryption_iv.txt"
+      shell: powershell
