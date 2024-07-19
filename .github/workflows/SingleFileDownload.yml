@@ -22,6 +22,6 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         prod_API_KEY: ${{ secrets.API_KEY }}
-      run: ./Scripts/update_and_encrypt.ps1
-      shell: powershell
+      run: pwsh ./Scripts/update_and_encrypt.ps1
+     
         
