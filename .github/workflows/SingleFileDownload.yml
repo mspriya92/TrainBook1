@@ -1,0 +1,12 @@
+name: SingleFileDownload
+on:
+  workflow_dispatch:
+jobs:
+  download:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout specific file
+      uses: actions/checkout@v2
+      with:
+        ref: main  # Specific branch or tag to checkout
+        path: nsi.json
