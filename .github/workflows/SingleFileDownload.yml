@@ -13,17 +13,15 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     steps:
     - name: Checkout files
-      uses: bhacaz/checkout-files@v2
+      uses: Bhacaz/checkout-files@v2
       with:
-        files: |
-           Scripts/
-           nsi.json
+        files: nsi.json
  
     - name: Download and update nsi.json with secrets
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         prod_API_KEY: ${{ secrets.API_KEY }}
-      run: ./update_and_encrypt.ps1
+      run: ./Scripts/update_and_encrypt.ps1
       shell: powershell
         
