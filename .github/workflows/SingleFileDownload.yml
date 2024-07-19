@@ -16,8 +16,8 @@ jobs:
       uses: bhacaz/checkout-files@v2
       with:
         files: |
-           - Scripts/
-           - nsi.json
+           Scripts/
+           nsi.json
  
     - name: Download and update nsi.json with secrets
       env:
