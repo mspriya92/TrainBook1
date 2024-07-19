@@ -15,7 +15,7 @@ jobs:
     - name: Checkout files
       uses: Bhacaz/checkout-files@v2
       with:
-        path: nsi.json
+        files: nsi.json
  
     - name: Download and update nsi.json with secrets
       env:
