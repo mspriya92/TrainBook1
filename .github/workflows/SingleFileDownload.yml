@@ -16,12 +16,15 @@ jobs:
       uses: Bhacaz/checkout-files@v2
       with:
         files: nsi.json
+
+    - name: Set Powershell exe policy
+      run: pwsh -Command ""Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force"
  
     - name: Download and update nsi.json with secrets
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         prod_API_KEY: ${{ secrets.API_KEY }}
-      run: powershell ./Scripts/update_and_encrypt.ps1
+      run: pwsh -File ./Scripts/update_and_encrypt.ps1
      
         
