@@ -17,7 +17,6 @@ jobs:
       with:
         path: |
           nsi.json
-          Scripts/
  
     - name: Download and update nsi.json with secrets
       env:
