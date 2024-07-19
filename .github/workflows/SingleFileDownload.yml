@@ -13,7 +13,7 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     steps:
     - name: Checkout files
-      uses: Bhacaz/checkout-files@v2
+      uses: bhacaz/checkout-files@v2
       with:
         files: |
            - Scripts/
