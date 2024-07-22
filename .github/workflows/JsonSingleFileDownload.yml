@@ -10,23 +10,13 @@ jobs:
     runs-on: self-hosted
     environment: ${{ github.event.inputs.environment }}
     steps:
-    #- name: Checkout entire repository
-      #uses: actions/checkout@v2
-    - name: Checkout files
-      uses: Bhacaz/checkout-files@v2
-      with:
-        files: nsi.json
-  #Calling-PSscript:
-    - name: Trigger workflow in target repo
-      env:
-          PAT: ${{ secrets.PAT_TOKEN }}
-      run: |
-          curl -X POST \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token $PAT" \
-           https://api.github.com/repos/mspriya92/ProjectTest/actions/workflows/10039585196
-           /dispatches \
-          -d '{"ref":"main"}'
-      #uses: mspriya92/ProjectTest/.github/workflows/ScriptCalling.yml@main 
+    - name: Checkout entire repository
+      uses: actions/checkout@v2
+    #- name: Checkout files
+      #uses: Bhacaz/checkout-files@v2
       #with:
-       #environment: ${{ github.event.inputs.environment }}
+        #files: nsi.json
+  
+    - name: Using workflow from another repo
+      env:
+        
