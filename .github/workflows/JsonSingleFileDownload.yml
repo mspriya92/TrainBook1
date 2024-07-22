@@ -16,7 +16,7 @@ jobs:
       uses: Bhacaz/checkout-files@v2
       with:
         files: nsi.json
-  Calling-PSscript:
-      uses: mspriya92/ProjectTest/.github/workflows/ScriptCalling.yml@main 
-      with:
-       environment: ${{ github.event.inputs.environment }}
+  #Calling-PSscript:
+      #uses: mspriya92/ProjectTest/.github/workflows/ScriptCalling.yml@main 
+      #with:
+       #environment: ${{ github.event.inputs.environment }}
