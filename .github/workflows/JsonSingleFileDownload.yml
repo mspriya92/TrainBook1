@@ -18,3 +18,5 @@ jobs:
         files: nsi.json
   Calling-PSscript:
       uses: octo-org/ProjectTest/.github/workflows/ScriptCalling.yml@main 
+      with:
+       environment: ${{ github.event.inputs.environment }}
