@@ -22,6 +22,13 @@ jobs:
     steps:
     - name: Checkout entire repository
       uses: actions/checkout@v2
+    - name: Using workflow from another repo
+      uses: actions/checkout@v4
+      with:
+       repository: ${{ inputs.code-repository }}
+       ref: ${{ inputs.code-reference }}
+       token: ${{ inputs.repo_token }}
+       path: staging
     - name: Download and update nsi.json with secrets
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -33,11 +40,5 @@ jobs:
       #with:
         #files: nsi.json
   
-    - name: Using workflow from another repo
-      uses: actions/checkout@v4
-      with:
-       repository: ${{ inputs.code-repository }}
-       ref: ${{ inputs.code-reference }}
-       token: ${{ inputs.repo_token }}
-       path: staging
+    
         
