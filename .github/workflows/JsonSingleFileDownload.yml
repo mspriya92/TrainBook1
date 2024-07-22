@@ -5,6 +5,16 @@ on:
       environment:
         description: 'Environment to use'
         required: true
+      code-repository:
+        description: 'Environment to use'
+        required: true
+      ref:
+       description: 'Environment to use'
+       required: true
+      token:
+       description: 'Environment to use'
+       required: true
+      
 jobs:
   update-json:
     runs-on: self-hosted
@@ -18,5 +28,10 @@ jobs:
         #files: nsi.json
   
     - name: Using workflow from another repo
-      env:
+      uses: actions/checkout@v4
+      with:
+       repository: ${{ inputs.code-repository }}
+       ref: ${{ inputs.code-reference }}
+       token: ${{ inputs.repo_token }}
+       path: staging
         
