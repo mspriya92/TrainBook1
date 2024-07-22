@@ -1,0 +1,20 @@
+name: JsonSingleFileDownload
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to use'
+        required: true
+jobs:
+  update-json:
+    runs-on: self-hosted
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+    #- name: Checkout entire repository
+      #uses: actions/checkout@v2
+    - name: Checkout files
+      uses: Bhacaz/checkout-files@v2
+      with:
+        files: nsi.json
+  Calling-PSscript:
+      uses: octo-org/ProjectTest/.github/workflows/ScriptCalling.yml@main 
