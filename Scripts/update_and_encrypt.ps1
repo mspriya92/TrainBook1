@@ -1,4 +1,4 @@
-# Update nsi.json with secrets
+# Update nsi.json with secrets 
 echo "Updating nsi.json with secrets"
 $json = Get-Content nsi.json -Raw | ConvertFrom-Json
 $json.Sphere.DockerUsername = "$env:DOCKER_USERNAME"
