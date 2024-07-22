@@ -6,13 +6,13 @@ on:
         description: 'Environment to use'
         required: true
       code-repository:
-        description: 'Environment to use'
+        description: 'Provide Repo name'
         required: true
       ref:
-       description: 'Environment to use'
+       description: 'Provide branch name'
        required: true
       token:
-       description: 'Environment to use'
+       description: 'Provide repo-token'
        required: true
       
 jobs:
