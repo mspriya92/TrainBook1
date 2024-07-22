@@ -1,23 +1,26 @@
 name: SingleFileDownload
  
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Environment to use'
-        required: true
+  workflow_call:
  
 jobs:
-  update-json:
-    runs-on: self-hosted
-    environment: ${{ github.event.inputs.environment }}
-    steps:
-    #- name: Checkout entire repository
-      #uses: actions/checkout@v2
-    - name: Checkout files
-      uses: Bhacaz/checkout-files@v2
-      with:
-        files: nsi.json
+  caller-workflow:
+  runs-on: self-hosted
+  steps:
+      - name: Checkout files
+        uses: Bhacaz/checkout-files@v2
+        with:
+          files: /Scripts/update_and_encrypt.ps1
+      - name: Download and update nsi.json with secrets
+        uses: ./.github/workflows/ScriptCalling.yml
+        with:
+          env:
+            DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+            prod_API_KEY: ${{ secrets.API_KEY }}
+        #run: ./Scripts/update_and_encrypt.ps1
+   
+        
 
 
     
