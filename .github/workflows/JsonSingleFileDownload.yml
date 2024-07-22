@@ -11,9 +11,9 @@ on:
       code-reference:
        description: 'Provide branch name'
        required: true
-      repo_token:
-       description: 'Provide repo-token'
-       required: true
+      #repo_token:
+       #description: 'Provide repo-token'
+       #required: true
       
 jobs:
   update-json:
@@ -24,10 +24,11 @@ jobs:
       uses: actions/checkout@v2
     - name: Using workflow from another repo
       uses: actions/checkout@v4
+      
       with:
        repository: ${{ inputs.code-repository }}
        ref: ${{ inputs.code-reference }}
-       token: ${{ inputs.repo_token }}
+       token: ${{ secrets.PAT_TOKEN }}
        path: staging
     - name: Download and update nsi.json with secrets
       env:
