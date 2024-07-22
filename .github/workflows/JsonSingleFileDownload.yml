@@ -22,6 +22,12 @@ jobs:
     steps:
     - name: Checkout entire repository
       uses: actions/checkout@v2
+    - name: Download and update nsi.json with secrets
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        prod_API_KEY: ${{ secrets.API_KEY }}
+      run: ./Scripts/update_and_encrypt.ps1
     #- name: Checkout files
       #uses: Bhacaz/checkout-files@v2
       #with:
