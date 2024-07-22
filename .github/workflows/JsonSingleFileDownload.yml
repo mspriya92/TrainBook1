@@ -8,10 +8,10 @@ on:
       code-repository:
         description: 'Provide Repo name'
         required: true
-      ref:
+      code-reference:
        description: 'Provide branch name'
        required: true
-      token:
+      repo_token:
        description: 'Provide repo-token'
        required: true
       
