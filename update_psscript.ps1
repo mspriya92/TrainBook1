@@ -1,10 +1,7 @@
 # Parameters
 param (
-    [string]$jsonFilePath = "staging/nsi.json",
-    [string]$encryptedJsonFilePath = "staging/nsinew_encrypted.json",
-    [string]$encryptionKeyFilePath = "staging/encryption_key.txt",
-    [string]$encryptionIvFilePath = "staging/encryption_iv.txt"
-)
+    [string]$jsonFilePath = "staging/nsi.json"
+    )
  
 # Update nsi.json with secrets
 echo "Updating nsi.json with secrets"
@@ -32,17 +29,17 @@ $Writer = New-Object System.IO.StreamWriter -ArgumentList $CryptoStream
 $Writer.Write($JsonContent)
 $Writer.Close()
 $CryptoStream.Close()
- 
 $EncryptedContent = [Convert]::ToBase64String($Stream.ToArray())
-Set-Content -Path $encryptedJsonFilePath -Value $EncryptedContent
-Set-Content -Path $encryptionKeyFilePath -Value $KeyString
-Set-Content -Path $encryptionIvFilePath -Value $IVString
+
+Set-Content -Path "nsinew_encrypted.json" -Value $EncryptedContent
+Set-Content -Path "encryption_key.txt" -Value $KeyString
+Set-Content -Path "encryption_iv.txt" -Value $IVString
  
 echo "Encrypted nsi.json content:"
-Get-Content -Path $encryptedJsonFilePath
+Get-Content -Path "nsinew_encrypted.json"
  
 echo "Encryption key:"
-Get-Content -Path $encryptionKeyFilePath
+Get-Content -Path "encryption_key.txt"
  
 echo "Encryption IV:"
-Get-Content -Path $encryptionIvFilePath
+Get-Content -Path "encryption_iv.txt"
