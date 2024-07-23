@@ -22,12 +22,15 @@ jobs:
         uses: actions/checkout@v2	   
       
       - name: Using workflow from another repo
-        uses: actions/checkout@v2  # Use v2 for consistency unless v4 has specific features you need
+        #uses: actions/checkout@v2  # Use v2 for consistency unless v4 has specific features you need
+        uses: Bhacaz/checkout-files@v2
+       
         with:
           repository: ${{ github.event.inputs.code-repository }}
           ref: ${{ github.event.inputs.code-reference }}
           token: ${{ secrets.PAT_TOKEN }}
-          #path: staging
+          path: staging
+          files: nsi.json
       
       - name: Download and update nsi.json with secrets
         env:
