@@ -1,4 +1,5 @@
 name: JsonSingleFileDownload
+ 
 on:
   workflow_dispatch:
     inputs:
@@ -9,37 +10,29 @@ on:
         description: 'Provide Repo name'
         required: true
       code-reference:
-       description: 'Provide branch name'
-       required: true
-      #repo_token:
-       #description: 'Provide repo-token'
-       #required: true
-      
+        description: 'Provide branch name'
+        required: true
+ 
 jobs:
   update-json:
     runs-on: self-hosted
     environment: ${{ github.event.inputs.environment }}
     steps:
-    - name: Checkout entire repository
-      uses: actions/checkout@v2
-    - name: Using workflow from another repo
-      uses: actions/checkout@v4
+      - name: Checkout entire repository
+        uses: actions/checkout@v2	   
       
-      with:
-       repository: ${{ inputs.code-repository }}
-       ref: ${{ inputs.code-reference }}
-       token: ${{ secrets.PAT_TOKEN }}
-       path: staging
-    - name: Download and update nsi.json with secrets
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        prod_API_KEY: ${{ secrets.API_KEY }}
-      run: ./Scripts/update_and_encrypt.ps1
-    #- name: Checkout files
-      #uses: Bhacaz/checkout-files@v2
-      #with:
-        #files: nsi.json
-  
-    
-        
+      - name: Using workflow from another repo
+        uses: actions/checkout@v2  # Use v2 for consistency unless v4 has specific features you need
+        with:
+          repository: ${{ github.event.inputs.code-repository }}
+          ref: ${{ github.event.inputs.code-reference }}
+          token: ${{ secrets.PAT_TOKEN }}
+          path: staging
+      
+      - name: Download and update nsi.json with secrets
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          prod_API_KEY: ${{ secrets.API_KEY }}
+        run: ./Scripts/update_and_encrypt.ps1
+
