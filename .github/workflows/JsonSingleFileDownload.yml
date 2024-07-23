@@ -29,7 +29,7 @@ jobs:
           repository: ${{ github.event.inputs.code-repository }}
           ref: ${{ github.event.inputs.code-reference }}
           token: ${{ secrets.PAT_TOKEN }}
-          path: staging
+          path: ./staging/nsi.json
           #files: nsi.json
       
       - name: Download and update nsi.json with secrets
@@ -37,5 +37,5 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           prod_API_KEY: ${{ secrets.API_KEY }}
-        run: ./update_psscript.ps1
+        run: ./Scripts/update-and-encrypt.ps1
 
