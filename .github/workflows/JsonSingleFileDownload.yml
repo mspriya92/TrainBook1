@@ -33,7 +33,7 @@ jobs:
           #files: nsi.json
       
       - name: Download and update nsi.json with secrets
-        working-directory: /staging/nsi.json
+        working-directory: /staging
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
