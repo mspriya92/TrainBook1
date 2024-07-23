@@ -27,7 +27,7 @@ jobs:
           repository: ${{ github.event.inputs.code-repository }}
           ref: ${{ github.event.inputs.code-reference }}
           token: ${{ secrets.PAT_TOKEN }}
-          path: staging
+          #path: staging
       
       - name: Download and update nsi.json with secrets
         env:
