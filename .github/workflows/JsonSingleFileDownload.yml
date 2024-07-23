@@ -30,10 +30,10 @@ jobs:
           ref: ${{ github.event.inputs.code-reference }}
           token: ${{ secrets.PAT_TOKEN }}
           path: staging
-          #files: nsi.json
+         
       
       - name: Download and update nsi.json with secrets
-        working-directory: staging\nsi.json
+        #working-directory: staging\nsi.json
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
