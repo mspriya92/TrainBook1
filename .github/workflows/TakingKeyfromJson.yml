@@ -1,0 +1,48 @@
+name: TakingKeyfromJson
+ 
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to use'
+        required: true
+      code-repository:
+        description: 'Provide Repo name'
+        required: true
+      code-reference:
+        description: 'Provide branch name'
+        required: true
+ 
+jobs:
+  update-json:
+    runs-on: self-hosted
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - name: Checkout entire repository
+        uses: actions/checkout@v2	   
+      - name: Parse component.json
+        id: parse_json
+        run: |
+           COMPONENT_BRANCH=$(jq .r '.[] | select(.Phse ==== "2") | .Branch' component.json
+           echo "COMPONENT_BRANCH=$COMPONENT_BRANCH" >> $GITHUB_ENV
+      
+      - name: Using workflow from another repo
+        uses: actions/checkout@v2  # Use v2 for consistency unless v4 has specific features you need
+        #uses: Bhacaz/checkout-files@v2
+       
+        with:
+          repository: ${{ github.event.inputs.code-repository }}
+          ref: ${{ github.event.inputs.code-reference }}
+          token: ${{ secrets.PAT_TOKEN }}
+          path: staging
+         
+      
+      - name: Download and update nsi.json with secrets
+        #working-directory: staging\nsi.json
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          prod_API_KEY: ${{ secrets.API_KEY }}
+        #run: .\.github\Test\PsScript.ps1
+        run: ./Scripts/scriptupdate.ps1
+
