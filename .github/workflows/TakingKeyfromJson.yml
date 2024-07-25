@@ -23,7 +23,7 @@ jobs:
       - name: Parse component.json
         id: parse_json
         run: |
-           COMPONENT_BRANCH=$(jq .r '.[] | select(.Phase == "2") | .Branch' component.json
+           COMPONENT_BRANCH=$(jq .r '.[] | select(.Phase == "2") | .Branch' component.json)
            echo "COMPONENT_BRANCH=$COMPONENT_BRANCH" >> $GITHUB_ENV
       
       - name: Using workflow from another repo
