@@ -25,6 +25,7 @@ jobs:
         run: |
            COMPONENT_BRANCH=$(jq -r '.[] | select(.Phase == "2") | .Branch' component.json)
            echo "COMPONENT_BRANCH=$COMPONENT_BRANCH" >> $GITHUB_ENV
+        shell: pwsh
       
       - name: Using workflow from another repo
         uses: actions/checkout@v2  # Use v2 for consistency unless v4 has specific features you need
