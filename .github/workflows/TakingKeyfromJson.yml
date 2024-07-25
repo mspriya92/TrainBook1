@@ -9,9 +9,9 @@ on:
       code-repository:
         description: 'Provide Repo name'
         required: true
-      code-reference:
-        description: 'Provide branch name'
-        required: true
+      #code-reference:
+        #description: 'Provide branch name'
+        #required: true
  
 jobs:
   update-json:
@@ -32,7 +32,7 @@ jobs:
        
         with:
           repository: ${{ github.event.inputs.code-repository }}
-          ref: ${{ github.event.inputs.code-reference }}
+          ref: ${{ env.COMPONENT_BRANCH }}
           token: ${{ secrets.PAT_TOKEN }}
           path: staging
          
