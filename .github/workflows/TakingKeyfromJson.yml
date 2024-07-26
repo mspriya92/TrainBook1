@@ -23,6 +23,19 @@ jobs:
         run: |
           cat component.json
           branch_name=$(jq -r '.[] | select(.Phase == 2) | .Branch' component.json)
-          echo "::set-output name=filtered_branch::$branch_name"
+          if [ -z "$branch_name" ]; then
+            echo "No object with Phase=2 found in component.json"
+            exit 1
+          else
+            echo "branch_name=$branch_name" >> $GITHUB_ENV
+          fi
+ 
+      - name: Checkout repo using branch name
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.inputs.code-repository }}
+          ref: ${{ env.branch_name }}
+          token: ${{ secrets.PAT_TOKEN }}
+          path: staging
 
       
