@@ -1,5 +1,5 @@
 name: TakingKeyfromJson
-
+ 
 on:
   workflow_dispatch:
     inputs:
@@ -9,37 +9,38 @@ on:
       code-repository:
         description: 'Provide Repo name'
         required: true
-
+ 
 jobs:
   update_json:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}
-    
+    outputs:
+      branch_name: ${{ steps.extract-branch.outputs.branch_name }}
+ 
     steps:
-      - uses: actions/checkout@v3
-
-      - name: List Json value
-        id: list-json
+      - name: Checkout repository
+        uses: actions/checkout@v3
+ 
+      - name: Extract branch name from JSON
+        id: extract-branch
         run: |
-          cat component.json
           branch_name=$(jq -r '.[] | select(.Phase == 2) | .Branch' component.json)
           if [ -z "$branch_name" ]; then
             echo "No object with Phase=2 found in component.json"
             exit 1
           else
-            echo "branch_name=$branch_name" >> $GITHUB_ENV
+            echo "::set-output name=branch_name::$branch_name"
           fi
-
+ 
       - name: Checkout repo using branch name
         uses: actions/checkout@v3
         with:
           repository: ${{ github.event.inputs.code-repository }}
-          ref: ${{ env.branch_name }}
+          ref: ${{ needs.update_json.outputs.branch_name }}
           token: ${{ secrets.PAT_TOKEN }}
           path: staging
-      #- name: Download and update nsi.json with secrets
-        #env:
-          #DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          #DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          #prod_API_KEY: ${{ secrets.API_KEY }}
-        #run: ./Scripts/scriptupdate.ps1
+      - name: Download and update nsi.json with secrets
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          prod_API_KEY: ${{ secrets.API_KEY }}
+        run: ./Scripts/scriptupdate.ps1
