@@ -19,20 +19,23 @@ jobs:
       - name: Checkout entire repository
         uses: actions/checkout@v2
  
+      - name: Install jq
+        run: sudo apt-get install jq -y
+        shell: bash
+ 
       - name: Read JSON file
         id: read-json
-        shell: pwsh
         run: |
-          $json = Get-Content component.json -Raw
-          echo "json=$json" | Out-File -FilePath $env:GITHUB_ENV -Append
+          json=$(cat component.json)
+          echo "json=$json" >> $GITHUB_ENV
+        shell: bash
  
       - name: Filter value from JSON
         id: filter-json
-        shell: pwsh
         run: |
-          $json = $env:json | ConvertFrom-Json
-          $filtered_value = ($json | Where-Object { $_.Phase -eq 2 }).Branch
-          echo "filtered_value=$filtered_value" | Out-File -FilePath $env:GITHUB_ENV -Append
+          filtered_value=$(echo ${{ env.json }} | jq -r '.[] | select(.Phase == 2) | .Branch')
+          echo "filtered_value=$filtered_value" >> $GITHUB_ENV
+        shell: bash
  
       - name: Using workflow from another repo
         uses: actions/checkout@v2
@@ -41,4 +44,11 @@ jobs:
           ref: ${{ env.filtered_value }}
           token: ${{ secrets.PAT_TOKEN }}
           path: staging
-      
+ 
+      - name: Download and update nsi.json with secrets
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          prod_API_KEY: ${{ secrets.API_KEY }}
+        run: ./Scripts/scriptupdate.ps1
+        shell: bash
