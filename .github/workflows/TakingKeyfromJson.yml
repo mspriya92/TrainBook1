@@ -6,9 +6,9 @@ on:
       environment:
         description: 'Environment to use'
         required: true
-      #code-repository:
-        #description: 'Provide Repo name'
-        #required: true
+      code-repository:
+        description: 'Provide Repo name'
+        required: true
       #code-reference:
         #description: 'Provide branch name'
         #required: true
