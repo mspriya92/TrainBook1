@@ -23,7 +23,7 @@ $key = New-Object byte[] 32
 [Array]::Copy($keyBytes, $key, [Math]::Min($keyBytes.Length, $key.Length))
  
 # Read the file content as bytes
-$plaintext = Get-Content -Path $fileToEncrypt -Encoding Byte
+$plaintext = Get-Content -Path $fileToEncrypt -Encoding UTF8
  
 # Create AES encryption provider
 $AESProvider = New-Object System.Security.Cryptography.AesCryptoServiceProvider
