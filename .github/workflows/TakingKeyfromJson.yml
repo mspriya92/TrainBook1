@@ -38,9 +38,9 @@ jobs:
           ref: ${{ needs.update_json.outputs.branch_name }}
           token: ${{ secrets.PAT_TOKEN }}
           path: staging
-      - name: Download and update nsi.json with secrets
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          prod_API_KEY: ${{ secrets.API_KEY }}
-        run: ./Scripts/scriptupdate.ps1
+      #- name: Download and update nsi.json with secrets
+        #env:
+          #DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          #DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          #prod_API_KEY: ${{ secrets.API_KEY }}
+        #run: ./Scripts/scriptupdate.ps1
