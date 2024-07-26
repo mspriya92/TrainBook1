@@ -16,12 +16,14 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
 
     steps:
-      - name: checkout entire repo
+     
       - uses: actions/checkout@v3
 
       - name: List Json value
         run: |
            cat component.json
+           branch_name=$(jq '.[] | select(.Phase == "2") | .Branch' component.json)
+           echo "Branch name: $branch_name"
 
      
 
