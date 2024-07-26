@@ -19,10 +19,15 @@ jobs:
       - name: Checkout entire repository
         uses: actions/checkout@v2
  
-      - name: Install jq
-        run: sudo apt-get install jq -y
-        shell: bash
- 
+      
+      - name: Get values from the package.json
+        id: packageJson
+        uses: RadovanPelka/github-action-json@main
+        with:
+          path: "component.json" # default value
+
+      - run: echo "Branch - ${{ steps.packageJson.outputs.Branch }}"
+   
       - name: Read JSON file
         id: read-json
         run: |
