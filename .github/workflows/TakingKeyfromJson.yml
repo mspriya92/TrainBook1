@@ -18,11 +18,19 @@ jobs:
     steps:
       - name: Checkout entire repository
         uses: actions/checkout@v2
- 
-      - name: Read JSON file
-        id: read-json
+      - name: Checkout powershell
+        uses: actions/checkout@v3
+
+      - name: Read and parse JSON
+        uses: actions/setup-powershell@v3
+        with:
+         pwsh-version: '7.3' # or your desired PowerShell version
+
+      - name: Read JSON content
         run: |
-         json=$(Get-Content component.json -Raw)
-         code_repository=$(jq '.[0].code-repository' <<< "$json")
-         echo "code_repository: $code_repository" >> $GITHUB_ENV
+          $json = Get-Content component.json -Raw
+          $code_repository = jq '.[0].code-repository' <<< $json
+          Write-Host "code_repository: $code_repository"
+          echo "code_repository=$code_repository" >> $GITHUB_ENV
+      
      
