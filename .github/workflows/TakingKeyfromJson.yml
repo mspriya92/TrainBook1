@@ -12,16 +12,16 @@ on:
 
 jobs:
   update-json:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
 
     steps:
      
       - uses: actions/checkout@v3
-      - name: Install jq
-        run: |
-          sudo apt-get update
-          sudo apt-get install jq -y
+      #- name: Install jq
+        #run: |
+          #sudo apt-get update
+          #sudo apt-get install jq -y
    
       - name: List Json value
         run: |
