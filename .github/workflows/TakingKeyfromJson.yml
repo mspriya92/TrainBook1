@@ -26,34 +26,13 @@ jobs:
         with:
           path: "component.json" # default value
 
-      - run: echo "Branch - ${{ steps.packageJson.outputs.Branch }}"
-   
-      - name: Read JSON file
-        id: read-json
+      - name: Extract branch name
         run: |
-          json=$(cat component.json)
-          echo "json=$json" >> $GITHUB_ENV
-        shell: bash
- 
-      - name: Filter value from JSON
-        id: filter-json
-        run: |
-          filtered_value=$(echo ${{ env.json }} | jq -r '.[] | select(.Phase == 2) | .Branch')
-          echo "filtered_value=$filtered_value" >> $GITHUB_ENV
-        shell: bash
- 
-      - name: Using workflow from another repo
-        uses: actions/checkout@v2
+          branch_name=$(jq '.[] | select(.Phase == "2") | .Branch' component.json)
+          echo "branch_name=$branch_name" >> $GITHUB_ENV
+
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
-          repository: ${{ github.event.inputs.code-repository }}
-          ref: ${{ env.filtered_value }}
-          token: ${{ secrets.PAT_TOKEN }}
-          path: staging
- 
-      - name: Download and update nsi.json with secrets
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          prod_API_KEY: ${{ secrets.API_KEY }}
-        run: ./Scripts/scriptupdate.ps1
-        shell: bash
+          repository: ${{ env.branch_name }}
+          fetch-depth: 0
