@@ -23,7 +23,8 @@ jobs:
       - name: List Json value
         run: |
           cat component.json
-          branch_name=$(jq -r '.[] | select(.Phase == "2") | .Branch' component.json)
+          branch_name=$(jq -r '.[] | select(.Phase == 2) | .Branch' component.json)
+          echo "Filtered branch name: $branch_name"
           if [[ -z "$branch_name" ]]; then
             echo "No object with Phase=2 found in component.json"
             exit 1
