@@ -17,9 +17,8 @@ jobs:
     
     steps:
       - name: Checkout entire repository
-        uses: actions/checkout@v2
-      - name: Checkout powershell
         uses: actions/checkout@v3
+      
 
       - name: Read and parse JSON
         uses: actions/setup-powershell@v3
