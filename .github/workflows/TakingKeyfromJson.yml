@@ -14,9 +14,7 @@ jobs:
   update_json:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
-    outputs:
-      Jsonvalue: ${{ steps.list-json.outputs.branch_name }}
-
+    
     steps:
       - uses: actions/checkout@v3
 
@@ -29,7 +27,7 @@ jobs:
             echo "No object with Phase=2 found in component.json"
             exit 1
           else
-            echo "::set-output name=branch_name::$branch_name"
+            echo "branch_name=$branch_name" >> $GITHUB_ENV
           fi
 
       - name: Checkout repo using branch name
