@@ -6,9 +6,9 @@ on:
       environment:
         description: 'Environment to use'
         required: true
-      code-repository:
-        description: 'Provide Repo name'
-        required: true
+      #code-repository:
+        #description: 'Provide Repo name'
+        #required: true
       #code-reference:
         #description: 'Provide branch name'
         #required: true
@@ -20,20 +20,23 @@ jobs:
     steps:
       - name: Checkout entire repository
         uses: actions/checkout@v2	   
-      - name: Parse component.json
-        id: parse_json
+      - name: Read JSON file
+        id: read-json
         run: |
-           COMPONENT_BRANCH=$(jq -r '.[] | select(.Phase == "2") | .Branch' component.json)
-           echo "COMPONENT_BRANCH=$COMPONENT_BRANCH" >> $GITHUB_ENV
-        shell: powershell
-      
+           json=$(cat component.json)
+           echo "json=$json" >> $GITHUB_ENV
+      - name: Filter value from JSON
+        id: filter-json
+        run: |
+         filtered_value=$(echo ${{ env.json }} | jq -r '.[] | select(.Phase == 2) | .Branch')
+         echo "filtered_value=$filtered_value" >> $GITHUB_ENV
       - name: Using workflow from another repo
         uses: actions/checkout@v2  # Use v2 for consistency unless v4 has specific features you need
         #uses: Bhacaz/checkout-files@v2
        
         with:
           repository: ${{ github.event.inputs.code-repository }}
-          ref: ${{ env.COMPONENT_BRANCH }}
+          ref: ${{ env.filtered_value }}
           token: ${{ secrets.PAT_TOKEN }}
           path: staging
          
