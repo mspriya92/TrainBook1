@@ -16,22 +16,12 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
 
     steps:
+      - name: checkout entire repo
       - uses: actions/checkout@v3
 
-      - name: Install jq
+      - name: List Json value
         run: |
-          sudo apt-get update
-          sudo apt-get install jq -y
+           cat component.json
 
-      - name: Get values from component.json
-        id: packageJson
-        uses: RadovanPelka/github-action-json@main
-        with:
-          path: "component.json"
-
-      - name: Extract branch name
-        run: |
-          branch_name=$(jq '.[] | select(.Phase == "2") | .Branch' component.json)
-          echo "branch_name: $branch_name"
-          echo "::set-output name=branch_name::$branch_name"
+     
 
