@@ -18,16 +18,18 @@ jobs:
     steps:
      
       - uses: actions/checkout@v3
-
+      
    
       - name: List Json value
         run: |
           cat component.json
-          branch_name=$(jq '.[] | select(.Phase == "2") | .Branch' component.json)
+          branch_name=$(jq -r '.[] | select(.Phase == "2") | .Branch' component.json)
           if [[ -z "$branch_name" ]]; then
             echo "No object with Phase=2 found in component.json"
+            exit 1
           else
             echo "Branch name: $branch_name"
+            echo "branch name: $branch_name" >> $GITHUB_ENV
           fi
      
 
