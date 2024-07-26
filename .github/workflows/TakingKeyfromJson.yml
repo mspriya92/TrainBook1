@@ -20,10 +20,9 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: List Json value
-        
         run: |
           content=$(cat component.json)
-          phase2Branch=$(jq '.[] | select(.Phase == \'2\') | .Branch' <<< "$content")
+          phase2Branch=$(jq '.[] | select(.Phase == \'2\') | .Branch' <<< "$content'')
           if [[ -z "$phase2Branch" ]]; then
             echo "::warning::No object with Phase=2 found in component.json"
           else
