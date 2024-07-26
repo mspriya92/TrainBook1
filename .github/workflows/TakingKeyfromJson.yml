@@ -12,24 +12,35 @@ on:
 
 jobs:
   update-json:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
 
     steps:
      
       - uses: actions/checkout@v3
-      - name: Install jq
-        run: |
-          sudo apt-get update
-          sudo apt-get install jq -y
-
-      - name: Test jq installation
-        run: jq --version
+      
       - name: List Json value
         run: |
           cat component.json
           branch_name=$(jq -r '.[] | select(.Phase == 2) | .Branch' component.json)
-          echo "Filtered branch name: $branch_name"
+          #branch_name=$(jq -r '.[] | select(.Phase == 2) | .Branch' component.json)
+          echo "::set-output name=filtered_branch::$branch_name"
+
+      - name: Using workflow from another repo
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.inputs.code-repository }}
+          ref: ${{ outputs.filtered_branch }}
+          token: ${{ secrets.YOUR_PAT_TOKEN }}
+          path: staging  
+      - name: Download and update nsi.json with secrets
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          prod_API_KEY: ${{ secrets.API_KEY }}
+        run: ./Scripts/scriptupdate.ps1
+        shell: pwsh
+         
           
      
 
