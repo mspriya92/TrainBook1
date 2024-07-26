@@ -25,18 +25,4 @@ jobs:
           branch_name=$(jq -r '.[] | select(.Phase == 2) | .Branch' component.json)
           echo "::set-output name=filtered_branch::$branch_name"
 
-      - name: Using workflow from another repo
-        uses: actions/checkout@v2
-        with:
-          repository: ${{ github.event.inputs.code-repository }}
-          ref: ${{ outputs.filtered_branch }}
-          token: ${{ secrets.YOUR_PAT_TOKEN }}
-          path: staging
-
-      - name: Download and update nsi.json with secrets
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          prod_API_KEY: ${{ secrets.API_KEY }}
-        run: ./Scripts/scriptupdate.ps1
-       
+      
