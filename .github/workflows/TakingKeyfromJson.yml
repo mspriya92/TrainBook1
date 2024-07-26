@@ -22,16 +22,16 @@ jobs:
       - name: Read JSON file
         id: read-json
         run: |
-          json=$(cat component.json)
-          echo "json=$json" >> $GITHUB_ENV
-        shell: bash
+          $json = Get-Content component.json -Raw
+          echo "json=$json" >> $env:GITHUB_ENV
+        shell: pwsh
  
       - name: Filter value from JSON
         id: filter-json
         run: |
-          filtered_value=$(echo ${{ env.json }} | jq -r '.[] | select(.Phase == 2) | .Branch')
-          echo "filtered_value=$filtered_value" >> $GITHUB_ENV
-        shell: bash
+          $filtered_value = ($env:json | ConvertFrom-Json) | Where-Object { $_.Phase -eq 2 } | Select-Object -ExpandProperty Branch
+          echo "filtered_value=$filtered_value" >> $env:GITHUB_ENV
+        shell: pwsh
  
       - name: Using workflow from another repo
         uses: actions/checkout@v2
@@ -47,3 +47,4 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           prod_API_KEY: ${{ secrets.API_KEY }}
         run: ./Scripts/scriptupdate.ps1
+        shell: pwsh
