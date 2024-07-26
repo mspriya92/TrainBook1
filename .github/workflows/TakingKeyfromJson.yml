@@ -18,17 +18,13 @@ jobs:
     steps:
      
       - uses: actions/checkout@v3
-      #- name: Install jq
-        #run: |
-          #sudo apt-get update
-          #sudo apt-get install jq -y
       - name: Install jq
-        uses: actions/setup-chocolatey@v3
-        with:
-          chocolatey: latest
+        run: |
+          sudo apt-get update
+          sudo apt-get install jq -y
 
-      - name: Install jq
-        run: choco install jq -y
+      - name: Test jq installation
+        run: jq --version
       - name: List Json value
         run: |
           cat component.json
