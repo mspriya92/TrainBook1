@@ -18,7 +18,10 @@ jobs:
     steps:
      
       - uses: actions/checkout@v3
-      
+      - name: Install jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install jq -y
    
       - name: List Json value
         run: |
