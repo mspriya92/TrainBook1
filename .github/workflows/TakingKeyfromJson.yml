@@ -14,12 +14,14 @@ jobs:
   update-json:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
-
+    outputs: 
+      Jsonvalue: ${{ steps.list-json.outputs.branch_name }} 
     steps:
-     
+    
       - uses: actions/checkout@v3
       
       - name: List Json value
+        id: list-json
         run: |
           cat component.json
           branch_name=$(jq -r '.[] | select(.Phase == 2) | .Branch' component.json)
@@ -27,14 +29,14 @@ jobs:
             echo "No object with Phase=2 found in component.json"
             exit 1
           else
-            echo "branch_name=$branch_name" >> $GITHUB_ENV
+            echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
           fi
  
       - name: Checkout repo using branch name
         uses: actions/checkout@v3
         with:
           repository: ${{ github.event.inputs.code-repository }}
-          ref: ${{ env.branch_name }}
+          ref: ${{ outputs.Jsonvalue.branch_name }}
           token: ${{ secrets.PAT_TOKEN }}
           path: staging
       - name: Download and update nsi.json with secrets
