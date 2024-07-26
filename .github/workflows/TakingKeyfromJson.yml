@@ -22,8 +22,7 @@ jobs:
       - name: Read JSON file
         id: read-json
         run: |
-         json=$(cat component.json)
+         json=$(Get-Content component.json -Raw)
          code_repository=$(jq '.[0].code-repository' <<< "$json")
          echo "code_repository: $code_repository" >> $GITHUB_ENV
- 
      
