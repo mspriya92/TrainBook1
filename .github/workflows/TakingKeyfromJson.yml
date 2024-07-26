@@ -11,15 +11,15 @@ on:
         required: true
 
 jobs:
-  update-json:
+  update_json:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
-    outputs: 
-      Jsonvalue: ${{ steps.list-json.outputs.branch_name }} 
+    outputs:
+      Jsonvalue: ${{ steps.list-json.outputs.branch_name }}
+
     steps:
-    
       - uses: actions/checkout@v3
-      
+
       - name: List Json value
         id: list-json
         run: |
@@ -31,12 +31,12 @@ jobs:
           else
             echo "::set-output name=branch_name::$branch_name"
           fi
- 
+
       - name: Checkout repo using branch name
         uses: actions/checkout@v3
         with:
           repository: ${{ github.event.inputs.code-repository }}
-          ref: ${{ outputs.Jsonvalue.branch_name }}
+          ref: ${{ outputs.Jsonvalue }}
           token: ${{ secrets.PAT_TOKEN }}
           path: staging
       - name: Download and update nsi.json with secrets
@@ -45,4 +45,3 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           prod_API_KEY: ${{ secrets.API_KEY }}
         run: ./Scripts/scriptupdate.ps1
-      
