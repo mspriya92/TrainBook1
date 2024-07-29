@@ -48,6 +48,9 @@ jobs:
             echo "::set-output name=branch_name::$branch_name"
             echo "::set-output name=repo_name::$code_name"
           fi
+      - name: Print the values
+        run: |
+          echo "Display_branch_name: $branch_name"
  
       - name: Checkout repo using branch name
         uses: actions/checkout@v3
