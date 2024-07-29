@@ -20,13 +20,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: check jq version
-        run: |
-          jq --version
+      #- name: check jq version
+        #run: |
+          #jq --version
  
       - name: Extract branch name from JSON
         id: extract-branch
         run: |
+          jq --version
           branch_name=$(jq -r '.[] | select(.Phase == 2) | .Branch' component.json)
           code_name=$(jq -r '.[] | select(.Phase == 2) | .code' component.json)
    
@@ -49,10 +50,10 @@ jobs:
         run: |
           cd staging
           ls -la
-      - name: Download and update nsi.json with secrets
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          prod_API_KEY: ${{ secrets.API_KEY }}
-        run: ./Scripts/scriptupdate.ps1
-        shell: pwsh
+      #- name: Download and update nsi.json with secrets
+        #env:
+          #DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          #DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          #prod_API_KEY: ${{ secrets.API_KEY }}
+        #run: ./Scripts/scriptupdate.ps1
+        #shell: pwsh
