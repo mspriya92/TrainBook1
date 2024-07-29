@@ -57,17 +57,17 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ${{ github.event.inputs.code-repository }}
-          ref: ${{ needs.update_json.outputs.branch_name }}
+          ref: ${{ steps.extract-branch.outputs.branch_name }}
           token: ${{ secrets.PAT_TOKEN }}
           path: staging
       - name: List directory contents
         run: |
           cd staging
           ls -la
-      #- name: Download and update nsi.json with secrets
-        #env:
-          #DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          #DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          #prod_API_KEY: ${{ secrets.API_KEY }}
-        #run: ./Scripts/scriptupdate.ps1
-        #shell: pwsh
+      - name: Download and update nsi.json with secrets
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          prod_API_KEY: ${{ secrets.API_KEY }}
+        run: ./Scripts/scriptupdate.ps1
+        shell: pwsh
