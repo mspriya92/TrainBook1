@@ -20,6 +20,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: check jq version
+        run: |
+          jq --version
  
       - name: Extract branch name from JSON
         id: extract-branch
