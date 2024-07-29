@@ -33,14 +33,15 @@ jobs:
         shell: powershell
           
       
-      #- name: check jq version
-        #run: |
-          #jq --version
+      - name: check jq version
+        run: |
+          jq --version
  
       - name: Extract branch name from JSON
         id: extract-branch
+        shell: bash
         run: |
-          jq --version
+         
           branch_name=$(jq -r '.[] | select(.Phase == 2) | .Branch' component.json)
           code_name=$(jq -r '.[] | select(.Phase == 2) | .code' component.json)
    
