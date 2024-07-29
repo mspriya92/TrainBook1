@@ -50,8 +50,8 @@ jobs:
           fi
       - name: Print the values
         run: |
-          echo "Display_branch_name: $branch_name"
-          echo "Output_branchname: ${{ needs.update_json.outputs.branch_name }}"
+          #echo "Display_branch_name: $branch_name"
+          echo "Output_branchname: ${{ steps.extract-branch.outputs.branch_name }}"
  
       - name: Checkout repo using branch name
         uses: actions/checkout@v3
