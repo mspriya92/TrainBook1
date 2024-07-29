@@ -20,12 +20,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      
       - name: Install jq on Windows
         run: |
-          Invoke-WebRequest -Uri https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe -OutFile jq.exe
-          Move-Item -Path jq.exe -Destination 'C:\Users\10443\jq\jq.exe'
-          [Environment]::SetEnvironmentVariable('PATH', $Env:PATH + ';C:\Users\10443\jq', [System.EnvironmentVariableTarget]::Machine)
+          $jqPath = "$env:USERPROFILE\jq"
+          if (-Not (Test-Path -Path $jqPath)) {
+            New-Item -ItemType Directory -Path $jqPath
+          }
+          Invoke-WebRequest -Uri https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe -OutFile "$jqPath\jq.exe"
+          $env:PATH += ";$jqPath"
+          Write-Output "jq installed at $jqPath"
         shell: powershell
+          
       
       #- name: check jq version
         #run: |
