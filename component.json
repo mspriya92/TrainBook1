@@ -2,11 +2,13 @@
   {
     "Phase": 1,
     "code-repository": "mspriya92/sample",
-    "Branch": "main"
+    "Branch": "main",
+    "code": "example"
     },
   {
     "Phase": 2,
     "code-repository": "mspriya92/ProjectTest",
-    "Branch": "master"
+    "Branch": "master",
+    "code": "example1"
     }
 ]
