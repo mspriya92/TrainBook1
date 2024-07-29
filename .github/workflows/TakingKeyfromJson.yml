@@ -20,8 +20,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Install jq on Windows
+        run: |
+          Invoke-WebRequest -Uri https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe -OutFile jq.exe
+          Move-Item -Path jq.exe -Destination 'C:\Program Files\jq\jq.exe'
+          [Environment]::SetEnvironmentVariable('PATH', $Env:PATH + ';C:\Program Files\jq', [System.EnvironmentVariableTarget]::Machine)
+        shell: powershell
       
       #- name: check jq version
         #run: |
