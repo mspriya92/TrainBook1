@@ -23,7 +23,8 @@ $key = New-Object byte[] 32
 [Array]::Copy($keyBytes, $key, [Math]::Min($keyBytes.Length, $key.Length))
  
 # Read the file content as bytes
-$plaintext = Get-Content -Path $fileToEncrypt -Encoding UTF8
+#$plaintext = Get-Content -Path $fileToEncrypt -Encoding UTF8
+$plaintextBytes = [System.IO.File]::ReadAllBytes($fileToEncrypt) 
  
 # Create AES encryption provider
 $AESProvider = New-Object System.Security.Cryptography.AesCryptoServiceProvider
@@ -38,7 +39,7 @@ $iv = $AESProvider.IV
  
 # Encrypt the content
 $encryptor = $AESProvider.CreateEncryptor($AESProvider.Key, $iv)
-$encryptedBytes = $encryptor.TransformFinalBlock($plaintext, 0, $plaintext.Length)
+$encryptedBytes = $encryptor.TransformFinalBlock($plaintextBytes, 0, $plaintextBytes.Length)
  
 # Combine IV and encrypted data
 $combinedBytes = $iv + $encryptedBytes
