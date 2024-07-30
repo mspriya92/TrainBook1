@@ -1,6 +1,6 @@
 Param(
-    [string]$encryptedFilePath = "staging/nsi_encrypted.json"
-    [string]$decryptedFilePath = "staging/nsi_decrypted.json"
+    [string]$encryptedFilePath = "staging/nsi_encrypted.json",
+    [string]$decryptedFilePath = "staging/nsi_decrypted.json",
     [string]$encryptedKeyBase64 = "EtQ8V5KHb5d//DsjSklYVIJi8xmfDOYNwKHmgVI2Ix3JahiQNJZZRLO1jWOuwDwa"
 )
  
