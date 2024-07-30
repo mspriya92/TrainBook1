@@ -41,3 +41,7 @@ jobs:
         run: .\.github\Test\Devcode.ps1
         #run: ./Scripts/scriptupdate.ps1
 
+      - name: decrypt the value 
+        
+        run: .\.github\Test\Decrypt.ps1
+
