@@ -71,3 +71,7 @@ jobs:
           prod_API_KEY: ${{ secrets.API_KEY }}
         run: ./Scripts/scriptupdate.ps1
         shell: pwsh
+
+      - name: checkout Reponew
+        uses: actions/checkout@v3
+      
