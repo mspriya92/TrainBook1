@@ -45,3 +45,6 @@ jobs:
         
         run: .\.github\Test\Decrypt.ps1
 
+      - name: Checkout new repository
+        uses: actions/checkout@v2	   
+
