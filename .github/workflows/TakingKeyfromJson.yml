@@ -83,16 +83,20 @@ jobs:
           $CONFIGJSONCODE = "${{ steps.extract-branch.outputs.code_name }}"
           $concatoutput = "sb/$($CONFIGJSONBRANCH)/$($CONFIGJSONCODE)_encrypted.json"
           $filepath = "Scripts/$($CONFIGJSONCODE).json"
+          
+          # Assuming $concatoutput contains the path to the json file, read its content
+          $jsonContent = Get-Content -Path $CONFIGJSONCODE -Raw
+    
+          # Write the content to Scripts/jsonoutput.json
+          $outputFilePath = "Scripts/jsonoutput.json"
+          $jsonContent | Out-File -FilePath $outputFilePath -Encoding utf8
+          
           Write-Output "$filepath"
           $CONFIGJSONCODE | Out-File -FilePath $filepath
+          
           Write-Output "$concatoutput"
           $sharename = "$env:CLIENTNAME"
           $filesharename = "${sharename}share"
-          Write-Output "$filesharename"
+          Write-Output "$filesharename"     
 
-
-          
-
-     
-       
-      
+    
