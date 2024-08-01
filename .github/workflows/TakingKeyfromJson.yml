@@ -75,8 +75,8 @@ jobs:
 
       - name: Azure check
         run: |
-          $CONFIGJSONBRANCH=${{ steps.extract-branch.outputs.branch_name }}
-          $CONFIGJSONCODE=${{ steps.extract-branch.outputs.code_name }}
+          $CONFIGJSONBRANCH = "${{ steps.extract-branch.outputs.branch_name }}"
+          $CONFIGJSONCODE = "${{ steps.extract-branch.outputs.code_name }}"
           $concatoutput = "sb/$CONFIGJSONBRANCH/$CONFIGJSONCODE_encrypted.json"
           Write-Output "$concatoutput"
           #$shareSuffix = "share"
