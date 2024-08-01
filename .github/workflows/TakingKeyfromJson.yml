@@ -79,13 +79,12 @@ jobs:
         env:
           CLIENTNAME: ${{ vars.CLIENTNAME }}
         run: |
-          $CONFIGJSONBRANCH = "${{ steps.extract-branch.outputs.branch_name }}"
-          $CONFIGJSONCODE = "${{ steps.extract-branch.outputs.code_name }}"
+          $CONFIGJSONBRANCH=${{ steps.extract-branch.outputs.branch_name }}
+          $CONFIGJSONCODE=${{ steps.extract-branch.outputs.code_name }}
           $concatoutput = "sb/$($CONFIGJSONBRANCH)/$($CONFIGJSONCODE)_encrypted.json"
           Write-Output "$concatoutput"
-          #$shareSuffix = "share"
           $sharename = "$env:CLIENTNAME"
-          $filesharename = "${sharename}share"
+          $filesharename = ${sharename}share
           Write-Output "$filesharename"
        
       
