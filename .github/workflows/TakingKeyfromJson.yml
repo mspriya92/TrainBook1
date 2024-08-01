@@ -77,10 +77,10 @@ jobs:
         run: |
           $CONFIGJSONBRANCH=${{ steps.extract-branch.outputs.branch_name }}
           $CONFIGJSONCODE=${{ steps.extract-branch.outputs.code_name }}
-          concatoutput = "sb/$($CONFIGJSONBRANCH)/$($CONFIGJSONCODE)_encrypted.json"
+          $concatoutput = "sb/$CONFIGJSONBRANCH/$CONFIGJSONCODE_encrypted.json"
           Write-Output "$concatoutput"
-          $shareSuffix = "share"
-          $sharename = ${{ vars.CLIENTNAME }}
-          $filesharename = $sharename-$shareSuffix
+          #$shareSuffix = "share"
+          #$sharename = ${{ vars.CLIENTNAME }}
+          #$filesharename = $sharename-$shareSuffix
         shell: pwsh
       
