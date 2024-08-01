@@ -85,8 +85,8 @@ jobs:
           $filepath = "Scripts/$($CONFIGJSONCODE).json"
           
           # Assuming $concatoutput contains the path to the json file, read its content
-          $jsonContent = Get-Content -Path $CONFIGJSONCODE -Raw
-          #$jsonContent = Get-Content -Path $filepath -Raw
+          #$jsonContent = Get-Content -Path $CONFIGJSONCODE -Raw
+          $jsonContent = Get-Content -Path $filepath -Raw
 
     
           # Write the content to Scripts/jsonoutput.json
