@@ -77,7 +77,7 @@ jobs:
         run: |
           $CONFIGJSONBRANCH=${{ steps.extract-branch.outputs.branch_name }}
           $CONFIGJSONCODE=${{ steps.extract-branch.outputs.code_name }}
-          $concatoutput= "sb/$($CONFIGJSONBRANCH)$($CONFIGJSONCODE)_encrypted.json"
+          concatoutput = "sb/$($CONFIGJSONBRANCH)/$($CONFIGJSONCODE)_encrypted.json"
           Write-Output "$concatoutput"
           
       
