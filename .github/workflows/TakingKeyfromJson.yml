@@ -46,7 +46,7 @@ jobs:
             exit 1
           else
             echo "::set-output name=branch_name::$branch_name"
-            echo "::set-output name=repo_name::$code_name"
+            echo "::set-output name=code_name::$code_name"
           fi
       - name: Print the values
         run: |
