@@ -54,10 +54,7 @@ jobs:
           #echo "Display_branch_name: $branch_name"
           echo "Output_branchname: ${{ steps.extract-branch.outputs.branch_name }}"
           echo "Output_codename: ${{ steps.extract-branch.outputs.code_name }}"
-      - name: list the directory
-        run: |
-           echo "${GITHUB_WORKSPACE}"
-           ls -R
+      
       - name: Checkout repo using branch name
         uses: actions/checkout@v3
         with:
@@ -68,6 +65,7 @@ jobs:
       - name: List directory contents
         run: |
           cd staging
+          echo "${GITHUB_WORKSPACE}"
           ls -la
       - name: Download and update nsi.json with secrets
         env:
