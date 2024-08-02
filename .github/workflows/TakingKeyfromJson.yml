@@ -76,16 +76,17 @@ jobs:
           prod_API_KEY: ${{ secrets.API_KEY }}
         run: ./Scripts/scriptupdate.ps1
         shell: pwsh
-
+      
+      #Works in self host runner
       - name: Azure check
         shell: pwsh
         env:
           CLIENTNAME: ${{ vars.CLIENTNAME }}
         run: |
-          $CONFIGJSONBRANCH = "${{ steps.extract-branch.outputs.branch_name }}"
-          $CONFIGJSONCODE = "${{ steps.extract-branch.outputs.code_name }}"
-          $concatoutput = "sb/$($CONFIGJSONBRANCH)/$($CONFIGJSONCODE)_encrypted.json"
-          $concatoutputnew = "$($CONFIGJSONCODE)_encrypted.json"
+          #$CONFIGJSONBRANCH = "${{ steps.extract-branch.outputs.branch_name }}"
+          #$CONFIGJSONCODE = "${{ steps.extract-branch.outputs.code_name }}"
+          #$concatoutput = "sb/$($CONFIGJSONBRANCH)/$($CONFIGJSONCODE)_encrypted.json"
+          #$concatoutputnew = "$($CONFIGJSONCODE)_encrypted.json"
           $sharename = "$env:CLIENTNAME"
           $filesharename = "${sharename}share"
           $filepath = "Scripts/$($CONFIGJSONCODE).json"
