@@ -54,7 +54,8 @@ jobs:
           #echo "Display_branch_name: $branch_name"
           echo "Output_branchname: ${{ steps.extract-branch.outputs.branch_name }}"
           echo "Output_codename: ${{ steps.extract-branch.outputs.code_name }}"
- 
+      - name: list the directory
+        run: ls -R
       #- name: Checkout repo using branch name
         #uses: actions/checkout@v3
         #with:
