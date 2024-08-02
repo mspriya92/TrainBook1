@@ -50,7 +50,3 @@ jobs:
           cd .\.github\Test
           zip -r Test.zip *
           cd ..
-
-      - name: Checkout new repository
-        uses: actions/checkout@v2	   
-
