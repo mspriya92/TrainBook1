@@ -55,25 +55,27 @@ jobs:
           echo "Output_branchname: ${{ steps.extract-branch.outputs.branch_name }}"
           echo "Output_codename: ${{ steps.extract-branch.outputs.code_name }}"
       - name: list the directory
-        run: ls -R
-      #- name: Checkout repo using branch name
-        #uses: actions/checkout@v3
-        #with:
-          #repository: ${{ github.event.inputs.code-repository }}
-          #ref: ${{ steps.extract-branch.outputs.branch_name }}
-          #token: ${{ secrets.PAT_TOKEN }}
-          #path: staging
-      #- name: List directory contents
-        #run: |
-          #cd staging
-          #ls -la
-      #- name: Download and update nsi.json with secrets
-        #env:
-          #DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          #DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          #prod_API_KEY: ${{ secrets.API_KEY }}
-        #run: ./Scripts/scriptupdate.ps1
-        #shell: pwsh
+        run: |
+           echo "${GITHUB_WORKSPACE}"
+           ls -R
+      - name: Checkout repo using branch name
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.inputs.code-repository }}
+          ref: ${{ steps.extract-branch.outputs.branch_name }}
+          token: ${{ secrets.PAT_TOKEN }}
+          path: staging
+      - name: List directory contents
+        run: |
+          cd staging
+          ls -la
+      - name: Download and update nsi.json with secrets
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          prod_API_KEY: ${{ secrets.API_KEY }}
+        run: ./Scripts/scriptupdate.ps1
+        shell: pwsh
 
       - name: Azure check
         shell: pwsh
