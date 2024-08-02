@@ -88,5 +88,5 @@ jobs:
           $filesharename = "${sharename}share"
           $filepath = "Scripts/$($CONFIGJSONCODE).json"
           
-          Write-Host "Copying file from $concatoutputnew  to $ filepath"     
+          Write-Host "Copying file from $concatoutputnew  to $filepath"     
           Copy-Item -Path $concatoutputnew -Destination $filepath -Force
