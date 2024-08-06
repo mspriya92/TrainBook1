@@ -10,6 +10,7 @@ $json = Get-Content -Path $fileToEncrypt -Raw | ConvertFrom-Json
 $json.Sphere.DockerUsername = "$env:DOCKER_USERNAME"
 $json.Sphere.DockerPassword = "$env:DOCKER_PASSWORD"
 $json.Sphere.APIkey = "$env:prod_API_KEY"
+$json.Sphere.APIvalue = "$env:prod_API_VALUE"
 $json | ConvertTo-Json | Set-Content -Path $fileToEncrypt
 
 # Generate a secure key (replace 'MySuperSecretKey!' with a valid 256-bit key in Base64 encoding)
