@@ -45,8 +45,4 @@ jobs:
         
         run: .\.github\Test\Decrypt.ps1
 
-      - name: Zip the Test folder
-        run: |
-          cd .\.github\Test
-          zip -r Test.zip *
-          cd ..
+     
