@@ -39,6 +39,7 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           prod_API_KEY: ${{ secrets.API_KEY }}
           prod_API_VALUE: ${{ secrets.API_VALUE }}
+          prod_APICONFIG: ${{ secrets.APPCONFIGENDPOINT }}
         run: .\.github\Test\Devcode.ps1
         #run: ./Scripts/scriptupdate.ps1
 
