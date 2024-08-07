@@ -3,7 +3,15 @@ param (
     [string]$fileToEncrypt = "staging/nsi.json",
 	   [string]$encryptedFile = "staging/nsi_encrypted.json"
     )
- 
+# Extract the endpoint URL from the APPCONFIGENDPOINT environment variable
+$APPCONFIGENDPOINT = $env:APPCONFIGENDPOINT
+if ($APPCONFIGENDPOINT -match "Endpoint=([^;]+);") {
+    $endpointUrl = $matches[1]
+} else {
+    Write-Error "APPCONFIGENDPOINT format is incorrect. Expected format: Endpoint=<URL>;Id=<ID>;Secret=<Secret>"
+    exit 1
+}
+
 # Update nsi.json with secrets
 echo "Updating nsi.json with secrets"
 $json = Get-Content -Path $fileToEncrypt -Raw | ConvertFrom-Json
@@ -11,7 +19,8 @@ $json.Sphere.DockerUsername = "$env:DOCKER_USERNAME"
 $json.Sphere.DockerPassword = "$env:DOCKER_PASSWORD"
 $json.Sphere.APIkey = "$env:prod_API_KEY"
 $json.Sphere.APIvalue = "$env:prod_API_VALUE"
-$json.Sphere.APIconfig = "$env:prod_APICONFIG"
+#$json.Sphere.APIconfig = "$env:prod_APICONFIG"
+$json.Sphere.AppConfigEndpoint = $endpointUrl
 $json | ConvertTo-Json | Set-Content -Path $fileToEncrypt
 
 # Generate a secure key (replace 'MySuperSecretKey!' with a valid 256-bit key in Base64 encoding)
