@@ -33,6 +33,7 @@ jobs:
           path: staging
       
       - name: checking the input condn
+        shell: bash
         run: |
           if [[ "${{ inputs.environment }}" == "dev" || ( "${{ inputs.environment }}" == "Prod" && "${{ inputs.code-repository }}" == "mspriya92/ProjectTest" ) ]]; then
             echo "Successfully logged in"
