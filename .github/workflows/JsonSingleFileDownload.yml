@@ -33,7 +33,7 @@ jobs:
           path: staging
       - name: checking the input condn
         run: |
-         if [[ ${{inputs.environment == "Dev" }} || [[ ${{inputs.environment == "Prod" }} && ${{inputs.code-repository == "mspriya92/ProjectTest" }}]] ]]
+         if [[ ${{inputs.environment == "dev" }} || [[ ${{inputs.environment == "Prod" }} && ${{inputs.code-repository == "mspriya92/ProjectTest" }}]] ]]
          
       
       - name: Download and update nsi.json with secrets
