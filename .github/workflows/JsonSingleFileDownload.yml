@@ -12,13 +12,18 @@ on:
       code-reference:
         description: 'Provide branch name'
         required: true
+      Phase:
+        description: 'Provide phase name'
+        required: true
+      
       
  
 jobs:
   update-json:
     runs-on: self-hosted
-    if: ${{ inputs.environment == 'dev' }} || (${{ inputs.environment == 'Prod' }} && ${{ inputs.repository == 'mspriya92/TrainBook1' }})
+    #if: ${{ inputs.Phase == '1' }} || (${{ inputs.Phase == 'Prod' }} && ${{ inputs.repository == 'mspriya92/TrainBook1' }})
     #if: [[ "${{ inputs.environment }}" == "dev" || ( "${{ inputs.environment }}" == "Prod" && "${{ inputs.code-repository }}" == "mspriya92/ProjectTest" ) ]]
+    if: ${{ (inputs.Phase == 2) || (inputs.Phase == 2 && inputs.code-repository == 'mspriya92/ProjectTest') }}
     #environment: ${{ github.event.inputs.environment }}
     steps:
       - name: Checkout entire repository
