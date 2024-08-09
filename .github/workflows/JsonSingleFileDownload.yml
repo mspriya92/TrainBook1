@@ -1,4 +1,4 @@
-ho name: JsonSingleFileDownload
+name: JsonSingleFileDownload
  
 on:
   workflow_dispatch:
@@ -31,14 +31,15 @@ jobs:
           ref: ${{ github.event.inputs.code-reference }}
           token: ${{ secrets.PAT_TOKEN }}
           path: staging
+      
       - name: checking the input condn
         run: |
-         if [[ "${{ inputs.environment }}" == "dev" || ( "${{ inputs.environment }}" == "Prod" && "${{ inputs.code-repository }}" == "mspriya92/ProjectTest" ) ]]; then
-           echo "Successfully logged in"
-         else
-           echo "Error"
-           exit 1
-         fi
+          if [[ "${{ inputs.environment }}" == "dev" || ( "${{ inputs.environment }}" == "Prod" && "${{ inputs.code-repository }}" == "mspriya92/ProjectTest" ) ]]; then
+            echo "Successfully logged in"
+          else
+            echo "Error"
+            exit 1
+          fi  
            
       - name: Download and update nsi.json with secrets
         #working-directory: staging\nsi.json
