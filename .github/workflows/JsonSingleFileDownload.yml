@@ -17,7 +17,9 @@ on:
 jobs:
   update-json:
     runs-on: self-hosted
-    environment: ${{ github.event.inputs.environment }}
+    if: ${{ inputs.environment == 'dev' }}
+    #if: [[ "${{ inputs.environment }}" == "dev" || ( "${{ inputs.environment }}" == "Prod" && "${{ inputs.code-repository }}" == "mspriya92/ProjectTest" ) ]]
+    #environment: ${{ github.event.inputs.environment }}
     steps:
       - name: Checkout entire repository
         uses: actions/checkout@v2	   
@@ -32,15 +34,7 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
           path: staging
       
-      - name: checking the input condn
-        shell: bash
-        run: |
-          if [[ "${{ inputs.environment }}" == "dev" || ( "${{ inputs.environment }}" == "Prod" && "${{ inputs.code-repository }}" == "mspriya92/ProjectTest" ) ]]; then
-            echo "Successfully logged in"
-          else
-            echo "Error"
-            exit 1
-          fi  
+     
            
       - name: Download and update nsi.json with secrets
         #working-directory: staging\nsi.json
