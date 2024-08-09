@@ -1,4 +1,4 @@
-name: JsonSingleFileDownload
+ho name: JsonSingleFileDownload
  
 on:
   workflow_dispatch:
@@ -34,7 +34,7 @@ jobs:
       - name: checking the input condn
         run: |
          if [[ ${{inputs.environment == 'dev' }} || [[ ${{inputs.environment == 'Prod' }} && ${{inputs.code-repository == 'mspriya92/ProjectTest' }}]] ]]
-         
+         echo "Successfully logged in"
       
       - name: Download and update nsi.json with secrets
         #working-directory: staging\nsi.json
