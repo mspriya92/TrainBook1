@@ -34,7 +34,7 @@ jobs:
       - name: checking the input condn
         run: |
          if [[ "${{ inputs.environment }}" == "dev" || ( "${{ inputs.environment }}" == "Prod" && "${{ inputs.code-repository }}" == "mspriya92/ProjectTest" ) ]]; then
-         echo "Successfully logged in"
+           echo "Successfully logged in"
          fi
            
       - name: Download and update nsi.json with secrets
