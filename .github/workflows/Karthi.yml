@@ -11,7 +11,7 @@ jobs:
       - name: Set version
         id: set_version
         run: |
-           echo "outputcheck=Compo" >> $GITHUB_OUTPUT
+           echo "outputcheck=Compo" >> $GITHUB_ENV
  
   deploy:
     needs: build
