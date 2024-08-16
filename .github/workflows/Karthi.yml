@@ -11,9 +11,13 @@ jobs:
       output2: ${{ steps.step2.outputs.test }}
     steps:
       - id: step1
-        run: echo "test=hello" >> $GITHUB_ENV
+        run: |
+           echo "test=hello" >> $GITHUB_ENV
+           echo "test=hello" >> $GITHUB_OUTPUT
       - id: step2
-        run: echo "test=world" >> $GITHUB_ENV
+        run: |
+           echo "test=world" >> $GITHUB_ENV
+           echo "test=world" >> $GITHUB_OUTPUT
  
   print_outputs:
     needs: job1
