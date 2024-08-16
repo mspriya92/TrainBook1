@@ -3,7 +3,7 @@ name: WorkflowRun_check
 on:
   workflow_run:
    workflows: [Run Tests]
-   types: [completed]
+   types: [requested]
  
 jobs:
   job1:
