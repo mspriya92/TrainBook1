@@ -1,0 +1,14 @@
+name: WorkflowRun_check
+ 
+on:
+  workflow_run:
+   workflows: [Run Tests]
+   types: [completed]
+ 
+jobs:
+  job1:
+    runs-on: self-hosted
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: 'Run_java'
+        run: echo "the workflow is running"
