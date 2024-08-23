@@ -5,4 +5,4 @@ on:
 jobs:
   Call-workflow-in-local-repo:
     #uses: mspriya92/TrainBook/.github/workflows/reusable-workflow.yml@main
-    uses: dsidevops2024/TrainBook/.github/workflows/greetings.yml@main
+    uses: DSIDevops2024/TrainBook/.github/workflows/greetings.yml@main
