@@ -1,6 +1,6 @@
 name: Build Workflow
 on:
-  workflow_dispatch
+  workflow_dispatch:
 
 jobs:
   Call-workflow-in-local-repo:
