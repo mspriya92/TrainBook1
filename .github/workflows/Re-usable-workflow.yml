@@ -1,24 +1,27 @@
 name: Re-usable-workflow
-on: 
+on:
   workflow_dispatch:
+ 
 jobs:
   fetch-and-output-info:
-     runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
  
-     steps:
-       - name: Checkout repository
-         uses: actions/checkout@v3
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
  
-       - name: Read Component.json
-         id: read-json
-         run: |
-           components=$(cat component.json)
-           echo "::set-output name=components::$components"
-
-       - name: Output components as table
-         id: output-table
-         run: |
-           echo "$COMPONENTS" | jq -r '.[] | [.Phase, .["code-repository"], .Branch, .code] | @tsv' | column -t -s $'\t' > components_table.txt
-           cat components_table.txt
-         env:
-          COMPONENTS: ${{ steps.read-json.outputs.components }}
+    - name: Read Component.json
+      id: read-json
+      run: |
+        # Read the JSON file and escape it properly for bash
+        components=$(cat component.json | jq -c)
+        echo "::set-output name=components::$components"
+ 
+    - name: Output components as table
+      id: output-table
+      run: |
+        # Convert the escaped JSON string back to a normal JSON format and output it as a table
+        echo "${COMPONENTS}" | jq -r '.[] | [.Phase, .["code-repository"], .Branch, .code] | @tsv' | column -t -s $'\t' > components_table.txt
+        cat components_table.txt
+      env:
+        COMPONENTS: ${{ steps.read-json.outputs.components }}
