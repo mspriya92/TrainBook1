@@ -3,21 +3,29 @@ on:
   workflow_dispatch:
 jobs:
   fetch-and-output-info:
-     runs-on: ubuntu-latest
- 
-     steps:
-       - name: Checkout repository
-         uses: actions/checkout@v3
- 
-       - name: Read Component.json
-         id: read-json
-         run: |
-           components=$(cat component.json)
-           echo "::set-output name=components::$components"
- 
-       - name: Fetch commit 
-         id: fetch_commit_value
-         run: |
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Read Component.json
+        id: read-json
+        run: |
+          components=$(cat component.json || echo '[]')  # Empty array if file not found
+          if [[ $? -ne 0 ]]; then
+            echo "Error: Failed to read component.json"
+            exit 1
+          fi
+
+          # Check for valid JSON using jq (optional)
+          if ! jq . <<< "$components"; then
+            echo "Error: Invalid JSON format in component.json"
+            exit 1
+          fi
+
+      - name: Fetch commit 
+        id: fetch_commit_value
+        run: |
           components=$(echo "${{ steps.read-json.outputs.components }}")
 
           # Loop through each component in the JSON array
@@ -26,8 +34,9 @@ jobs:
             Branch=$(echo "$component" | jq -r '.Branch')
             code=$(echo "$component" | jq -r '.code')
 
-            # Store values in environment variables
-            echo "::set-env name=COMPONENT_PHASE::$Phase"
-            echo "::set-env name=COMPONENT_BRANCH::$Branch"
-            echo "::set-env name=COMPONENT_CODE::$code"
+            
+            # Perform actions using the fetched values (e.g., echo)
+            echo "Component Phase: $Phase"
+            echo "Component Branch: $Branch"
+            echo "Component Code: $code"
           done
