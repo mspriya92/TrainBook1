@@ -34,10 +34,11 @@ jobs:
         env: 
           JFROG_URL: ${{ vars.JFROG_URL }}
           JFROG_USER: ${{ vars.JFROG_USER }}
-          JFROG_TOKEN: ${{ vars.JFROG_TOKEN }}
+          JFROG_API_KEY: ${{ vars.JFROG_API_KEY }}
+          #JFROG_TOKEN: ${{ vars.JFROG_TOKEN }}
       #- name: upload artifact to Jfrog
       - run: |
-          jf rt config --url ${{ vars.JFROG_URL }} --user ${{ vars.JFROG_USER }} --apikey ${{ vars.JFROG_TOKEN }}
+          jf rt config --url ${{ vars.JFROG_URL }} --user ${{ vars.JFROG_USER }} --apikey ${{ vars.JFROG_API_KEY }}
           # Consider specifying the exact WAR file name(s) instead of a wildcard
           jf rt upload "staging/TrainBook-1.0.0-SNAPSHOT.war" "JVM"
      
