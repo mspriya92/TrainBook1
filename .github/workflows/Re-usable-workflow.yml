@@ -18,9 +18,16 @@ jobs:
        - name: Fetch commit 
          id: fetch_commit_value
          run: |
-            components=$(echo "${{ steps.read-json.outputs.components }}" | jq -c '.[]')
-            for component in $components; do
-             Phase=$(echo "$component" | jq -r '.Phase')
-             Branch=$(echo "$component" | jq -r '.Branch')
-             code=$(echo "$component" | jq -r '.code')
-            done
+          components=$(echo "${{ steps.read-json.outputs.components }}")
+
+          # Loop through each component in the JSON array
+          for component in $(echo "$components" | jq -r '.[]'); do
+            Phase=$(echo "$component" | jq -r '.Phase')
+            Branch=$(echo "$component" | jq -r '.Branch')
+            code=$(echo "$component" | jq -r '.code')
+
+            # Store values in environment variables
+            echo "::set-env name=COMPONENT_PHASE::$Phase"
+            echo "::set-env name=COMPONENT_BRANCH::$Branch"
+            echo "::set-env name=COMPONENT_CODE::$code"
+          done
