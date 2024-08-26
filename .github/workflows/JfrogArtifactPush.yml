@@ -30,7 +30,7 @@ jobs:
           path: staging
 
       - name: Set up JFrog CLI
-        uses: artifacts/setup-jfrog@v4
+        uses: jfrog/setup-jfrog-cli@v4
         with:
           server: ${{ vars.JFROG_URL }}
           user: ${{ vars.JFROG_USER }}
