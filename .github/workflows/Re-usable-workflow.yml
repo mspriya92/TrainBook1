@@ -1,0 +1,24 @@
+name: Re-usable-workflow
+on: 
+  workflow_dispatch:
+jobs:
+  fetch-and-output-info:
+     runs-on: self-hosted
+
+     steps:
+       - name: Checkout repository
+         uses: actions/checkout@v3
+
+       - name: Read Component.json
+         id: read-json
+         run: |
+           components=$(cat component.json)
+           echo "::set-output name=components::$components"
+
+       - name: Fetch commit 
+         id: fetch_commit_value
+         run: |
+            components=$(echo "${{ steps.read-json.outputs.components }}" | jq -c '.[]')
+            
+         
+     
