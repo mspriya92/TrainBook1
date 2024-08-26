@@ -18,4 +18,8 @@ jobs:
        - name: Fetch commit 
          id: fetch_commit_value
          run: |
-            components=$(echo "${{ steps.read-json.outputs.components }}" | jq -c '.[]' | default([]))
+            components=$(echo "${{ steps.read-json.outputs.components }}" | jq -c '.[]')
+            for component in $components; do
+            Phase=$(echo "$component" | jq -r '.Phase')
+            Branch=$(echo "$component" | jq -r '.Branch')
+            code=$(echo "$component" | jq -r '.code')
