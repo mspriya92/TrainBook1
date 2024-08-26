@@ -18,7 +18,11 @@ jobs:
        - name: Fetch commit 
          id: fetch_commit_value
          run: |
-            components=$(echo "${{ steps.read-json.outputs.components }}" | jq -c '.[]')
-            
+          if [[ -n "{{ steps.read-json.outputs.components }}" ]]; then
+            components=$(echo "{{ steps.read-json.outputs.components }}" | jq -c '.[]')
+          else
+            # Handle the case where components are empty (optional)
+            echo "No components found!"
+          fi
          
      
