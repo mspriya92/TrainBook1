@@ -15,5 +15,26 @@ jobs:
       run: |
         TEMP_FILE=$(mkdir)
         #add headers to result file
-        echo -e ""
+        echo -e "Phase\tcode-repository\tBranch\tcode" >> $TEMP_FILE
         #Read and process each component
+        jq -c '.[]' component.json | while IFS= read -r component; do
+          PHASE=$(echo "$component" | jq -r '.Phase')
+          CODE-REPOSITORY=$(echo "$component" | jq -r '.code-repository')
+          BRANCH=$(echo "$component" | jq -r '.Branch')
+          CODE=$(echo "$component" | jq -r '.code')
+
+          #output results to tem file
+          echo -e "${PHASE}\t${CODE-REPOSITORY}\t${BRANCH}\t${CODE}" >> $TEMP_FILE
+        done
+        #Converttab-separated
+        {
+          #print table header
+          printf "+-----------------------+---------------------------+-----------------------+----------------------+\n"
+          printf "| %-21s  | %-24s  | %-18  | %-26s  | %-22s  |\n" "Phase" "code-repository" "Branch" "code"
+          printf "+-----------------------+---------------------------+-----------------------+----------------------+\n"
+
+          #Print table rows
+          awk -F'\t' '{ printf "| %-21s | %-24s | %-18s | %-26s | %-22s |\n", $1, $2, $3, $4 }' $TEMP_FILE
+          #print table foorter
+          printf "+-----------------------+---------------------------+-----------------------+----------------------+\n"
+        } > output.txt
