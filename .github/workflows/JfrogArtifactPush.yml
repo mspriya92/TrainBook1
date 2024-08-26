@@ -28,11 +28,15 @@ jobs:
         with:
           name: web-app
           path: staging
+
       - name: Set up JFrog CLI
-        run: |
-          curl -fL https://getcli.jfrog.io | sh
-          ./jfrog rt config --url ${{ vars.JFROG_URL }} --user ${{ vars.JFROG_USER }} --apikey ${{ vars.JFROG_TOKEN }}
- 
+        uses: actions/setup-jfrog@v3
+        with:
+          server: ${{ vars.JFROG_URL }}
+          user: ${{ vars.JFROG_USER }}
+          password: ${{ secrets.JFROG_TOKEN }}  # Use secret for secure storage
       - name: Upload artifact to JFrog
         run: |
-          ./jfrog rt upload "staging/*.war" "JVM"
+          # Consider specifying the exact WAR file name(s) instead of a wildcard
+          ./jfrog rt upload "staging/TrainBook-1.0.0-SNAPSHOT.war" "JVM"
+     
