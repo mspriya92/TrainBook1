@@ -1,0 +1,19 @@
+name: Reusable2
+on:
+  workflow_dispatch:
+ 
+jobs:
+  process-components:
+    runs-on: self-hosted
+ 
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: process component.json
+      id: process_json
+      run: |
+        TEMP_FILE=$(mkdir)
+        #add headers to result file
+        echo -e ""
+        #Read and process each component
