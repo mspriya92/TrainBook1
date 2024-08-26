@@ -18,5 +18,4 @@ jobs:
        - name: Fetch commit 
          id: fetch_commit_value
          run: |
-            echo "${{ steps.read-json.outputs.components }}" 
-            #| jq -c '.[]')
+            components=$(echo "${{ steps.read-json.outputs.components }}" | jq -c '.[]' | default([]))
