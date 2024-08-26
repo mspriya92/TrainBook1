@@ -31,12 +31,8 @@ jobs:
 
       - name: Set up JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
-        with:
-          server: ${{ vars.JFROG_URL }}
-          user: ${{ vars.JFROG_USER }}
-          password: ${{ secrets.JFROG_TOKEN }}  # Use secret for secure storage
-      - name: Upload artifact to JFrog
-        run: |
+      - run: |
+          jq rt config --url ${{ vars.JFROG_URL }} --user ${{ vars.JFROG_USER }} --apikey ${{ secrets.JFROG_TOKEN }}
           # Consider specifying the exact WAR file name(s) instead of a wildcard
           jf rt upload "staging/TrainBook-1.0.0-SNAPSHOT.war" "JVM"
      
