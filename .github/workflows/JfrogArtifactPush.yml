@@ -32,7 +32,7 @@ jobs:
       - name: Set up JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
       - run: |
-          jf rt config --url ${{ vars.JFROG_URL }} --user ${{ vars.JFROG_USER }} --apikey ${{ secrets.JFROG_TOKEN }}
+          jf rt c --url ${{ vars.JFROG_URL }} --user ${{ vars.JFROG_USER }} --apikey ${{ secrets.JFROG_TOKEN }}
           # Consider specifying the exact WAR file name(s) instead of a wildcard
           jf rt upload "staging/TrainBook-1.0.0-SNAPSHOT.war" "JVM"
      
