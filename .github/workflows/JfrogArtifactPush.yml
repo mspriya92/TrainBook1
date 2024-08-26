@@ -24,4 +24,4 @@ jobs:
  
       - name: Upload artifact to JFrog
         run: |
-          ./jfrog rt upload "target/*.war" "your-repository/path/"
+          ./jfrog rt upload "target/*.war" "JVM"
