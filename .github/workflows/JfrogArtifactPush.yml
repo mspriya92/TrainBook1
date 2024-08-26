@@ -38,5 +38,5 @@ jobs:
       - name: Upload artifact to JFrog
         run: |
           # Consider specifying the exact WAR file name(s) instead of a wildcard
-          ./jfrog rt upload "staging/TrainBook-1.0.0-SNAPSHOT.war" "JVM"
+          jf rt upload "staging/TrainBook-1.0.0-SNAPSHOT.war" "JVM"
      
