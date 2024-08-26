@@ -1,25 +1,25 @@
 name: Re-usable-workflow
-on: 
+on:
   workflow_dispatch:
+
 jobs:
   fetch-and-output-info:
-     runs-on: ubuntu-latest
-     outputs:
-      output1: ${{ steps.read-json.outputs.components }}
-     steps:
-       - name: Checkout repository
-         uses: actions/checkout@v3
+    runs-on: ubuntu-latest
+    outputs:
+      components: ${{ steps.read-json.outputs.components }}  # Corrected output name
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-       - name: Read Component.json
-         id: read-json
-         run: |
-           components=$(cat component.json)
-           echo "components=$components" >> $GITHUB_OUTPUT
+      - name: Read Component.json
+        id: read-json
+        run: |
+          components=$(cat component.json)
+          echo "components=\"$components\"" >> $GITHUB_OUTPUT # Added quotes
 
-       - name: Fetch commit 
-         id: fetch_commit_value
-         run: |
-            components=$(echo "${{ outputs.output1 }}" | jq -c '.[]')
-            echo "components=$components"
-         
+      - name: Fetch commit 
+        id: fetch_commit_value
+        run: |
+          components=$(echo "${{ steps.read-json.outputs.components }}" | jq -c '.[]')  # Corrected reference
+          echo "components=\"$components\""  # Added quotes
      
