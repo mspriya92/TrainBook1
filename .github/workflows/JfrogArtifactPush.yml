@@ -20,7 +20,7 @@ jobs:
       - name: Set up JFrog CLI
         run: |
           curl -fL https://getcli.jfrog.io | sh
-          ./jfrog rt config --url ${{ vars.JFROG_URL }} --user ${{ varss.JFROG_USER }} --apikey ${{ vars.JFROG_API_KEY }}
+          ./jfrog rt config --url ${{ vars.JFROG_URL }} --user ${{ vars.JFROG_USER }} --apikey ${{ vars.JFROG_API_KEY }}
  
       - name: Upload artifact to JFrog
         run: |
