@@ -16,22 +16,12 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-      - name: Create staging directory and copy .war
+          
+      - name: Set up JFrog CLI
         run: |
-          mkdir staging
-          cp target/*.war staging/
-      - name: Publish Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: web-app
-          path: staging
-      - name: Listing the Staging directory
-        run : ls -R 
-        working-directory: /home/runner/work/TicketReservation/TicketReservation/staging
-      - name: Set up Jfrog CLI
-        env: 
-          JFROG_URL:
-          JFROG_USER:
-          JFROG_API_KEY: 
+          curl -fL https://getcli.jfrog.io | sh
+          ./jfrog rt config --url ${{ vars.JFROG_URL }} --user ${{ varss.JFROG_USER }} --apikey ${{ vars.JFROG_API_KEY }}
+ 
+      - name: Upload artifact to JFrog
         run: |
-          ./jfrog rt config
+          ./jfrog rt upload "target/*.war" "your-repository/path/"
