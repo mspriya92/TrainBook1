@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -16,12 +16,23 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-          
+      - name: Listing the target directory
+        run : ls -R 
+        working-directory: /home/runner/work/TicketReservation/TicketReservation/target
+      - name: Create staging directory and copy .war
+        run: |
+          mkdir staging
+          cp target/*.war staging/
+      - name: Publish Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: web-app
+          path: staging
       - name: Set up JFrog CLI
         run: |
           curl -fL https://getcli.jfrog.io | sh
-          ./jfrog rt config --url ${{ vars.JFROG_URL }} --user ${{ vars.JFROG_USER }} --apikey ${{ vars.JFROG_API_KEY }}
+          ./jfrog rt config --url ${{ vars.JFROG_URL }} --user ${{ vars.JFROG_USER }} --apikey ${{ vars.JFROG_TOKEN }}
  
       - name: Upload artifact to JFrog
         run: |
-          ./jfrog rt upload "target/*.war" "JVM"
+          ./jfrog rt upload "staging/*.war" "JVM"
