@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -31,13 +31,13 @@ jobs:
 
       - name: Set up JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
-        with: 
+        env: 
           JFROG_URL: ${{ vars.JFROG_URL }}
           JFROG_USER: ${{ vars.JFROG_USER }}
           JFROG_TOKEN: ${{ vars.JFROG_TOKEN }}
-      - name: upload artifact to Jfrog
-        run: |
-          #jf rt config --url ${{ vars.JFROG_URL }} --user ${{ vars.JFROG_USER }} --apikey ${{ secrets.JFROG_TOKEN }}
+      #- name: upload artifact to Jfrog
+      - run: |
+          jf rt config --url ${{ env.JFROG_URL }} --user ${{ env.JFROG_USER }} --apikey ${{ env.JFROG_TOKEN }}
           # Consider specifying the exact WAR file name(s) instead of a wildcard
           jf rt upload "staging/TrainBook-1.0.0-SNAPSHOT.war" "JVM"
      
