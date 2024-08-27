@@ -1,0 +1,44 @@
+name: Push Build to Artifactory
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout Code
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      # Set up JFrog CLI using OIDC (or access token if preferred)
+      - name: Set up JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v4
+       
+        env:
+          JF_URL: ${{ vars.ARTIFACTORY_URL }}
+         
+          JF_ACCESS_TOKEN: ${{ vars.ARTIFACTORY_ACCESS_TOKEN }}
+
+      # Add server configuration (optional, if using `jf c add`)
+      - name: Add Server Configuration
+        run: |
+          export SERVER_ID="test"
+          jf c add $SERVER_ID --url=$URL --access-token=$ACCESS_TOKEN --interactive=false
+
+      # Create and upload test file
+      - name: Create and Upload Test File
+        run: |
+          echo "test file" > test.txt
+          export BUILD_NAME="my-build"
+          export BUILD_MODULE="my-module"
+          export BUILD_NUMBER="1"
+          export PATH_TO_DIRECTORY="name/version/dates"
+          jf rt upload "test.txt" example-repo-local/$PATH_TO_DIRECTORY --build-name $BUILD_NAME --build-number $BUILD_NUMBER --module $BUILD_MODULE
+
+      # Publish build information and delete older builds
+      - name: Publish Build Information and Delete Older Builds
+        run: |
+          jf rt build-publish $BUILD_NAME $BUILD_NUMBER
+          jf rt bdi c --max-builds=1
