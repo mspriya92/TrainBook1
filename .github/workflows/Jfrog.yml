@@ -1,4 +1,4 @@
-name: Push Build to Artifactory
+name: jfrog
 
 on: 
   workflow_dispatch:
