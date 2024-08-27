@@ -17,16 +17,11 @@ jobs:
         uses: jfrog/setup-jfrog-cli@v4
        
         env:
-          JF_URL: ${{ vars.ARTIFACTORY_URL }}
+          JF_URL: ${{ vars.JFROG_URL }}
          
-          JF_ACCESS_TOKEN: ${{ vars.ARTIFACTORY_ACCESS_TOKEN }}
+          JF_ACCESS_TOKEN: ${{ vars.JFROG_TOKEN }}
 
-      # Add server configuration (optional, if using `jf c add`)
-      - name: Add Server Configuration
-        run: |
-          export SERVER_ID="test"
-          jf c add $SERVER_ID --url=$URL --access-token=$ACCESS_TOKEN --interactive=false
-
+     
       # Create and upload test file
       - name: Create and Upload Test File
         run: |
