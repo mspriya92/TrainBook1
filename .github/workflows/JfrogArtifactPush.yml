@@ -23,36 +23,12 @@ jobs:
         run: |
           mkdir staging
           cp target/*.war staging/
-      - name: Publish Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: web-app
-          path: staging
-
-      - name: Set up JFrog CLI
+      - name: Publish Artifact to JFrog Artifactory
         uses: jfrog/setup-jfrog-cli@v4
-        env: 
-          JFROG_URL: ${{ vars.JFROG_URL }}
-          #JFROG_USER: ${{ vars.JFROG_USER }}
-          JFROG_API_KEY: ${{ vars.JFROG_API_KEY }}
-          #JFROG_TOKEN: ${{ vars.JFROG_TOKEN }}
-      - name: Create and Upload Test File
-        run: |
-          echo "test file" > test.txt
-          export BUILD_NAME="my-build"
-          export BUILD_MODULE="my-module"
-          export BUILD_NUMBER="1"
-          export PATH_TO_DIRECTORY="name/version/dates"
-          jf rt upload "test.txt" example-repo-local/$PATH_TO_DIRECTORY --build-name $BUILD_NAME --build-number $BUILD_NUMBER --module $BUILD_MODULE
-
-      # Publish build information and delete older builds
-      - name: Publish Build Information and Delete Older Builds
-        run: |
-          jf rt build-publish $BUILD_NAME $BUILD_NUMBER
-          jf rt bdi c --max-builds=1
-      #- name: upload artifact to Jfrog
+        with:
+          server-id: your-artifactory-server-id
+        env:
+          JF_URL: ${{ vars.JFROG_URL }}
+          JF_ACCESS_TOKEN: ${{ vars.JFROG_TOKEN }}
       - run: |
-          jf config --url ${{ vars.JFROG_URL }} --user ${{ vars.JFROG_USER }} --apikey ${{ vars.JFROG_API_KEY }}
-          # Consider specifying the exact WAR file name(s) instead of a wildcard
-          jf rt upload "staging/TrainBook-1.0.0-SNAPSHOT.war" "JVM"
-     
+          jf rt upload staging/your-artifact.war jvm-repo/com.example/your-artifact/1.0.0/your-artifact-1.0.0.war --build-name your-build-name --build-number your-build-number --module your-build-module
