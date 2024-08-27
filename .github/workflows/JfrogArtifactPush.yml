@@ -33,9 +33,23 @@ jobs:
         uses: jfrog/setup-jfrog-cli@v4
         env: 
           JFROG_URL: ${{ vars.JFROG_URL }}
-          JFROG_USER: ${{ vars.JFROG_USER }}
+          #JFROG_USER: ${{ vars.JFROG_USER }}
           JFROG_API_KEY: ${{ vars.JFROG_API_KEY }}
           #JFROG_TOKEN: ${{ vars.JFROG_TOKEN }}
+      - name: Create and Upload Test File
+        run: |
+          echo "test file" > test.txt
+          export BUILD_NAME="my-build"
+          export BUILD_MODULE="my-module"
+          export BUILD_NUMBER="1"
+          export PATH_TO_DIRECTORY="name/version/dates"
+          jf rt upload "test.txt" example-repo-local/$PATH_TO_DIRECTORY --build-name $BUILD_NAME --build-number $BUILD_NUMBER --module $BUILD_MODULE
+
+      # Publish build information and delete older builds
+      - name: Publish Build Information and Delete Older Builds
+        run: |
+          jf rt build-publish $BUILD_NAME $BUILD_NUMBER
+          jf rt bdi c --max-builds=1
       #- name: upload artifact to Jfrog
       - run: |
           jf config --url ${{ vars.JFROG_URL }} --user ${{ vars.JFROG_USER }} --apikey ${{ vars.JFROG_API_KEY }}
