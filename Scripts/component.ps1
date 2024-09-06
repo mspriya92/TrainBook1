@@ -1,5 +1,5 @@
 # Define the URL to the raw JSON file on GitHub
-$rawFileUrl = "https://raw.githubusercontent.com/username/repository/main/path/to/component.json"
+$rawFileUrl = "https://github.com/mspriya92/TrainBook1/blob/main/component.json"
  
 # Download the JSON file content
 $jsonContent = Invoke-RestMethod -Uri $rawFileUrl
