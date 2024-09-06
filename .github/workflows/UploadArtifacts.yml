@@ -17,4 +17,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: output-file
-          path: staging
+          path: component-data.txt
