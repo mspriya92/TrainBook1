@@ -12,9 +12,9 @@ on:
       code-reference:
         description: 'Provide branch name'
         required: true
-      Phase:
-        description: 'Provide phase name'
-        required: true
+      #Phase:
+        #description: 'Provide phase name'
+        #required: true
       
       
  
