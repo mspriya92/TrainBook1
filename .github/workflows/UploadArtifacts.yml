@@ -12,6 +12,7 @@ jobs:
 
       - name: Run componrnt.json
         run: ./Scripts/component.ps1
+        shell: pwsh
 
       - name: Publish Artifact
         uses: actions/upload-artifact@v3
