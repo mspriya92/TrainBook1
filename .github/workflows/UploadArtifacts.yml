@@ -9,3 +9,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+
+      - 
+
+      - name: Publish Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: web-app
+          path: staging
