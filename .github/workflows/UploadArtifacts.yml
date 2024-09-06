@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run componrnt.json
-        run: .\.github\Scripts\component.ps1
+        run: ./Scripts/component.ps1
 
       - name: Publish Artifact
         uses: actions/upload-artifact@v3
