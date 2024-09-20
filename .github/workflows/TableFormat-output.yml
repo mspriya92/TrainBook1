@@ -13,6 +13,7 @@ jobs:
     - name: Process component.json
       id: process_json
       run: |
+        $env:Path += ";C:\ProgramData\chocolatey\bin"
         # Create a temporary file
         TEMP_FILE=$(mktemp)
  
