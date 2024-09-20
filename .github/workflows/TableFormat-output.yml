@@ -1,0 +1,48 @@
+name: TableFormat-output
+on:
+  workflow_dispatch:
+ 
+jobs:
+  process-components:
+    runs-on: self-hosted
+ 
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+ 
+    - name: Process component.json
+      id: process_json
+      run: |
+        # Create a temporary file
+        TEMP_FILE=$(mktemp)
+ 
+        # Add headers to the result file
+        echo -e "Phase\tcode-repository\tBranch\tcode" >> $TEMP_FILE
+ 
+        # Read and process each component
+        jq -c '.[]' component.json | while IFS= read -r component; do
+          PHASE=$(echo "$component" | jq -r '.Phase')
+          CODE_REPOSITORY=$(echo "$component" | jq -r '.["code-repository"]')  # Correct variable naming to avoid syntax errors
+          BRANCH=$(echo "$component" | jq -r '.Branch')
+          CODE=$(echo "$component" | jq -r '.code')
+ 
+          # Output results to temp file
+          echo -e "${PHASE}\t${CODE_REPOSITORY}\t${BRANCH}\t${CODE}" >> $TEMP_FILE
+        done
+ 
+        # Convert tab-separated values to a formatted table
+        {
+          # Print table header
+          printf "+-------+-----------------------+----------------+-----------+\n"
+          printf "| %-5s | %-21s | %-14s | %-9s |\n" "Phase" "code-repository" "Branch" "code"
+          printf "+-------+-----------------------+----------------+-----------+\n"
+ 
+          # Print table rows
+          awk -F'\t' '{ printf "| %-5s | %-21s | %-14s | %-9s |\n", $1, $2, $3, $4 }' $TEMP_FILE
+ 
+          # Print table footer
+          printf "+-------+-----------------------+----------------+-----------+\n"
+        } > output.txt
+ 
+        # Display the output table
+        cat output.txt
