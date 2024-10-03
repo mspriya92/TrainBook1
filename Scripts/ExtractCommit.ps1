@@ -1,11 +1,12 @@
 # Create a temporary file to store output
-$TEMP_FILE = [System.IO.Path]::GetTempFileName()
+$tempFile = "tempFile.txt"
+#$TEMP_FILE = [System.IO.Path]::GetTempFileName()
 
 # Add headers to the result file
-"Phase`tcode-repository`tBranch`tcode" | Out-File -FilePath $TEMP_FILE -Encoding utf8
+"Phase`tcode-repository`tBranch`tcode" | Out-File -FilePath $tempFile -Encoding utf8
 
 # Load the JSON content from component.json
-$components = Get-Content -Raw -Path component.json | ConvertFrom-Json
+$components = Get-Content -Raw -Path 'component.json' | ConvertFrom-Json
 
 # Loop through each component in the JSON array
 foreach ($component in $components) {
@@ -15,7 +16,7 @@ foreach ($component in $components) {
     $CODE = $component.code
 
 # Output results to temp file in tab-separated format
-"$PHASE`t$CODE_REPOSITORY`t$BRANCH`t$CODE" | Out-File -FilePath $TEMP_FILE -Append -Encoding utf8
+"$PHASE`t $CODE_REPOSITORY`t $BRANCH`t $CODE`t" | Out-File -FilePath $tempFile -Append -Encoding utf8
 }
 $header = @"
 +----------------------+-------------------------+--------------------+---------------------+
@@ -27,7 +28,7 @@ $header = @"
 $header | Out-File -FilePath "output.txt" -Encoding utf8
 
 # Read the temporary file and format each line as a table row
-Get-Content -Path $TEMP_FILE | ForEach-Object {
+Get-Content -Path $tempFile | ForEach-Object {
     if ($_ -ne "Phase`tcode-repository`tBranch`tcode`t") {
         # Split columns by tab and trim whitespace
         $columns = $_ -split "`t" | ForEach-Object { $_.Trim() }
@@ -41,6 +42,6 @@ Get-Content -Path $TEMP_FILE | ForEach-Object {
  }
 
 # Define the table footer (not used in this example)
-$footer = "+----------------------+-------------------------+--------------------+---------------------+"
+$footer = "+-----------------+--------------------+-----------------+---------------------+"
 
-$footer | Out-File -FilePath output.txt -Encoding utf8
+$footer | Out-File -FilePath "output.txt" -Append -Encoding utf8
