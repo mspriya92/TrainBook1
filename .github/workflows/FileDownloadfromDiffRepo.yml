@@ -21,7 +21,7 @@ jobs:
           $repo = "${{ github.event.inputs.code-repository }}"
           $branch = "${{ github.event.inputs.code-reference }}"
           $token = "${{ secrets.PAT_TOKEN }}"
-$baseUrl = "https://raw.githubusercontent.com/$repo/$branch/"
+          $baseUrl = "https://raw.githubusercontent.com/$repo/$branch/"
  
           foreach ($file in $files) {
             $url = "$baseUrl$file"
