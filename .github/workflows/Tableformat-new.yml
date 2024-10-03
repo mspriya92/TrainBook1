@@ -24,12 +24,10 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
        name: summary-artifact
-       path: Output.txt
+       path: output.txt
 
     - name: Display summary in the summary
       run: |
           echo "## Summary" >> $env:GITHUB_STEP_SUMMARY
-          cat Output.txt >> $env:GITHUB_STEP_SUMMARY
-   
- 
-      
+          #cat Output.txt >> $env:GITHUB_STEP_SUMMARY
+          Get-Content output.txt | Out-String >> $env:GITHUB_STEP_SUMMARY      
