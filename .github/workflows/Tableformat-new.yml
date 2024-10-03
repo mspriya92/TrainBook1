@@ -18,7 +18,7 @@ jobs:
       run: 
         # Display the output table
         Get-Content -Path output.txt
-      shell: pwsh
+      shell: powershell
       
     - name: Upload Summary
       uses: actions/upload-artifact@v3
