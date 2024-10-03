@@ -11,8 +11,8 @@ jobs:
  
     - name: Process component.json
       #id: process_json
-      shell: powershell  # Use PowerShell Core (pwsh) for the script
       run: .\.github\Scripts\ExtractCommit.ps1
+      shell: pwsh  # Use PowerShell Core (pwsh) for the script
         
     - name: click to view the commit info in table
       run: 
