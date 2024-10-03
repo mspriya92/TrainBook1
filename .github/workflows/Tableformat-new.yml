@@ -33,13 +33,12 @@ jobs:
 
           # Output results to temp file in tab-separated format
           "$PHASE`t$CODE_REPOSITORY`t$BRANCH`t$CODE" | Out-File -FilePath $TEMP_FILE -Append -Encoding utf8
-         }
-
-          $header = @"
-          +----------------------+-------------------------+--------------------+---------------------+
-          | Phase                | code-repository         | Branch             | code                |
-          +----------------------+-------------------------+--------------------+---------------------+
-          "@
+}
+$header = @"
++----------------------+-------------------------+--------------------+---------------------+
+| Phase                | code-repository         | Branch             | code                |
++----------------------+-------------------------+--------------------+---------------------+
+"@
 
           # Print table header to output.txt
           $header | Out-File -FilePath "output.txt" -Encoding utf8
