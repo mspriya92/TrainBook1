@@ -34,7 +34,7 @@ Get-Content -Path $tempFile | ForEach-Object {
         $columns = $_ -split "`t" | ForEach-Object { $_.Trim() }
 
          # Format each column with appropriate width
-        $formattedRow = "| {0,-29} | {1,-29} | {2,-45} | {3,-45} |" -f $columns[0], $columns[1], $columns[2], $columns[3]
+        $formattedRow = "| {0,-20} | {1,-25} | {2,-25} | {3,-25} |" -f $columns[0], $columns[1], $columns[2], $columns[3]
 
          # Add row to output file
          $formattedRow | Out-File -FilePath "output.txt" -Append -Encoding utf8
