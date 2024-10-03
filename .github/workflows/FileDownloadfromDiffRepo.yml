@@ -3,9 +3,9 @@ name: FileDownloadfromDiffRepo
 on:
   workflow_dispatch:
     inputs:
-      environment:
-        description: 'Environment to use'
-        required: true
+      #environment:
+        #description: 'Environment to use'
+        #required: true
       code-repository:
         description: 'Provide Repo name'
         required: true
@@ -30,8 +30,8 @@ jobs:
         #uses: actions/checkout@v2	   
       
       - name: Using workflow from another repo
-        uses: actions/checkout@v2  # Use v2 for consistency unless v4 has specific features you need
-        #uses: Bhacaz/checkout-files@v2
+        #uses: actions/checkout@v2  # Use v2 for consistency unless v4 has specific features you need
+        uses: Bhacaz/checkout-files@v2
        
         with:
           repository: ${{ github.event.inputs.code-repository }}
