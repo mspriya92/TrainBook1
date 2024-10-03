@@ -3,39 +3,28 @@ name: FileDownloadfromDiffRepo
 on:
   workflow_dispatch:
     inputs:
-      #environment:
-        #description: 'Environment to use'
-        #required: true
+      
       code-repository:
         description: 'Provide Repo name'
         required: true
       code-reference:
         description: 'Provide branch name'
         required: true
-      #Phase:
-        #description: 'Provide phase name'
-        #required: true
       
       
  
 jobs:
   update-json:
     runs-on: self-hosted
-    #if: ${{ inputs.Phase == '1' }} || (${{ inputs.Phase == 'Prod' }} && ${{ inputs.repository == 'mspriya92/TrainBook1' }})
-    #if: [[ "${{ inputs.environment }}" == "dev" || ( "${{ inputs.environment }}" == "Prod" && "${{ inputs.code-repository }}" == "mspriya92/ProjectTest" ) ]]
-    #if: ${{ (inputs.Phase == 2) || (inputs.Phase == 2 && inputs.code-repository == 'mspriya92/ProjectTest') }}
-    environment: ${{ github.event.inputs.environment }}
+    
     steps:
-      #- name: Checkout entire repository
-        #uses: actions/checkout@v2	   
+      
       
       - name: Using workflow from another repo
-        #uses: actions/checkout@v2  # Use v2 for consistency unless v4 has specific features you need
         uses: Bhacaz/checkout-files@v2
-       
         with:
           repository: ${{ github.event.inputs.code-repository }}
-          ref: ${{ github.event.inputs.code-reference }}
+          branch: ${{ github.event.inputs.code-reference }}
           token: ${{ secrets.PAT_TOKEN }}
           path: staging
           files: |
