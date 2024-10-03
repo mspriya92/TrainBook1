@@ -1,35 +1,49 @@
-name: FileDownloadfromDiffRepo
- 
+name: FileDownloadFromDiffRepo
 on:
   workflow_dispatch:
     inputs:
-      
       code-repository:
-        description: 'Provide Repo name'
+        description: 'Repository to check out files from'
         required: true
+        default: 'mspriya92/ProjectTest'
       code-reference:
-        description: 'Provide branch name'
+        description: 'Branch or tag to check out'
         required: true
-      
-      
+        default: 'master'
  
 jobs:
   update-json:
     runs-on: self-hosted
-    
     steps:
-      
-      
-      - name: Using workflow from another repo
-        uses: Bhacaz/checkout-files@v2
-        with:
-          repository: ${{ github.event.inputs.code-repository }}
-          branch: ${{ github.event.inputs.code-reference }}
-          token: ${{ secrets.PAT_TOKEN }}
-          path: staging
-          files: |
-             nsi.json
-             test.ps1
+      - name: Download specific files from another repository
+        run: |
+          $files = @("nsi.json", "test.ps1")
+          $repo = "${{ github.event.inputs.code-repository }}"
+          $branch = "${{ github.event.inputs.code-reference }}"
+          $token = "${{ secrets.PAT_TOKEN }}"
+$baseUrl = "https://raw.githubusercontent.com/$repo/$branch/"
+ 
+          foreach ($file in $files) {
+            $url = "$baseUrl$file"
+            $outputPath = "staging/$file"
+ 
+            # Create the staging directory if it doesn't exist
+            New-Item -ItemType Directory -Path "staging" -Force
+ 
+            # Download the file
+            try {
+              Invoke-WebRequest -Uri $url -OutFile $outputPath -Headers @{Authorization = "token $token"}
+              Write-Host "Downloaded $file to $outputPath"
+            } catch {
+              Write-Host "Failed to download $file from $url"
+              exit 1
+            }
+          }
+ 
+      - name: Verify downloaded files
+        run: |
+          echo "Files in staging directory:"
+          ls staging  # List the files in the staging directory
            
       
      
