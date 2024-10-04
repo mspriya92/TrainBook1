@@ -9,20 +9,20 @@ $components = Get-Content -Raw -Path 'component.json' | ConvertFrom-Json
  
 # Loop through each component in the JSON array
 foreach ($component in $components) {
-    $Phase = $component.Phase
-    $code_repository = $component.'code-repository'
-    $Branch = $component.Branch
-    $code = $component.code
+    $PHASE = $component.Phase
+    $CODE_REPOSITORY = $component.'code-repository'
+    $BRANCH = $component.Branch
+    $CODE = $component.code
  
     # Output results to temp file in tab-separated format
-    "Phase`t code-repository`t Branch`t code" | Out-File -FilePath $tempFile -Append -Encoding utf8
+    "$PHASE`t$CODE_REPOSITORY`t$BRANCH`t$CODE" | Out-File -FilePath $tempFile -Append -Encoding utf8
 }
  
 # Format the table
 $header = @"
-+----------------------+-------------------------+-------------------------+------------------------+
-| Phase                | code-repository         | Branch                  | code                   |
-+----------------------+-------------------------+-------------------------+------------------------+
++----------------------+-------------------------+-------------------------+-------------------------+
+| Phase                | code-repository         | Branch                  | code                    |
++----------------------+-------------------------+-------------------------+-------------------------+
 "@
  
 # Print table header to output.txt
@@ -43,5 +43,5 @@ Get-Content -Path $tempFile | ForEach-Object {
 }
  
 # Define the table footer
-$footer = "+--------------------+-----------------------+-----------------------+-----------------------+"
+$footer = "+----------------------+-------------------------+-------------------------+-------------------------+"
 $footer | Out-File -FilePath "output.txt" -Append -Encoding utf8
