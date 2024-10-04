@@ -10,7 +10,7 @@ $components = Get-Content -Raw -Path 'component.json' | ConvertFrom-Json
 # Loop through each component in the JSON array
 foreach ($component in $components) {
     $Phase = $component.Phase
-    $code-repository = $component.'code-repository'
+    $code_repository = $component.'code-repository'
     $Branch = $component.Branch
     $code = $component.code
  
