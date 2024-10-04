@@ -2,27 +2,27 @@
 $tempFile = "tempFile.txt"
  
 # Add headers to the temp file
-"Phase`tcode-repository`tBranch`tcode" | Out-File -FilePath $tempFile -Encoding utf8
+"Phase`t code-repository`t Branch`t code" | Out-File -FilePath $tempFile -Encoding utf8
  
 # Load the JSON content from component.json
 $components = Get-Content -Raw -Path 'component.json' | ConvertFrom-Json
  
 # Loop through each component in the JSON array
 foreach ($component in $components) {
-    $PHASE = $component.Phase
-    $CODE_REPOSITORY = $component.'code-repository'
-    $BRANCH = $component.Branch
-    $CODE = $component.code
+    $Phase = $component.Phase
+    $code-repository = $component.'code-repository'
+    $Branch = $component.Branch
+    $code = $component.code
  
     # Output results to temp file in tab-separated format
-    "$PHASE`t$CODE_REPOSITORY`t$BRANCH`t$CODE" | Out-File -FilePath $tempFile -Append -Encoding utf8
+    "Phase`t code-repository`t Branch`t code" | Out-File -FilePath $tempFile -Append -Encoding utf8
 }
  
 # Format the table
 $header = @"
-+----------------------+-------------------------+-------------------------+-------------------------+
-| Phase                | code-repository         | Branch                  | code                    |
-+----------------------+-------------------------+-------------------------+-------------------------+
++----------------------+-------------------------+-------------------------+------------------------+
+| Phase                | code-repository         | Branch                  | code                   |
++----------------------+-------------------------+-------------------------+------------------------+
 "@
  
 # Print table header to output.txt
@@ -30,7 +30,7 @@ $header | Out-File -FilePath "output.txt" -Encoding utf8
  
 # Read the temporary file and format each line as a table row
 Get-Content -Path $tempFile | ForEach-Object {
-    if ($_ -ne "Phase`tcode-repository`tBranch`tcode") {
+    if ($_ -ne "Phase`t code-repository`t Branch`t code") {
         # Split columns by tab and trim whitespace
         $columns = $_ -split "`t" | ForEach-Object { $_.Trim() }
  
@@ -43,5 +43,5 @@ Get-Content -Path $tempFile | ForEach-Object {
 }
  
 # Define the table footer
-$footer = "+----------------------+-------------------------+-------------------------+-------------------------+"
+$footer = "+--------------------+-----------------------+-----------------------+-----------------------+"
 $footer | Out-File -FilePath "output.txt" -Append -Encoding utf8
