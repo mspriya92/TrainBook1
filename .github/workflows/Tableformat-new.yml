@@ -29,7 +29,4 @@ jobs:
     - name: Display summary in the summary
       run: |
           #echo "## Summary" >> $env:GITHUB_STEP_SUMMARY
-          #cat Output.txt >> $env:GITHUB_STEP_SUMMARY
-          Get-Content -Path output.txt | ForEach-Object {
-              Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value "$_'n"      
-          }
+          cat Output.txt >> $env:GITHUB_STEP_SUMMARY
