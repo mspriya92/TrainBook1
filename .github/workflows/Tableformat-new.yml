@@ -28,5 +28,5 @@ jobs:
 
     - name: Display summary in the summary
       run: |
-          #echo "## Summary" >> $env:GITHUB_STEP_SUMMARY
+          echo "## Summary" >> $env:GITHUB_STEP_SUMMARY
           cat Output.txt >> $env:GITHUB_STEP_SUMMARY
