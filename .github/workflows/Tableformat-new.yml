@@ -19,7 +19,7 @@ jobs:
         # Display the output table
         Get-Content -Path output.txt
       shell: powershell
-      
+   
     - name: Upload Summary
       uses: actions/upload-artifact@v3
       with:
@@ -30,4 +30,4 @@ jobs:
       run: |
           echo "## Summary" >> $env:GITHUB_STEP_SUMMARY
           #cat Output.txt >> $env:GITHUB_STEP_SUMMARY
-          Get-Content output.txt | Out-String >> $env:GITHUB_STEP_SUMMARY      
+          Get-Content output.txt | Out-String | Add-Content -Path $env:GITHUB_STEP_SUMMARY      
