@@ -21,7 +21,7 @@ foreach ($component in $components) {
 # Format the table
 $header = @"
 +----------------------+-------------------------+-------------------------+-------------------------+
-| Phase                | code-repository          | Branch                  | code                    |
+| Phase                | code-repository         | Branch                  | code                    |
 +----------------------+-------------------------+-------------------------+-------------------------+
 "@
  
