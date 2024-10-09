@@ -36,7 +36,7 @@ jobs:
 
   Notify:
     name: Notify
-    needs: Trigger
+    needs: [Trigger, Job1, Job2]
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
