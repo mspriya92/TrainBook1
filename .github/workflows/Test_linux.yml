@@ -3,8 +3,15 @@ on:
   workflow_dispatch:
 
 jobs:
+  Trigger:
+    name: Trigger job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger
+        run: echo "Trigger send"
   Job1:
     name: Test
+    needs: Trigger
     runs-on: ubuntu-latest
     steps:
       - name: Test1
@@ -20,17 +27,20 @@ jobs:
           #echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
   Job2:
     name: Test2
-    needs: Job1
+    needs: Trigger
     runs-on: ubuntu-latest
     steps:
-      - name: checking
-        run: echo "Checking the dependency"
+      - name: Test2
+        run: |
+          echo "Running Test2 job"
 
-  Job3:
-    name: Test3
+  Notify:
+    name: Notify
+    needs: Trigger
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     steps:
-      - name: checking2
-        run: echo "Checking the dependency2"
+      - name: Notify job
+        run: echo "Sending Notify job"
   
       
