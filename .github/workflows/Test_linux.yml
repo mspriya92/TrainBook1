@@ -20,6 +20,7 @@ jobs:
           #echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
   Job2:
     name: Test2
+    needs: Job1
     runs-on: ubuntu-latest
     steps:
       - name: checking
