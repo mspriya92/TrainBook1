@@ -3,18 +3,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  testJob:
+  Job1:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - id: set_var
-        run: |
-          content=`cat component.json`
+      - name: Test1
+        run: echo "Checking Job one"
+       
+      #- id: set_var
+        #run: |
+          #content=`cat component.json`
           
-          echo "::set-output name=packageJson::$content"
+          #echo "::set-output name=packageJson::$content"
         
-      - run: |
-          echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
+      #- run: |
+          #echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
   Job2:
     name: Test2
     runs-on: ubuntu-latest
