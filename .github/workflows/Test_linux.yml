@@ -33,6 +33,7 @@ jobs:
       - name: Test2
         run: |
           echo "Running Test2 job"
+          exit 31
 
   Notify:
     name: Notify
