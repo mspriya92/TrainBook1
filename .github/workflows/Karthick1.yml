@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          path: C:\Users\10443\actions-runner
+          path: E:/Githubrun
       - name: Set version
         id: set_version
         run: echo "version=1.2.3" >> $GITHUB_OUTPUT
