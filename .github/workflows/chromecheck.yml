@@ -3,11 +3,14 @@ on:
   workflow_dispatch:
 
 jobs:
- Build-chrome:
- runs on: self-hosted
- steps:
+  Build-chrome:
+   runs-on: self-hosted
+   steps:
     - name: check out repo
-      run: actions/checkout@v3
-      
+      uses: actions/checkout@v3
+
+    - name: Chrome setup
+      run: start chrome --start-fullscreen
+      #shell: cmd
 
   
