@@ -1,0 +1,13 @@
+name: chromecheck
+on:
+  workflow_dispatch:
+
+jobs:
+ Build-chrome:
+ runs on: self-hosted
+ steps:
+    - name: check out repo
+      run: actions/checkout@v3
+      
+
+  
