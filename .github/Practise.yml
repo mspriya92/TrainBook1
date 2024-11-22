@@ -1,5 +1,0 @@
-name: practise workflow
-on: 
- workflow_dispatch:
-runs-on: ubuntu-latest
-
