@@ -1,0 +1,44 @@
+name: Dotnetpractise workflow
+on:
+ workflow_dispatch:
+   inputs:
+     environment:
+       description: "select the environment you need eg:(dev, prod)"
+       type: string
+       required: true
+ schedule:
+    - cron: '* * * * *'
+ push:
+  branches:
+    - release
+  paths:
+    - ./Scripts/**
+ pull_request:
+   branches:
+     - test
+  
+jobs:
+  Sample-build:
+    runs-on: ubuntu-latest  #self-hosted
+    env: ${{ inputs.environment }} 
+       
+           
+    steps:
+      - name: check out the repo
+        uses: actions/checkout@v3
+
+      - name: setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0'
+          
+      - name: Dotnet nuget restore
+        run: dotnet restore ${{ project path }}
+
+      - name: Dotnet MSbuild build
+        run: dotnet build 
+
+      - name: Dotnet Publish
+        run: dotnet publish 
+        
+  
