@@ -8,7 +8,7 @@ on:
        required: true
  schedule:
     - cron: '* * * * *'
- push:
+ #push:
   branches:
     - release
   paths:
@@ -20,7 +20,7 @@ on:
 jobs:
   Sample-build:
     runs-on: ubuntu-latest  #self-hosted
-    env: ${{ inputs.environment }} 
+    environment: ${{ inputs.environment }} 
        
            
     steps:
@@ -33,7 +33,8 @@ jobs:
           dotnet-version: '7.0'
           
       - name: Dotnet nuget restore
-        run: dotnet restore ${{ project path }}
+        run: dotnet restore 
+        working-directory: ./src
 
       - name: Dotnet MSbuild build
         run: dotnet build 
