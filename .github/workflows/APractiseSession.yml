@@ -18,6 +18,7 @@ jobs:
 
   JobNo2:
     runs-on: self-hosted
+    needs: JobNo1
     strategy:
       matrix:
         os: [linux, ubuntu]
