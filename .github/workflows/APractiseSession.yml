@@ -11,7 +11,7 @@ jobs:
 
       - name: setting the version
         id: set-version
-        run: echo "version=3.1.1" >> $GITHUB_OUTPUT
+        run: echo "version=3.1.1" >> $env:GITHUB_OUTPUT
 
       - name: Print the statement
         run: echo "The version is ${{ steps.set-version.outputs.version}}"
