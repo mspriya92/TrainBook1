@@ -15,7 +15,7 @@ jobs:
     - name: Setting up version 
       id: set-version
       run: |
-        echo "version=3.1.0" >> $GITHUB_OUTPUT
+        echo "version=3.1.0" >> $GITHUB_ENV
         echo "::set-output name=version1::3.2.0"
         
     - name: print output in job1
