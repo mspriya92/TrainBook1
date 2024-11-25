@@ -1,3 +1,11 @@
-{
-  "Uploadtype" : "Uploadvalue"
+[
+  {
+  "env" : "Uploadvalue"
+},
+  {
+  "env" : "value1"
+},
+  {
+  "env" : "value2"
 }
+]
