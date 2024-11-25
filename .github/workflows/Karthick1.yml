@@ -4,19 +4,15 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-    outputs:
-      BUILD_VERSION: ${{ steps.set_version.outputs.version }}
+    #outputs:
+      #BUILD_VERSION: ${{ steps.set_version.outputs.version }}
     steps:
       - uses: actions/checkout@v3
         
       - name: Set version
         id: set_version
         run: echo "version=1.2.3" >> $env:GITHUB_OUTPUT
+      - name: Print the statement
+        run: echo "The final version is  ${{ steps.set_version.outputs.version }}"
  
-  deploy:
-    needs: build
-    runs-on: self-hosted
-    steps:
-      - name: Print version
-        run: |
-          echo "Build version: ${{ needs.build.outputs.BUILD_VERSION }}"
+ 
