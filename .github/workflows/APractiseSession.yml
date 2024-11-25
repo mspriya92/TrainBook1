@@ -3,7 +3,7 @@ on:
  workflow_dispatch:
 jobs:
   JobNo1:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps: 
       - name: checkout repo
@@ -14,5 +14,5 @@ jobs:
         run: echo "version=3.1.1" >> $GITHUB_OUTPUT
 
       - name: Print the statement
-        run: echo "versionis ${{ steps.set-version.outputs.version}}"
+        run: echo "The version is ${{ steps.set-version.outputs.version}}"
         
