@@ -1,0 +1,18 @@
+name: APractiseSession workflow
+on: 
+ workflow_dispatch:
+jobs:
+  JobNo1:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: checkout repo
+        uses: actions/checkout@v3
+
+      - name: setting the version
+        id: set-version
+        run: echo "version=3.1.1" >> $GITHUB_OUTPUT
+
+      - name: Print the statement
+        run: echo "versionis ${{ steps.set-version.outputs.version}}"
+        
