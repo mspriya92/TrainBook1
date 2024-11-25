@@ -1,0 +1,20 @@
+name: practise workflow
+on: 
+ workflow_dispatch:
+
+jobs:
+ Build-App:
+  runs-on: ubuntu-latest
+  outputs: ${{ steps.set-matrix.outputs.comp}}
+
+
+  steps:
+    - name: check out repo
+      uses: actions/checkout@v3
+      
+    - name: choosing component 
+      id: set-component
+      run: echo "comp="
+      
+      
+      
