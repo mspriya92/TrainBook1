@@ -15,9 +15,11 @@ jobs:
     - name: Setting up version 
       id: set-version
       run: |
-        echo "version=3.1.0" >> $GITHUB_ENV
         echo "version=3.1.0" >> $GITHUB_OUTPUT
-        echo "Job1 output is ${{ steps.set-version.outputs.version }}"
+        echo "::set-output name=version::3.1.0"
+        
+    - name: print output in job1
+      run: echo "Job1 output is ${{ steps.set-version.outputs.version }}"
      
  Deploy-App:
    runs-on: ubuntu-latest
