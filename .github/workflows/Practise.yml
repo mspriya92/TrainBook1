@@ -5,8 +5,9 @@ on:
 jobs:
  Build-App:
   runs-on: ubuntu-latest
-  outputs: 
-    VERSION: ${{ steps.set-version.outputs.version }}
+  outputs: ${{ steps.set-version.outputs.version }}
+
+    #VERSION: ${{ steps.set-version.outputs.version }}
 
   steps:
     - name: check out repo
