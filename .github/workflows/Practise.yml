@@ -4,9 +4,9 @@ on:
 
 jobs:
  Build-App:
-  runs-on: self-hosted
-  outputs: 
-     VERSION: ${{ steps.set-version.outputs.version }}
+  runs-on: ubuntu-latest
+  #outputs: 
+     #VERSION: ${{ steps.set-version.outputs.version }}
 
   steps:
     - name: check out repo
