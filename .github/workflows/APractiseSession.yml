@@ -15,7 +15,7 @@ jobs:
         id: set-version
         #run: echo "version=3.1.1" >> $env:GITHUB_OUTPUT
         run: |
-          echo "env= ./example1_encrypted.json | jq -c" >> $env:GITHUB_OUTPUT
+          echo "env=$(cat ./example1_encrypted.json | jq -c)" >> $env:GITHUB_OUTPUT
 
       - name: Print the statement
         run: echo "The version is ${{ steps.set-version.outputs.env}}"
