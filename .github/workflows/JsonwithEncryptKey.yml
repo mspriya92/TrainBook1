@@ -30,7 +30,7 @@ jobs:
         $json.Sphere.DockerUsername = "$env:DOCKER_USERNAME"
         $json.Sphere.DockerPassword = "$env:DOCKER_PASSWORD"
         $json.Sphere.APIkey = "$env:prod_API_KEY"
-        $json.Sphere.Keyvaultvalue = "$env:Keyvaultvalue"
+        $json.Sphere.Keyvaultvalue = "$env:Keyvaultvalue" + "success-01"
         $json | ConvertTo-Json | Set-Content -Path nsinew.json
       shell: powershell
  
