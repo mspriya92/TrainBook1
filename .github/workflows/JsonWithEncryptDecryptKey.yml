@@ -23,7 +23,8 @@ jobs:
         Keyvaultvalue: ${{ vars.KEYVAULT }}
       run: |
         echo "Downloading nsi.json from external source"
-        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mspriya92/TrainBook1/main/nsi.json" -OutFile "nsinew.json"
+        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mspriya92/ProjectTest/refs/heads/master/nsi.json" -OutFile "nsinew.json"
+        #Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mspriya92/TrainBook1/main/nsi.json" -OutFile "nsinew.json"
         
         echo "Updating nsi.json with secrets"
         $json = Get-Content nsinew.json -Raw | ConvertFrom-Json
