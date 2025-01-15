@@ -1,14 +1,15 @@
 name: deployphase
 
 on:
-  workflow_call:
-    outputs:
-      firstword:
-        description: "The first output string from NewReusable"
-        value: ${{ jobs.job1.outputs.firstword }}
-      secondword:
-        description: "The second output string from NewReusable"
-        value: ${{ jobs.job1.outputs.secondword }}
+  workflow_dispatch:
+  #workflow_call:
+    #outputs:
+      #firstword:
+        #description: "The first output string from NewReusable"
+        #value: ${{ jobs.job1.outputs.firstword }}
+      #secondword:
+        #description: "The second output string from NewReusable"
+        #value: ${{ jobs.job1.outputs.secondword }}
 
 jobs:
   job1:
