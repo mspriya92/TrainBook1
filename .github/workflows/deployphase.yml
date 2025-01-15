@@ -1,0 +1,23 @@
+name: deployphase
+
+on:
+  workflow_call:
+    outputs:
+      firstword:
+        description: "The first output string from NewReusable"
+        value: ${{ jobs.job1.outputs.firstword }}
+      secondword:
+        description: "The second output string from NewReusable"
+        value: ${{ jobs.job1.outputs.secondword }}
+
+jobs:
+  job1:
+    uses: ./.github/workflows/NewReusable.yml  # Calls NewReusable workflow
+
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - run: |
+          echo "First Word from NewReusable: ${{ needs.job1.outputs.firstword }}"
+          echo "Second Word from NewReusable: ${{ needs.job1.outputs.secondword }}"
