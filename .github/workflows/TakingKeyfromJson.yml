@@ -92,6 +92,3 @@ jobs:
           Write-Host "Copying file from $concatoutputnew  to $filepath"     
           Copy-Item -Path $concatoutputnew -Destination $filepath -Force
 
-Cannot bind argument to parameter 'Path' because it is null.
-
-Cannot bind argument to parameter 'Path' because it is null.
