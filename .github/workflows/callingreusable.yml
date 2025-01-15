@@ -8,7 +8,7 @@ jobs:
   #runs-on: ubuntu-latest
     #uses: octo-org/example-repo/.github/workflows/called-workflow.yml@v1
     #uses: mspriya92/TrainBook1/.github/workflows/Newreusable-workflow.yml@main
-    uses: ./.github/workflows/Newreusable.yml
+    uses: ./.github/workflows/workflow1.yml
 
   job2:
     runs-on: ubuntu-latest
