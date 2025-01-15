@@ -15,4 +15,6 @@ jobs:
     needs: job1
     steps:
       - run: |
-          echo "output from deployphase: ${{ needs.job1.outputs.firstword }} ${{ needs.job1.outputs.secondword }}"
+          echo "First Word from deployphase: ${{ needs.job1.outputs.firstword }}"
+          echo "Second Word from deployphase: ${{ needs.job1.outputs.secondword }}"
+          #echo "output from deployphase: ${{ needs.job1.outputs.firstword }} ${{ needs.job1.outputs.secondword }}"
