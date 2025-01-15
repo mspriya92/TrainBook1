@@ -17,4 +17,5 @@ jobs:
       - run: |
           echo "First Word from deployphase: ${{ needs.job1.outputs.firstword }}"
           echo "Second Word from deployphase: ${{ needs.job1.outputs.secondword }}"
-          #echo "output from deployphase: ${{ needs.job1.outputs.firstword }} ${{ needs.job1.outputs.secondword }}"
+          echo "Error message: ${{ needs.job1.outputs.error_message }}"
+
