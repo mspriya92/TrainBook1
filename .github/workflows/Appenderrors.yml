@@ -64,3 +64,4 @@ jobs:
             echo "Error details: $error_message"
           else
             echo "No errors occurred"
+          fi
