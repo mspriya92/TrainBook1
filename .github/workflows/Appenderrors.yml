@@ -32,11 +32,10 @@ jobs:
             echo "Component '${{ inputs.COMPONENT }}' is valid"
           else
             echo "Component '${{ inputs.COMPONENT }}' is not valid"
-            echo "Error: Component '${{ inputs.COMPONENT }}' not found" > error_log.txt
-            cat error_log.txt
+            echo "Error: Component '${{ inputs.COMPONENT }}' not found" >> $GITHUB_WORKSPACE/job_error_log.txt
+            cat $GITHUB_WORKSPACE/job_error_log.txt
             exit 1
-          fi
-      
+          
   job2:
     runs-on: ubuntu-latest
     needs: job1
@@ -49,21 +48,22 @@ jobs:
             echo "Environment '${{ inputs.ENVIRONMENT }}' is valid"
           else
             echo "Environment '${{ inputs.ENVIRONMENT }}' is not valid"
-            echo "Error: Invalid environment '${{ inputs.ENVIRONMENT }}'" > error_log.txt
-            cat error_log.txt
+            echo "Error: Invalid environment '${{ inputs.ENVIRONMENT }}'" >> $GITHUB_WORKSPACE/job_error_log.txt
+            cat $GITHUB_WORKSPACE/job_error_log.txt
             exit 1
-          fi
-     
+
   final-notification:
     runs-on: ubuntu-latest
     needs: [job1, job2]
     steps:
       - name: Check if there were any errors and send notification
         run: |
-          if [[ -f error_log.txt ]]; then
-            error_message=$(cat error_log.txt)
-            echo "Sending notification with error details..."
-            echo "Error details: $error_message"
+          echo "Checking error logs from both Job1 and Job2"
+          
+          # Check if the error log exists and has content
+          if [ -f $GITHUB_WORKSPACE/job_error_log.txt ]; then
+            echo "Error Logs:"
+            cat $GITHUB_WORKSPACE/job_error_log.txt
           else
-            echo "No errors occurred"
+            echo "No errors found."
           fi
