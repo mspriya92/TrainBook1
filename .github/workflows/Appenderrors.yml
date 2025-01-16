@@ -22,9 +22,10 @@ on:
 
 jobs:
   job1:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Step 1 - Check Component
+        continue-on-error: true
         run: |
           echo "Job 1 started"
           # Simulating an error with if-else
@@ -32,13 +33,13 @@ jobs:
             echo "Component '${{ inputs.COMPONENT }}' is valid"
           else
             echo "Component '${{ inputs.COMPONENT }}' is not valid"
-            echo "Error: Component '${{ inputs.COMPONENT }}' not found" > $GITHUB_WORKSPACE/job_error_log.txt
-            cat $GITHUB_WORKSPACE/job_error_log.txt
+            echo "Error: Component '${{ inputs.COMPONENT }}' not found" > job_error_log.txt
+            cat job_error_log.txt
             exit 1
           fi
 
   job2:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: job1
     
     steps:
@@ -51,7 +52,7 @@ jobs:
             echo "Environment '${{ inputs.ENVIRONMENT }}' is valid"
           else
             echo "Environment '${{ inputs.ENVIRONMENT }}' is not valid"
-            echo "Error: Invalid environment '${{ inputs.ENVIRONMENT }}'" >> $GITHUB_WORKSPACE/job_error_log.txt
+            echo "Error: Invalid environment '${{ inputs.ENVIRONMENT }}'" >> job_error_log.txt
             cat $GITHUB_WORKSPACE/job_error_log.txt
           fi
 
@@ -64,9 +65,9 @@ jobs:
           echo "Checking error logs from both Job1 and Job2"
           
           # Check if the error log exists and has content
-          if [ -f $GITHUB_WORKSPACE/job_error_log.txt ]; then
+          if [ -f job_error_log.txt ]; then
             echo "Error Logs:"
-            cat $GITHUB_WORKSPACE/job_error_log.txt
+            cat job_error_log.txt
           else
             echo "No errors found."
           fi
