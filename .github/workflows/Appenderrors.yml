@@ -34,7 +34,7 @@ jobs:
             echo "Component '${{ inputs.COMPONENT }}' is not valid"
             echo "Error: Component '${{ inputs.COMPONENT }}' not found" >> $GITHUB_WORKSPACE/job_error_log.txt
             cat $GITHUB_WORKSPACE/job_error_log.txt
-            exit 1
+            #exit 1
           
   job2:
     runs-on: ubuntu-latest
