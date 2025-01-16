@@ -57,6 +57,7 @@ jobs:
 
   final-notification:
     runs-on: self-hosted
+    if: ${{ always() }}
     needs: [job1, job2]
     steps:
       - name: Check if there were any errors and send notification
