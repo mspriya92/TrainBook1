@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: Check Component
         continue-on-error: true
-        shell: pwsh
+        shell: powershell
         run: |
           Write-Host "Job 1 started"
           $component = "${{ inputs.COMPONENT }}"
@@ -42,7 +42,7 @@ jobs:
     steps:
       - name: Check Environment
         continue-on-error: true
-        shell: pwsh
+        shell: powershell
         run: |
           Write-Host "Job 2 started"
           $environment = "${{ inputs.ENVIRONMENT }}"
@@ -60,7 +60,7 @@ jobs:
     needs: [job1, job2]
     steps:
       - name: Check if there were any errors and send notification
-        shell: pwsh
+        shell: powershell
         run: |
           Write-Host "Checking error logs from both Job1 and Job2"
           
