@@ -46,10 +46,10 @@ jobs:
           echo "Job 2 started"
           # Simulating another error with if-else
           if [ "${{ inputs.ENVIRONMENT }}" = "prod" ]; then
-            echo "Environment '{{ inputs.ENVIRONMENT }}' is valid"
+            echo "Environment '${{ inputs.ENVIRONMENT }}' is valid"
           else
-            echo "Environment '{{ inputs.ENVIRONMENT }}' is not valid"
-            echo "Error: Invalid environment '{{ inputs.ENVIRONMENT }}'" >> error_log.txt
+            echo "Environment '${{ inputs.ENVIRONMENT }}' is not valid"
+            echo "Error: Invalid environment '${{ inputs.ENVIRONMENT }}'" >> error_log.txt
             cat error_log.txt
             exit 1
           fi
