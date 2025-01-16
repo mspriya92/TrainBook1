@@ -1,4 +1,4 @@
-name: PowerAppenderrors
+name: Appenderrors
 on:
   workflow_dispatch:
     inputs:
@@ -23,14 +23,15 @@ jobs:
     steps:
       - name: Check Component
         continue-on-error: true
-        shell: powershell
+        shell: pwsh
         run: |
           Write-Host "Job 1 started"
-          if (${{ inputs.COMPONENT }} -eq "valid_component") {
-            Write-Host "Component '${{ inputs.COMPONENT }}' is valid"
+          $component = "${{ inputs.COMPONENT }}"
+          if ($component -eq "valid_component") {
+            Write-Host "Component '$component' is valid"
           } else {
-            Write-Host "Component '${{ inputs.COMPONENT }}' is not valid"
-            "Error: Component '${{ inputs.COMPONENT }}' not found" | Out-File -FilePath "$env:GITHUB_WORKSPACE\job_error_log.txt" -Append
+            Write-Host "Component '$component' is not valid"
+            "Error: Component '$component' not found" | Out-File -FilePath "$env:GITHUB_WORKSPACE\job_error_log.txt" -Append
             Get-Content "$env:GITHUB_WORKSPACE\job_error_log.txt"
             exit 1
           }
@@ -41,15 +42,16 @@ jobs:
     steps:
       - name: Check Environment
         continue-on-error: true
-        shell: powershell
+        shell: pwsh
         run: |
           Write-Host "Job 2 started"
+          $environment = "${{ inputs.ENVIRONMENT }}"
           
-          if (${{ inputs.ENVIRONMENT }} -eq "prod") {
-            Write-Host "Environment '${{ inputs.ENVIRONMENT }}' is valid"
+          if ($environment -eq "prod") {
+            Write-Host "Environment '$environment' is valid"
           } else {
-            Write-Host "Environment '${{ inputs.ENVIRONMENT }}' is not valid"
-            "Error: Invalid environment '${{ inputs.ENVIRONMENT }}'" | Out-File -FilePath "$env:GITHUB_WORKSPACE\job_error_log.txt" -Append
+            Write-Host "Environment '$environment' is not valid"
+            "Error: Invalid environment '$environment'" | Out-File -FilePath "$env:GITHUB_WORKSPACE\job_error_log.txt" -Append
             Get-Content "$env:GITHUB_WORKSPACE\job_error_log.txt"
           }
 
@@ -58,7 +60,7 @@ jobs:
     needs: [job1, job2]
     steps:
       - name: Check if there were any errors and send notification
-        shell: powershell
+        shell: pwsh
         run: |
           Write-Host "Checking error logs from both Job1 and Job2"
           
