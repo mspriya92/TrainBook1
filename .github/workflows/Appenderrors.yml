@@ -1,7 +1,24 @@
 name: Appenderrors
-
 on:
   workflow_dispatch:
+    inputs:
+      COMPONENT:
+        description: "Input the component to check (e.g., 'valid_component')"
+        required: true
+        type: string
+        options:
+          - sphere
+          - saas
+      ENVIRONMENT:
+        description: "Input the environment to check (e.g., 'prod')"
+        required: true
+        type: string
+        options:
+          - prod
+          - dev
+          - qa
+          - uat
+        default: "prod"  # Default to "prod" if no value is provided
 
 jobs:
   job1:
@@ -10,9 +27,13 @@ jobs:
       - name: Step 1 - Check Component
         run: |
           echo "Job 1 started"
-          # Simulating an error
-          echo "Error: Component not found" >> error_log.txt
-          exit 1
+          # Simulating an error with if-else
+          if [ "$COMPONENT" != "valid_component" ]; then
+            echo "Error: Component '${COMPONENT}' not found" >> error_log.txt
+            exit 1
+          else
+            echo "Component '${COMPONENT}' is valid"
+          fi
 
   job2:
     runs-on: ubuntu-latest
@@ -20,24 +41,19 @@ jobs:
       - name: Step 2 - Check Environment
         run: |
           echo "Job 2 started"
-          # Simulating another error
-          echo "Error: Environment not found" >> error_log.txt
-          exit 1
-  job3:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Step 3 - Check Environment
-        run: |
-          echo "Job 3 started"
-          # Simulating another error
-          echo "Error: Environment not found" >> error_log.txt
-          exit 1
+          # Simulating another error with if-else
+          if [ "$ENVIRONMENT" != "prod" ]; then
+            echo "Error: Invalid environment '${ENVIRONMENT}'" >> error_log.txt
+            exit 1
+          else
+            echo "Environment '${ENVIRONMENT}' is valid"
+          fi
 
   final-notification:
     runs-on: ubuntu-latest
-    needs: [job1, job2, job3]
+    needs: [job1, job2]
     steps:
-      - name: Read error log and send notification
+      - name: Check if there were any errors and send notification
         run: |
           if [[ -f $GITHUB_WORKSPACE/error_log.txt ]]; then
             error_message=$(cat error_log.txt)
