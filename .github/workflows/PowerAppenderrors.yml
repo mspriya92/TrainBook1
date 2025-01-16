@@ -45,7 +45,6 @@ jobs:
         continue-on-error: true
         shell: powershell
         run: |
-          Remove-Item -Path "$env:GITHUB_WORKSPACE\job_error_log.txt" -ErrorAction SilentlyContinue
           Write-Host "Job 2 started"
           $environment = "${{ inputs.ENVIRONMENT }}"
           
