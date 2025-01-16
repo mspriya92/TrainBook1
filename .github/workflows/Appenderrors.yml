@@ -28,11 +28,11 @@ jobs:
         run: |
           echo "Job 1 started"
           # Simulating an error with if-else
-          if [ "$COMPONENT" = "valid_component" ]; then
-            echo "Component '${COMPONENT}' is valid"
+          if [ "${{ inputs.COMPONENT }}" = "valid_component" ]; then
+            echo "Component '${{ inputs.COMPONENT }}' is valid"
           else
-            echo "Component '${COMPONENT}' is valid"
-            echo "Error: Component '${COMPONENT}' not found" >> error_log.txt
+            echo "Component '${{ inputs.COMPONENT }}' is not valid"
+            echo "Error: Component '${{ inputs.COMPONENT }}' not found" >> error_log.txt
             exit 1
           fi
 
@@ -44,11 +44,11 @@ jobs:
         run: |
           echo "Job 2 started"
           # Simulating another error with if-else
-          if [ "$ENVIRONMENT" = "prod" ]; then
-            echo "Environment '${ENVIRONMENT}' is valid"
+          if [ "${{ inputs.ENVIRONMENT }}" = "prod" ]; then
+            echo "Environment '{{ inputs.ENVIRONMENT }}' is valid"
           else
-            echo "Environment '${ENVIRONMENT}' is not valid"
-            echo "Error: Invalid environment '${ENVIRONMENT}'" >> error_log.txt
+            echo "Environment '{{ inputs.ENVIRONMENT }}' is not valid"
+            echo "Error: Invalid environment '{{ inputs.ENVIRONMENT }}'" >> error_log.txt
             exit 1
           fi
 
