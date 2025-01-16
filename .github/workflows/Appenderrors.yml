@@ -6,9 +6,6 @@ on:
         description: "Input the component to check (e.g., 'valid_component')"
         required: true
         type: string
-        options:
-          - sphere
-          - saas
       ENVIRONMENT:
         description: "Input the environment to check (e.g., 'prod')"
         required: true
@@ -24,16 +21,15 @@ jobs:
   job1:
     runs-on: self-hosted
     steps:
-      - name: Step 1 - Check Component
+      - name: Check Component
         continue-on-error: true
         run: |
           echo "Job 1 started"
-          # Simulating an error with if-else
           if [ "${{ inputs.COMPONENT }}" = "valid_component" ]; then
             echo "Component '${{ inputs.COMPONENT }}' is valid"
           else
             echo "Component '${{ inputs.COMPONENT }}' is not valid"
-            echo "Error: Component '${{ inputs.COMPONENT }}' not found" > job_error_log.txt
+            echo "Error: Component '${{ inputs.COMPONENT }}' not found" > $GITHUB_WORKSPACE/job_error_log.txt
             cat job_error_log.txt
             exit 1
           fi
@@ -43,21 +39,21 @@ jobs:
     needs: job1
     
     steps:
-      - name: Step 2 - Check Environment
+      - name: Check Environment
         continue-on-error: true
         run: |
           echo "Job 2 started"
-          # Simulating another error with if-else
+          
           if [ "${{ inputs.ENVIRONMENT }}" = "prod" ]; then
             echo "Environment '${{ inputs.ENVIRONMENT }}' is valid"
           else
             echo "Environment '${{ inputs.ENVIRONMENT }}' is not valid"
-            echo "Error: Invalid environment '${{ inputs.ENVIRONMENT }}'" >> job_error_log.txt
+            echo "Error: Invalid environment '${{ inputs.ENVIRONMENT }}'" >> $GITHUB_WORKSPACE/job_error_log.txt
             cat $GITHUB_WORKSPACE/job_error_log.txt
           fi
 
   final-notification:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [job1, job2]
     steps:
       - name: Check if there were any errors and send notification
@@ -67,7 +63,7 @@ jobs:
           # Check if the error log exists and has content
           if [ -f job_error_log.txt ]; then
             echo "Error Logs:"
-            cat job_error_log.txt
+            cat $GITHUB_WORKSPACE/job_error_log.txt
           else
             echo "No errors found."
           fi
