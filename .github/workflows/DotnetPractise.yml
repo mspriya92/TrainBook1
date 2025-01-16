@@ -6,13 +6,13 @@ on:
        description: "select the environment you need eg:(dev, prod)"
        type: string
        required: true
- schedule:
-    - cron: '* * * * *'
+ #schedule:
+    #- cron: '* * * * *'
  #push:
-  branches:
-    - release
-  paths:
-    - ./Scripts/**
+  #branches:
+    #- release
+  #paths:
+    #- ./Scripts/**
  pull_request:
    branches:
      - test
