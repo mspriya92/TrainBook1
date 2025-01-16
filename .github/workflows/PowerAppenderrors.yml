@@ -1,4 +1,4 @@
-name: Appenderrors
+name: PowerAppenderrors
 on:
   workflow_dispatch:
     inputs:
