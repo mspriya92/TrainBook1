@@ -1,0 +1,72 @@
+name: PowerAppenderrors
+on:
+  workflow_dispatch:
+    inputs:
+      COMPONENT:
+        description: "Input the component to check (e.g., 'valid_component')"
+        required: true
+        type: string
+      ENVIRONMENT:
+        description: "Input the environment to check (e.g., 'prod')"
+        required: true
+        type: string
+        options:
+          - prod
+          - dev
+          - qa
+          - uat
+        default: "prod"  # Default to "prod" if no value is provided
+
+jobs:
+  job1:
+    runs-on: self-hosted
+    steps:
+      - name: Check Component
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          Write-Host "Job 1 started"
+          if (${{ inputs.COMPONENT }} -eq "valid_component") {
+            Write-Host "Component '${{ inputs.COMPONENT }}' is valid"
+          } else {
+            Write-Host "Component '${{ inputs.COMPONENT }}' is not valid"
+            "Error: Component '${{ inputs.COMPONENT }}' not found" | Out-File -FilePath "$env:GITHUB_WORKSPACE\job_error_log.txt" -Append
+            Get-Content "$env:GITHUB_WORKSPACE\job_error_log.txt"
+            exit 1
+          }
+
+  job2:
+    runs-on: self-hosted
+    needs: job1
+    steps:
+      - name: Check Environment
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          Write-Host "Job 2 started"
+          
+          if (${{ inputs.ENVIRONMENT }} -eq "prod") {
+            Write-Host "Environment '${{ inputs.ENVIRONMENT }}' is valid"
+          } else {
+            Write-Host "Environment '${{ inputs.ENVIRONMENT }}' is not valid"
+            "Error: Invalid environment '${{ inputs.ENVIRONMENT }}'" | Out-File -FilePath "$env:GITHUB_WORKSPACE\job_error_log.txt" -Append
+            Get-Content "$env:GITHUB_WORKSPACE\job_error_log.txt"
+          }
+
+  final-notification:
+    runs-on: self-hosted
+    needs: [job1, job2]
+    steps:
+      - name: Check if there were any errors and send notification
+        shell: pwsh
+        run: |
+          Write-Host "Checking error logs from both Job1 and Job2"
+          
+          # Check if the error log exists and has content
+          if (Test-Path "$env:GITHUB_WORKSPACE\job_error_log.txt") {
+            Write-Host "Error Logs:"
+            Get-Content "$env:GITHUB_WORKSPACE\job_error_log.txt"
+          } else {
+            Write-Host "No errors found."
+          }
+
