@@ -1,4 +1,4 @@
-name: deployphase
+name: deployphase previous
 
 on:
   workflow_dispatch:
