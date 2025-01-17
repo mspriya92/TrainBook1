@@ -1,0 +1,48 @@
+name: Deploy Component
+
+on:
+  workflow_call:
+    outputs:
+      firstword:
+        description: "First output of the component"
+        value: ${{ jobs.job1.outputs.firstword }}
+      secondword:
+        description: "Second output of the component"
+        value: ${{ jobs.job2.outputs.secondword }}
+      error_message:
+        description: "Error message"
+        value: ${{ jobs.job5.outputs.error_message }}
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      firstword: ${{ steps.step1.outputs.firstword }}
+    steps:
+      - id: step1
+        run: echo "firstword=deploy1" >> $GITHUB_OUTPUT
+
+  job2:
+    runs-on: ubuntu-latest
+    outputs:
+      secondword: ${{ steps.step2.outputs.secondword }}
+    steps:
+      - id: step2
+        run: echo "secondword=deploy2" >> $GITHUB_OUTPUT
+
+  # Other jobs...
+
+  job5:
+    runs-on: ubuntu-latest
+    outputs:
+      error_message: ${{ steps.error_step.outputs.error_message }}
+    steps:
+      - id: error_step
+        run: |
+          if [ "$ERROR_CONDITION" = "true" ]; then
+            echo "error_message=Something went wrong in component!" >> $GITHUB_OUTPUT
+          else
+            echo "error_message=No errors occurred in component." >> $GITHUB_OUTPUT
+          fi
+        env:
+          ERROR_CONDITION: "true"
