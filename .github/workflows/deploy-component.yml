@@ -4,13 +4,19 @@ on:
   workflow_call:
     outputs:
       firstword:
-        description: "First output of the component"
+        description: "First output from the component"
         value: ${{ jobs.job1.outputs.firstword }}
       secondword:
-        description: "Second output of the component"
+        description: "Second output from the component"
         value: ${{ jobs.job2.outputs.secondword }}
+      job3_message:
+        description: "Output from job 3"
+        value: ${{ jobs.job3.outputs.message }}
+      job4_message:
+        description: "Output from job 4"
+        value: ${{ jobs.job4.outputs.message }}
       error_message:
-        description: "Error message"
+        description: "Error message from job 5"
         value: ${{ jobs.job5.outputs.error_message }}
 
 jobs:
@@ -20,7 +26,7 @@ jobs:
       firstword: ${{ steps.step1.outputs.firstword }}
     steps:
       - id: step1
-        run: echo "firstword=deploy1" >> $GITHUB_OUTPUT
+        run: echo "firstword=deploy1 from component" >> $GITHUB_OUTPUT
 
   job2:
     runs-on: ubuntu-latest
@@ -28,9 +34,23 @@ jobs:
       secondword: ${{ steps.step2.outputs.secondword }}
     steps:
       - id: step2
-        run: echo "secondword=deploy2" >> $GITHUB_OUTPUT
+        run: echo "secondword=deploy2 from component" >> $GITHUB_OUTPUT
 
-  # Other jobs...
+  job3:
+    runs-on: ubuntu-latest
+    outputs:
+      message: ${{ steps.step3.outputs.message }}
+    steps:
+      - id: step3
+        run: echo "Job 3 ran  from component" >> $GITHUB_OUTPUT
+
+  job4:
+    runs-on: ubuntu-latest
+    outputs:
+      message: ${{ steps.step4.outputs.message }}
+    steps:
+      - id: step4
+        run: echo "Job 4 ran successfully from component" >> $GITHUB_OUTPUT
 
   job5:
     runs-on: ubuntu-latest
