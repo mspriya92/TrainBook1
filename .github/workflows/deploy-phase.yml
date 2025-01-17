@@ -4,18 +4,24 @@ on:
   workflow_call:
     outputs:
       firstword:
-        description: "The first output from deploy component"
+        description: "First output from deploy component"
         value: ${{ jobs.call_deploy_workflow.outputs.firstword }}
       secondword:
-        description: "The second output from deploy component"
+        description: "Second output from deploy component"
         value: ${{ jobs.call_deploy_workflow.outputs.secondword }}
+      job3_message:
+        description: "Output from job 3"
+        value: ${{ jobs.call_deploy_workflow.outputs.job3_message }}
+      job4_message:
+        description: "Output from job 4"
+        value: ${{ jobs.call_deploy_workflow.outputs.job4_message }}
       error_message:
         description: "Error message from deploy component"
         value: ${{ jobs.call_deploy_workflow.outputs.error_message }}
 
 jobs:
   call_deploy_workflow:
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
     uses: ./.github/workflows/deploy-component.yml
 
   handle_errors:
@@ -23,10 +29,12 @@ jobs:
     needs: call_deploy_workflow
     steps:
       - run: |
-          echo "First Word: ${{ needs.call_deploy_workflow.outputs.firstword }}"
-          echo "Second Word: ${{ needs.call_deploy_workflow.outputs.secondword }}"
-          echo "Error Message: ${{ needs.call_deploy_workflow.outputs.error_message }}"
+          echo "First Word from deploy component: ${{ needs.call_deploy_workflow.outputs.firstword }}"
+          echo "Second Word from deploy component: ${{ needs.call_deploy_workflow.outputs.secondword }}"
+          echo "Message from job3: ${{ needs.call_deploy_workflow.outputs.job3_message }}"
+          echo "Message from job4: ${{ needs.call_deploy_workflow.outputs.job4_message }}"
+          echo "Error Message from deploy component: ${{ needs.call_deploy_workflow.outputs.error_message }}"
           if [[ "${{ needs.call_deploy_workflow.outputs.error_message }}" == "Something went wrong in component!" ]]; then
-            echo "Error occurred in component, failing phase deployment."
+            echo "Critical error in deployment, failing phase deployment."
             exit 1
           fi
