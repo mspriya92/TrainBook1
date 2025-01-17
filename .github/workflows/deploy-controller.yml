@@ -15,7 +15,10 @@ jobs:
       - run: |
           echo "First Word from deploy phase: ${{ needs.call_deploy_phase.outputs.firstword }}"
           echo "Second Word from deploy phase: ${{ needs.call_deploy_phase.outputs.secondword }}"
+          echo "Message from job3 in deploy phase: ${{ needs.call_deploy_phase.outputs.job3_message }}"
+          echo "Message from job4 in deploy phase: ${{ needs.call_deploy_phase.outputs.job4_message }}"
           echo "Error Message from deploy phase: ${{ needs.call_deploy_phase.outputs.error_message }}"
+          
           if [[ "${{ needs.call_deploy_phase.outputs.error_message }}" == "Something went wrong in component!" ]]; then
             echo "Critical error in deployment, aborting deployment controller."
             exit 1
