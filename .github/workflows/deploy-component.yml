@@ -39,18 +39,18 @@ jobs:
   job3:
     runs-on: ubuntu-latest
     outputs:
-      message: ${{ steps.step3.outputs.message }}
+      message: ${{ steps.step3.outputs.message3 }}
     steps:
       - id: step3
-        run: echo "Job 3 ran  from component" >> $GITHUB_OUTPUT
+        run: echo "message3=Job 3 ran  from component" >> $GITHUB_OUTPUT
 
   job4:
     runs-on: ubuntu-latest
     outputs:
-      message: ${{ steps.step4.outputs.message }}
+      message: ${{ steps.step4.outputs.message4 }}
     steps:
       - id: step4
-        run: echo "Job 4 ran successfully from component" >> $GITHUB_OUTPUT
+        run: echo "message4=Job 4 ran successfully from component" >> $GITHUB_OUTPUT
 
   job5:
     runs-on: ubuntu-latest
