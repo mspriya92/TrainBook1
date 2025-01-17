@@ -1,0 +1,22 @@
+name: Deploy Controller
+
+on:
+  workflow_dispatch:
+
+jobs:
+  call_deploy_phase:
+    #runs-on: ubuntu-latest
+    uses: ./.github/workflows/deploy-phase.yml
+
+  finalize_deployment:
+    runs-on: ubuntu-latest
+    needs: call_deploy_phase
+    steps:
+      - run: |
+          echo "First Word from deploy phase: ${{ needs.call_deploy_phase.outputs.firstword }}"
+          echo "Second Word from deploy phase: ${{ needs.call_deploy_phase.outputs.secondword }}"
+          echo "Error Message from deploy phase: ${{ needs.call_deploy_phase.outputs.error_message }}"
+          if [[ "${{ needs.call_deploy_phase.outputs.error_message }}" == "Something went wrong in component!" ]]; then
+            echo "Critical error in deployment, aborting deployment controller."
+            exit 1
+          fi
