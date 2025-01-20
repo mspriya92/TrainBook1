@@ -65,4 +65,4 @@ jobs:
             echo "error_message=No errors occurred in component." >> $GITHUB_OUTPUT
           fi
         env:
-          ERROR_CONDITION: "false"
+          ERROR_CONDITION: "true"
