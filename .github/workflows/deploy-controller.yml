@@ -2,75 +2,24 @@ name: Deploy Controller
 
 on:
   workflow_dispatch:
-    
+
 jobs:
-  deploy1:
+  call_deploy_phase:
+    #runs-on: ubuntu-latest
+    uses: ./.github/workflows/deploy-phase.yml
+
+  finalize_deployment:
     runs-on: ubuntu-latest
-    outputs:
-      error_message: ${{ steps.deploy1_step.outputs.error_message }}
+    needs: call_deploy_phase
     steps:
-      - name: Run some deploy task for deploy1
-        run: echo "Deploy 1 is running"
-        
-      - name: Set error message for deploy1
-        id: deploy1_step
-        run: |
-          ERROR_CONDITION=true  # Simulating an error condition
-          if [ "$ERROR_CONDITION" = "true" ]; then
-            echo "error_message=Error occurred in Deploy 1" >> $GITHUB_OUTPUT
-          else
-            echo "error_message=No error in Deploy 1" >> $GITHUB_OUTPUT
+      - run: |
+          echo "First Word from deploy phase: ${{ needs.call_deploy_phase.outputs.firstword }}"
+          echo "Second Word from deploy phase: ${{ needs.call_deploy_phase.outputs.secondword }}"
+          echo "Message from job3 in deploy phase: ${{ needs.call_deploy_phase.outputs.job3_message }}"
+          echo "Message from job4 in deploy phase: ${{ needs.call_deploy_phase.outputs.job4_message }}"
+          echo "Error Message from deploy phase: ${{ needs.call_deploy_phase.outputs.error_message }}"
+          
+          if [[ "${{ needs.call_deploy_phase.outputs.error_message }}" == "Something went wrong in component!" ]]; then
+            echo "Critical error in deployment, aborting deployment controller."
+            exit 1
           fi
-
-  deploy2:
-    runs-on: ubuntu-latest
-    outputs:
-      firstword: ${{ steps.deploy_phase.outputs.firstword }}
-      secondword: ${{ steps.deploy_phase.outputs.secondword }}
-      job3_message: ${{ steps.deploy_phase.outputs.job3_message }}
-      job4_message: ${{ steps.deploy_phase.outputs.job4_message }}
-      error_message: ${{ steps.deploy_phase.outputs.error_message }}
-    steps:
-      - name: Call deploy-phase.yml
-        uses: ./.github/workflows/deploy-phase.yml
-        id: deploy_phase
-
-      - name: Set outputs from deploy-phase
-        run: |
-          echo "firstword=${{ steps.deploy_phase.outputs.firstword }}" >> $GITHUB_ENV
-          echo "secondword=${{ steps.deploy_phase.outputs.secondword }}" >> $GITHUB_ENV
-          echo "job3_message=${{ steps.deploy_phase.outputs.job3_message }}" >> $GITHUB_ENV
-          echo "job4_message=${{ steps.deploy_phase.outputs.job4_message }}" >> $GITHUB_ENV
-          echo "error_message=${{ steps.deploy_phase.outputs.error_message }}" >> $GITHUB_ENV
-
-  deploy3:
-    runs-on: ubuntu-latest
-    outputs:
-      error_message: ${{ steps.deploy3_step.outputs.error_message }}
-    steps:
-      - name: Run some deploy task for deploy3
-        run: echo "Deploy 3 is running"
-        
-      - name: Set error message for deploy3
-        id: deploy3_step
-        run: |
-          ERROR_CONDITION=true  # Simulating an error condition
-          if [ "$ERROR_CONDITION" = "true" ]; then
-            echo "error_message=Error occurred in Deploy 3" >> $GITHUB_OUTPUT
-          else
-            echo "error_message=No error in Deploy 3" >> $GITHUB_OUTPUT
-          fi
-
-  display_outputs:
-    runs-on: ubuntu-latest
-    needs: [deploy1, deploy2, deploy3]  # Ensuring display_outputs runs after deploy1, deploy2, deploy3
-    steps:
-      - name: Display the outputs from deploy jobs
-        run: |
-          echo "Firstword: ${{ env.firstword }}"
-          echo "Secondword: ${{ env.secondword }}"
-          echo "Job 3 Message: ${{ env.job3_message }}"
-          echo "Job 4 Message: ${{ env.job4_message }}"
-          echo "Error Message from Deploy1: ${{ needs.deploy1.outputs.error_message }}"
-          echo "Error Message from Deploy2: ${{ needs.deploy2.outputs.error_message }}"
-          echo "Error Message from Deploy3: ${{ needs.deploy3.outputs.error_message }}"
