@@ -26,7 +26,7 @@ jobs:
       firstword: ${{ steps.step1.outputs.firstword }}
     steps:
       - id: step1
-        run: echo "firstword=deploy1 from component" >> $GITHUB_OUTPUT
+        run: echo "firstword=job1 from deploy component" >> $GITHUB_OUTPUT
 
   job2:
     runs-on: ubuntu-latest
@@ -34,7 +34,7 @@ jobs:
       secondword: ${{ steps.step2.outputs.secondword }}
     steps:
       - id: step2
-        run: echo "secondword=deploy2 from component" >> $GITHUB_OUTPUT
+        run: echo "secondword=job2 from deploy component" >> $GITHUB_OUTPUT
 
   job3:
     runs-on: ubuntu-latest
@@ -42,7 +42,7 @@ jobs:
       message: ${{ steps.step3.outputs.message3 }}
     steps:
       - id: step3
-        run: echo "message3=Job 3 ran  from component" >> $GITHUB_OUTPUT
+        run: echo "message3=Job 3 ran from deploy component" >> $GITHUB_OUTPUT
 
   job4:
     runs-on: ubuntu-latest
@@ -50,7 +50,7 @@ jobs:
       message: ${{ steps.step4.outputs.message4 }}
     steps:
       - id: step4
-        run: echo "message4=Job 4 ran successfully from component" >> $GITHUB_OUTPUT
+        run: echo "message4=Job 4 ran from deploy component" >> $GITHUB_OUTPUT
 
   job5:
     runs-on: ubuntu-latest
@@ -60,9 +60,9 @@ jobs:
       - id: error_step
         run: |
           if [ "$ERROR_CONDITION" = "true" ]; then
-            echo "error_message=Something went wrong in component!" >> $GITHUB_OUTPUT
+            echo "error_message=Something went wrong in deploy component!" >> $GITHUB_OUTPUT
           else
-            echo "error_message=No errors occurred in component." >> $GITHUB_OUTPUT
+            echo "error_message=No errors occurred in deploy component." >> $GITHUB_OUTPUT
           fi
         env:
           ERROR_CONDITION: "true"
