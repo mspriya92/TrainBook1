@@ -4,10 +4,38 @@ on:
   workflow_dispatch:
 
 jobs:
+  job3:
+    runs-on: ubuntu-latest
+    outputs:
+      job3_message: ${{ steps.job3_step.outputs.message }}
+      error_message: ${{ steps.job3_step.outputs.error_message }}
+    steps:
+      - name: Job 3 Step
+        id: job3_step
+        run: |
+          echo "This is job 3"
+          # simulate an error or success
+          echo "::set-output name=message::Message from Job 3"
+          echo "::set-output name=error_message::No error in Job 3"
+  
+  job4:
+    runs-on: ubuntu-latest
+    needs: job3
+    outputs:
+      job4_message: ${{ steps.job4_step.outputs.message }}
+      error_message: ${{ steps.job4_step.outputs.error_message }}
+    steps:
+      - name: Job 4 Step
+        id: job4_step
+        run: |
+          echo "This is job 4"
+          # simulate an error or success
+          echo "::set-output name=message::Message from Job 4"
+          echo "::set-output name=error_message::No error in Job 4"
   call_deploy_phase:
     #runs-on: ubuntu-latest
     uses: ./.github/workflows/deploy-phase.yml
-
+  
   finalize_deployment:
     runs-on: ubuntu-latest
     needs: call_deploy_phase
@@ -18,6 +46,8 @@ jobs:
           echo "Message from job3 in deploy phase: ${{ needs.call_deploy_phase.outputs.job3_message }}"
           echo "Message from job4 in deploy phase: ${{ needs.call_deploy_phase.outputs.job4_message }}"
           echo "Error Message from deploy phase: ${{ needs.call_deploy_phase.outputs.error_message }}"
+          echo "Error Message from Job 3: ${{ needs.job3.outputs.error_message }}"
+          echo "Error Message from Job 4: ${{ needs.job4.outputs.error_message }}"
           
           if [[ "${{ needs.call_deploy_phase.outputs.error_message }}" == "Something went wrong in component!" ]]; then
             echo "Critical error in deployment, aborting deployment controller."
