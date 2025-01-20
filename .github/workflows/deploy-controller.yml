@@ -33,12 +33,12 @@ jobs:
           echo "::set-output name=message::Message from Job 4"
           echo "::set-output name=error_message::No error in Job 4"
   call_deploy_phase:
-    #runs-on: ubuntu-latest
+    needs: [job3,job4]
     uses: ./.github/workflows/deploy-phase.yml
   
   finalize_deployment:
     runs-on: ubuntu-latest
-    needs: call_deploy_phase
+    needs: [job3,job4,call_deploy_phase]
     steps:
       - run: |
           echo "First Word from deploy phase: ${{ needs.call_deploy_phase.outputs.firstword }}"
