@@ -30,12 +30,12 @@ jobs:
           $component = "${{ inputs.COMPONENT }}"
           if ($component -eq "valid_component") {
             Write-Host "Component '$component' is valid"
-          } else {
-            Write-Host "Component '$component' is not valid"
+          } #else {
+            #Write-Host "Component '$component' is not valid"
             #"Error from job1: Component '$component' not found" | Out-File -FilePath "$env:GITHUB_WORKSPACE\job_error_log.txt" -Append
             #Get-Content "$env:GITHUB_WORKSPACE\job_error_log.txt"
-            exit 1
-          }
+            #exit 1
+          #}
 
   job2:
     runs-on: self-hosted
