@@ -3,16 +3,16 @@ name: Deploy Component
 on:
   workflow_call:
     outputs:
-      firstword:
+      error1:
         description: "First output from the component"
         value: ${{ jobs.job1.outputs.firstword }}
-      secondword:
+      error2:
         description: "Second output from the component"
         value: ${{ jobs.job2.outputs.secondword }}
-      job3_message:
+      error3:
         description: "Output from job 3"
         value: ${{ jobs.job3.outputs.message }}
-      job4_message:
+      error4:
         description: "Output from job 4"
         value: ${{ jobs.job4.outputs.message }}
       error_message:
