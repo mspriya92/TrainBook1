@@ -27,7 +27,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: call_deploy_workflow
     steps:
-      - run: |
+      - name: error handling 
+        #id: error-handle
+        #uses: ./.github/action/deploy-component.yml
+        run: |
           echo "First Word from deploy component: ${{ needs.call_deploy_workflow.outputs.firstword }}"
           echo "Second Word from deploy component: ${{ needs.call_deploy_workflow.outputs.secondword }}"
           echo "Message from job3: ${{ needs.call_deploy_workflow.outputs.job3_message }}"
