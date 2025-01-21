@@ -30,6 +30,7 @@ jobs:
 
   job2:
     runs-on: ubuntu-latest
+    needs: job1
     outputs:
       secondword: ${{ steps.step2.outputs.secondword }}
     steps:
@@ -38,6 +39,7 @@ jobs:
 
   job3:
     runs-on: ubuntu-latest
+    needs: job2
     outputs:
       message: ${{ steps.step3.outputs.message3 }}
     steps:
@@ -46,6 +48,7 @@ jobs:
 
   job4:
     runs-on: ubuntu-latest
+    needs: job3
     outputs:
       message: ${{ steps.step4.outputs.message4 }}
     steps:
@@ -54,6 +57,7 @@ jobs:
 
   job5:
     runs-on: ubuntu-latest
+    needs: job4
     outputs:
       error_message: ${{ steps.error_step.outputs.error_message }}
     steps:
