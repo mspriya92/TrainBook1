@@ -2,39 +2,7 @@ name: Testworkflow
 
 on:
   workflow_call:
-    # Map the workflow outputs to job outputs
-    outputs:
-      firstword:
-        description: "The first output string"
-        value: ${{ jobs.example_job.outputs.output1 }}
-      secondword:
-        description: "The second output string"
-        value: ${{ jobs.example_job.outputs.output2 }}
-      error_message:
-        description: "The error message"
-        value: ${{ jobs.example_job.outputs.error_message }}
 
 jobs:
-  example_job:
-    name: Generate output
-    runs-on: ubuntu-latest
-    # Map the job outputs to step outputs
-    outputs:
-      output1: ${{ steps.step1.outputs.firstword }}
-      output2: ${{ steps.step2.outputs.secondword }}
-      error_message: ${{ steps.error_step.outputs.error_message }}
-    steps:
-      - id: step1
-        run: echo "firstword=hello" >> $GITHUB_OUTPUT
-      - id: step2
-        run: echo "secondword=world" >> $GITHUB_OUTPUT
-      - id: error_step
-        run: |
-          # Simulate an error condition (you can modify the condition here)
-          if [ "$ERROR_CONDITION" = "true" ]; then
-            echo "error_message=Something went wrong!" >> $GITHUB_OUTPUT
-          else
-            echo "error_message=No errors occurred." >> $GITHUB_OUTPUT
-          fi
-        env:
-          ERROR_CONDITION: "true"  # Change this to "false" to simulate no error
+  sample1:
+    uses: ./.github/workflows/Testworkflow2.yml
