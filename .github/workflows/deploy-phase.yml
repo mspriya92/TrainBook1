@@ -31,10 +31,10 @@ jobs:
         #id: error-handle
         #uses: ./.github/action/deploy-component.yml
         run: |
-          echo "First Word from deploy component: ${{ needs.call_deploy_workflow.outputs.firstword }}"
-          echo "Second Word from deploy component: ${{ needs.call_deploy_workflow.outputs.secondword }}"
-          echo "Message from job3: ${{ needs.call_deploy_workflow.outputs.job3_message }}"
-          echo "Message from job4: ${{ needs.call_deploy_workflow.outputs.job4_message }}"
+          echo "First Word from deploy component: ${{ needs.call_deploy_workflow.outputs.error1 }}"
+          echo "Second Word from deploy component: ${{ needs.call_deploy_workflow.outputs.error2 }}"
+          echo "Message from job3: ${{ needs.call_deploy_workflow.outputs.error3 }}"
+          echo "Message from job4: ${{ needs.call_deploy_workflow.outputs.error4 }}"
           echo "Error Message from deploy component: ${{ needs.call_deploy_workflow.outputs.error_message }}"
           if [[ "${{ needs.call_deploy_workflow.outputs.error_message }}" == "Something went wrong in component!" ]]; then
             echo "Critical error in deployment, failing phase deployment."
