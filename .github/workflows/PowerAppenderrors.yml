@@ -32,8 +32,8 @@ jobs:
             Write-Host "Component '$component' is valid"
           } else {
             Write-Host "Component '$component' is not valid"
-            "Error from job1: Component '$component' not found" | Out-File -FilePath "$env:GITHUB_WORKSPACE\job_error_log.txt" -Append
-            Get-Content "$env:GITHUB_WORKSPACE\job_error_log.txt"
+            #"Error from job1: Component '$component' not found" | Out-File -FilePath "$env:GITHUB_WORKSPACE\job_error_log.txt" -Append
+            #Get-Content "$env:GITHUB_WORKSPACE\job_error_log.txt"
             exit 1
           }
 
@@ -52,8 +52,9 @@ jobs:
             Write-Host "Environment '$environment' is valid"
           } else {
             Write-Host "Environment '$environment' is not valid"
-            "Error from job2: Invalid environment '$environment'" | Out-File -FilePath "$env:GITHUB_WORKSPACE\job_error_log.txt" -Append
-            Get-Content "$env:GITHUB_WORKSPACE\job_error_log.txt"
+            #"Error from job2: Invalid environment '$environment'" | Out-File -FilePath "$env:GITHUB_WORKSPACE\job_error_log.txt" -Append
+            #Get-Content "$env:GITHUB_WORKSPACE\job_error_log.txt"
+            exit 1
           }
 
   final-notification:
