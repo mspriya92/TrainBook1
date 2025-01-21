@@ -1,0 +1,4 @@
+name: Testworkflow2
+on:
+ workflow_call:
+job
