@@ -2,19 +2,19 @@ name: Deploy Phase
 on:
   workflow_call:
     outputs:
-      firstword:
+      log1:
         description: "First output from deploy component"
-        value: ${{ jobs.call_deploy_workflow.outputs.firstword }}
-      secondword:
+        value: ${{ jobs.call_deploy_workflow.outputs.error1 }}
+      log2:
         description: "Second output from deploy component"
-        value: ${{ jobs.call_deploy_workflow.outputs.secondword }}
-      job3_message:
+        value: ${{ jobs.call_deploy_workflow.outputs.error2 }}
+      log3:
         description: "Output from job 3"
-        value: ${{ jobs.call_deploy_workflow.outputs.job3_message }}
-      job4_message:
+        value: ${{ jobs.call_deploy_workflow.outputs.error3 }}
+      log4:
         description: "Output from job 4"
-        value: ${{ jobs.call_deploy_workflow.outputs.job4_message }}
-      error_message:
+        value: ${{ jobs.call_deploy_workflow.outputs.error4 }}
+      log5:
         description: "Error message from deploy component"
         value: ${{ jobs.call_deploy_workflow.outputs.error_message }}
 
