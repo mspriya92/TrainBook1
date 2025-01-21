@@ -2,17 +2,28 @@ name: Deploy Phase
 on:
   workflow_call:
     outputs:
-      firstword: ${{ needs.call_deploy_workflow.outputs.firstword }}
-      secondword: ${{ needs.call_deploy_workflow.outputs.secondword }}
-      job3_message: ${{ needs.call_deploy_workflow.outputs.job3_message }}
-      job4_message: ${{ needs.call_deploy_workflow.outputs.job4_message }}
-      error_message: ${{ needs.call_deploy_workflow.outputs.error_message }}
+      firstword:
+        description: "First output from deploy component"
+        value: ${{ jobs.call_deploy_workflow.outputs.firstword }}
+      secondword:
+        description: "Second output from deploy component"
+        value: ${{ jobs.call_deploy_workflow.outputs.secondword }}
+      job3_message:
+        description: "Output from job 3"
+        value: ${{ jobs.call_deploy_workflow.outputs.job3_message }}
+      job4_message:
+        description: "Output from job 4"
+        value: ${{ jobs.call_deploy_workflow.outputs.job4_message }}
+      error_message:
+        description: "Error message from deploy component"
+        value: ${{ jobs.call_deploy_workflow.outputs.error_message }}
 
 jobs:
   call_deploy_workflow:
+    #runs-on: ubuntu-latest
     uses: ./.github/workflows/deploy-component.yml
 
-  deploy:
+  handle_errors:
     runs-on: ubuntu-latest
     needs: call_deploy_workflow
     steps:
@@ -22,9 +33,7 @@ jobs:
           echo "Message from job3: ${{ needs.call_deploy_workflow.outputs.job3_message }}"
           echo "Message from job4: ${{ needs.call_deploy_workflow.outputs.job4_message }}"
           echo "Error Message from deploy component: ${{ needs.call_deploy_workflow.outputs.error_message }}"
-
-          if [[ "${{ needs.call_deploy_workflow.outputs.error_message }}" == "Something went wrong in deploy component!" ]]; then
+          if [[ "${{ needs.call_deploy_workflow.outputs.error_message }}" == "Something went wrong in component!" ]]; then
             echo "Critical error in deployment, failing phase deployment."
             exit 1
           fi
-
