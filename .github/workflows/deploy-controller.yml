@@ -13,11 +13,11 @@ jobs:
     needs: call_deploy_phase
     steps:
       - run: |
-          echo "First Word from deploy phase: ${{ needs.call_deploy_phase.outputs.log1 }}"
-          echo "Second Word from deploy phase: ${{ needs.call_deploy_phase.outputs.log2 }}"
-          echo "Message from job3 in deploy phase: ${{ needs.call_deploy_phase.outputs.log3 }}"
-          echo "Message from job4 in deploy phase: ${{ needs.call_deploy_phase.outputs.log4 }}"
-          echo "Error Message from deploy phase: ${{ needs.call_deploy_phase.outputs.log5 }}"
+          echo "Log1 from deploy phase workflow: ${{ needs.call_deploy_phase.outputs.log1 }}"
+          echo "Log2 from deploy phase workflow: ${{ needs.call_deploy_phase.outputs.log2 }}"
+          echo "Log3 from deploy phase workflow: ${{ needs.call_deploy_phase.outputs.log3 }}"
+          echo "Log4 from deploy phase workflow: ${{ needs.call_deploy_phase.outputs.log4 }}"
+          echo "Log5 from deploy phase workflow: ${{ needs.call_deploy_phase.outputs.log5 }}"
           
           if [[ "${{ needs.call_deploy_phase.outputs.error_message }}" == "Something went wrong in component!" ]]; then
             echo "Critical error in deployment, aborting deployment controller."
