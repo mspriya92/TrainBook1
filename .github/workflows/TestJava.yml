@@ -14,7 +14,8 @@ jobs:
     - name: Create a symbolic link to the custom directory
       run: |
         # Create a symbolic link from default workspace to custom directory
-        mklink /D C:\Users\10443\actions-runner\_work\TrainBook1\TrainBook1 E:\checkout\TrainBook1
+        #mklink /D C:\Users\10443\actions-runner\_work\TrainBook1\TrainBook1 E:\checkout\TrainBook1
+        cmd.exe /c "mklink /D C:\Users\10443\actions-runner\_work\TrainBook1\TrainBook1 E:\checkout\TrainBook1"
 
     - name: Check out repository to default location
       uses: actions/checkout@v3
