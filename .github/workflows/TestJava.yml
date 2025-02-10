@@ -9,8 +9,8 @@ jobs:
     steps:
     - name: Set custom workspace directory
       run: |
-        mkdir -p E:/checkout  # Ensure the desired directory exists
-        echo "##[set-env name=GITHUB_WORKSPACE;]E:/checkout/TrainBook1"  # Set workspace path to custom location
+        mkdir -p E:/checkout  # Ensure the desired directory exists  
+        echo "GITHUB_WORKSPACE=E:/checkout/TrainBook1" >> $GITHUB_ENV 
 
     - name: Check out repository to custom location
       uses: actions/checkout@v3
