@@ -7,9 +7,9 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-    - name: Create custom workspace directory
-      run: |
-        mkdir -p E:/checkout  # Ensure the custom directory exists
+    #- name: Create custom workspace directory
+      #run: |
+        #mkdir -p E:/checkout  # Ensure the custom directory exists
 
     - name: Create a symbolic link to the custom directory
       run: |
