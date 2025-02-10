@@ -7,9 +7,25 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v3
-      with: 
-        path: E:\checkout
+    - name: Set custom workspace directory
+      run: |
+        mkdir -p E:/checkout  # Ensure the desired directory exists
+        echo "##[set-env name=GITHUB_WORKSPACE;]E:/checkout/TrainBook1"  # Set workspace path to custom location
+
+    - name: Check out repository to custom location
+      uses: actions/checkout@v3
+      with:
+        repository: mspriya92/TrainBook1
+        #token: ${{ secrets.GITHUB_TOKEN }}
+        clean: true
+        fetch-depth: 1
+        fetch-tags: false
+        lfs: false
+        submodules: false
+        set-safe-directory: true
+    #- uses: actions/checkout@v3
+      #with: 
+        #path: E:\checkout
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
