@@ -7,16 +7,20 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-    - name: Set custom workspace directory
+    - name: Create custom workspace directory
       run: |
-        mkdir -p E:/checkout  # Ensure the desired directory exists  
-        echo "GITHUB_WORKSPACE=E:/checkout/TrainBook1" >> $GITHUB_ENV 
+        mkdir -p E:/checkout  # Ensure the custom directory exists
 
-    - name: Check out repository to custom location
+    - name: Create a symbolic link to the custom directory
+      run: |
+        # Create a symbolic link from default workspace to custom directory
+        mklink /D C:\Users\10443\actions-runner\_work\TrainBook1\TrainBook1 E:\checkout\TrainBook1
+
+    - name: Check out repository to default location
       uses: actions/checkout@v3
       with:
         repository: mspriya92/TrainBook1
-        token: ${{ secrets.PAT_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         clean: true
         fetch-depth: 1
         fetch-tags: false
