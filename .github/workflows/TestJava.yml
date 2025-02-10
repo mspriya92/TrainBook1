@@ -16,7 +16,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: mspriya92/TrainBook1
-        token: ${{ PAT_TOKEN }}
+        token: ${{ secrets.PAT_TOKEN }}
         clean: true
         fetch-depth: 1
         fetch-tags: false
