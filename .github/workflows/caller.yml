@@ -1,0 +1,16 @@
+name: Test Reusable Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to checkout"
+        required: true
+        default: main
+        type: string
+
+jobs:
+  call-reusable:
+    uses: mspriya92/terraform_deployment_control/.github/workflows/reusable.yml@main
+    with:
+      branch: ${{ inputs.branch }}
