@@ -11,6 +11,32 @@ on:
 
 jobs:
   call-reusable:
-    uses: mspriya92/terraform_deployment_control/.github/workflows/reusable.yml@main
-    with:
-      branch: ${{ inputs.branch }}
+   runs-on: ubuntu-latest
+   steps:
+     - name: checkout repo
+       uses: actions/checkout@v4
+       with:
+          repository: mspriya92/terraform_deployment_control
+          ref: ${{ inputs.branch }}
+          path: saas-cd
+
+     - name: List directories and files
+       run: |
+         echo "Current directory:"
+         pwd
+
+         echo "Top-level:"
+         ls -la
+
+         echo "saas-cd:"
+         find saas-cd -maxdepth 3 -print
+
+     - name: Check workflow
+       run: |
+         cd "$GITHUB_WORKSPACE"
+         ls -la saas-cd/.github/workflows
+
+       
+     #- uses: mspriya92/terraform_deployment_control/.github/workflows/reusable.yml
+       #with:
+      #branch: ${{ inputs.branch }}
