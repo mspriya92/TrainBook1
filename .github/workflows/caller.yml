@@ -38,5 +38,5 @@ jobs:
 
        
      - uses: ./saas-cd/.github/workflows/reusable.yml
-       #with:
-      #branch: ${{ inputs.branch }}
+       with:
+          branch: ${{ inputs.branch }}
