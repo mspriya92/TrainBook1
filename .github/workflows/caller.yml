@@ -37,6 +37,7 @@ jobs:
      with:
         branch: ${{ inputs.branch }}
         CLIENTNAME: ${{ needs.extract_vars.outputs.CLIENTNAME }}
+        environment: ${{ inputs.environment }}
      secrets:
         API_KEY: ${{ secrets.API_KEY }}
         API_VALUE: ${{ secrets.API_VALUE }}
