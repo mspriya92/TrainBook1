@@ -3,6 +3,13 @@ name: Test Reusable Workflow
 on:
   workflow_dispatch:
     inputs:
+      environment:
+        description: Select a deployment environment.
+        type: choice
+        options:
+          - dev
+          - prod
+        required: true
       branch:
         description: "Branch to checkout"
         required: true
@@ -10,10 +17,29 @@ on:
         type: string
 
 jobs:
-  call-reusable:
+   extract_vars:
+     runs-on: ubuntu-latest
+     environment: ${{ inputs.environment }}
+     outputs:
+       # saas variables
+       CLIENTNAME: ${{ steps.saas-export.outputs.CLIENTNAME }}
+
+     steps:
+      - name: Export environment variables
+        id: saas-export
+        run: |
+          # saas variables
+          echo "CLIENTNAME=${{ vars.CLIENTNAME }}" >> $GITHUB_OUTPUT
+          
+   call-reusable:
+     needs: extract_vars
      uses: mspriya92/terraform_deployment_control/.github/workflows/reusable.yml@main
      with:
         branch: ${{ inputs.branch }}
+        CLIENTNAME: ${{ needs.extract_vars.outputs.CLIENTNAME }}
+     secrets:
+        API_KEY: ${{ secrets.API_KEY }}
+        API_VALUE: ${{ secrets.API_VALUE }}
    #runs-on: ubuntu-latest
    #steps:
      #- name: checkout repo
