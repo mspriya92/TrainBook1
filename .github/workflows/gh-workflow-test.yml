@@ -1,0 +1,60 @@
+name: gh-workflow-test
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Select a deployment environment.
+        type: choice
+        options:
+          - dev
+          - prod
+        required: true
+
+      branch:
+        description: Branch to deploy
+        required: true
+        #default: main
+        type: string
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+
+  extract_vars:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    outputs:
+      CLIENTNAME: ${{ steps.saas-export.outputs.CLIENTNAME }}
+
+    steps:
+      - name: Export environment variables
+        id: saas-export
+        run: |
+          echo "CLIENTNAME=${{ vars.CLIENTNAME }}" >> "$GITHUB_OUTPUT"
+
+
+  call-reusable:
+    needs: extract_vars
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger selected branch workflow
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ inputs.branch }}
+          ENVIRONMENT: ${{ inputs.environment }}
+          CLIENTNAME: ${{ needs.extract_vars.outputs.CLIENTNAME }}
+
+        run: |
+          echo "Triggering reusable.yml from branch: $BRANCH"
+
+          gh workflow run workflowrun-devtest.yml \
+            --repo mspriya92/terraform_deployment_control \
+            --ref "$BRANCH" \
+            -f branch="$BRANCH" \
+            -f environment="$ENVIRONMENT" \
+            -f CLIENTNAME="$CLIENTNAME"
