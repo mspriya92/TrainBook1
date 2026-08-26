@@ -17,9 +17,9 @@ on:
         #default: main
         type: string
 
-permissions:
-  contents: read
-  actions: write
+#permissions:
+  #contents: read
+  #actions: write
 
 jobs:
 
@@ -42,19 +42,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Trigger selected branch workflow
-        env:
-          GH_TOKEN: ${{ secrets.NEW_GH_TOKEN }}
-          BRANCH: ${{ inputs.branch }}
-          ENVIRONMENT: ${{ inputs.environment }}
-          CLIENTNAME: ${{ needs.extract_vars.outputs.CLIENTNAME }}
+       - name: Test GitHub authentication
+         env:
+           GH_TOKEN: ${{ secrets.NEW_GH_TOKEN }}
+         run: |
+           gh auth status
+           gh repo view mspriya92/terraform_deployment_control
 
-        run: |
-          echo "Triggering reusable.yml from branch: $BRANCH"
+       - name: Trigger selected branch workflow
+         env:
+           GH_TOKEN: ${{ secrets.NEW_GH_TOKEN }}
+           BRANCH: ${{ inputs.branch }}
+           ENVIRONMENT: ${{ inputs.environment }}
+           CLIENTNAME: ${{ needs.extract_vars.outputs.CLIENTNAME }}
 
-          gh workflow run workflow-run-check.yml \
-            --repo mspriya92/terraform_deployment_control \
-            --ref "$BRANCH" \
-            -f branch="$BRANCH" \
-            -f environment="$ENVIRONMENT" \
-            -f CLIENTNAME="$CLIENTNAME"
+         run: |
+           echo "Triggering reusable.yml from branch: $BRANCH"
+
+           gh workflow run workflow-run-check.yml \
+             --repo mspriya92/terraform_deployment_control \
+             --ref "$BRANCH" \
+             -f branch="$BRANCH" \
+             -f environment="$ENVIRONMENT" \
+             -f CLIENTNAME="$CLIENTNAME"
