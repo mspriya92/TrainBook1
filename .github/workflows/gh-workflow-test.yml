@@ -52,7 +52,7 @@ jobs:
         run: |
           echo "Triggering reusable.yml from branch: $BRANCH"
 
-          gh workflow run workflowrun-devtest.yml \
+          gh workflow run workflow-run-check.yml \
             --repo mspriya92/terraform_deployment_control \
             --ref "$BRANCH" \
             -f branch="$BRANCH" \
